@@ -36,7 +36,7 @@ function influxdb_event(){
 	tags=$3;
 	curl -i \
 		-XPOST \
-		'http://influxdb.denbi.uni-freiburg.de:8086/write?db=rancher' \
+		'influxdb:8086/write?db=rancher' \
 		--data-binary "events,dc=rz value=\"$title\",description=\"$desc\",tags=\"$tags\" $q";
 }
 
