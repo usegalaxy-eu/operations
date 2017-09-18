@@ -36,7 +36,7 @@ function influxdb_event(){
 	tags=$3;
 	curl -i \
 		-XPOST \
-		'influxdb:8086/write?db=rancher' \
+		'http://influxdb:8086/write?db=rancher' \
 		--data-binary "events,dc=rz value=\"$title\",description=\"$desc\",tags=\"$tags\" $q";
 }
 
