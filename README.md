@@ -1,5 +1,18 @@
 # Operations Manual for usegalaxy.eu
 
+## Updating a Tool
+
+Please either use ephemeris from the command, or the admin interface. In the future this will be replaced completely by just editing the [yaml file](https://github.com/usegalaxy-eu/usegalaxy-eu-tools), but for now please use one of the previous options.
+
+ephermeris method:
+
+```bash
+export PATH=/usr/local/tools/_conda/bin/:$PATH
+source activate ephemeris
+cd /usr/local/galaxy/galaxy-fr-tools
+shed-install --name suite_openms --owner galaxyp --section_label 'Proteomics' --api_key $GALAXY_API_KEY --galaxy https://galaxy.uni-freiburg.de
+```
+
 ## Adjusting a Tool's Requirements
 
 1. Edit https://github.com/usegalaxy-eu/galaxy-playbook-temporary/blob/master/roles/galaxy_config/templates/job_conf.xml
