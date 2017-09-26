@@ -1,5 +1,12 @@
 # Operations Manual for usegalaxy.eu
 
+## Read-only Fridays
+
+- **NO EXCEPTIONS**
+- Do not merge things to the playbook repositories that will be auto-applied
+- Do not do any manual systems administration
+- Consider writing documentation or more test cases instead.
+
 ## Updating a Tool
 
 Please either use ephemeris from the command, or the admin interface. In the future this will be replaced completely by just editing the [yaml file](https://github.com/usegalaxy-eu/usegalaxy-eu-tools), but for now please use one of the previous options.
