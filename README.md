@@ -1,5 +1,23 @@
 # Operations Manual for usegalaxy.eu
 
+## Linking to Grafana Graphs
+
+- First, share the entire dashboad.
+
+  ![](./images/share-dashboard.png)
+
+- You'll want to make a snapshot
+
+  ![](./images/share.png)
+
+- And finally use the green button to share it. Beware that if it is a
+  data-heavy dashboard (e.g. featuring many large queries), you'll need
+  to bump the timeout for fetching data.
+
+  ![](./images/share-menu.png)
+
+- Now you can embed individual portions of these graphs.
+
 ## Read-only Fridays
 
 - **NO EXCEPTIONS**
