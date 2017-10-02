@@ -1,5 +1,16 @@
 # Operations Manual for usegalaxy.eu
 
+## TaaS Groups
+
+1. Create a **role** in Galaxy
+
+   - Must use dashes
+   - Must be prefixed with `training-`
+   
+2. Add users / groups to this role
+3. Edit [resources.yaml](https://github.com/usegalaxy-eu/vgcn-infrastructure/blob/master/resources.yaml) and create a section in the yaml file like the example training group.
+4. Ensure that the `tag: training-some-training-identifier` in the resources.yaml matches **exactly** to the role name you created in step 1.
+
 ## Linking to Grafana Graphs
 
 - First, share the entire dashboad.
