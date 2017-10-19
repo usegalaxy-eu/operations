@@ -1,5 +1,12 @@
 # Operations Manual for usegalaxy.eu
 
+## Adding a User to Grafana
+
+1. They should [login](https://grafana.denbi.uni-freiburg.de/login) using GitHub auth.
+2. (As an admin) Open [the user list](https://grafana.denbi.uni-freiburg.de/admin/users/)
+3. Find them and "edit"
+4. Under "Organizations" type "Main" and select the main organisation that shows up, adding them as the appropriate role.
+
 ## TaaS Groups
 
 1. Create a **role** in Galaxy
