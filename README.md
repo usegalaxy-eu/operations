@@ -106,3 +106,18 @@ replaced the XML parsing in this service and restarted galaxy" annotated events
 can be helpful in seeing the effects downstream.
 
 ![](./images/events.png)
+
+
+## Galaxy Upgrading procedures
+
+- write an announcment about the Galaxy downtime
+- check out the recent Galaxy version locally
+- check out out Galaxy playbook
+- sync galaxy.ini and datatypes_conf.xml with their respective sample files
+- create a PR with all changes to the playbook
+- merge the PR
+- reconfigure nginx to only allow the person that is updating Galaxy see the Galaxy site, everyone else sees a maintainence page
+- post a message to the Galaxy Frieburg lobby and the galaxy-fr channel
+- go to the Galaxy head node and check out the latest branches
+
+
