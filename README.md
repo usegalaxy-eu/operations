@@ -1,5 +1,12 @@
 # Operations Manual for usegalaxy.eu
 
+## Read-only Fridays
+
+- **NO EXCEPTIONS**
+- Do not merge things to the playbook repositories that will be auto-applied
+- Do not do any manual systems administration
+- Consider writing documentation or more test cases instead.
+
 ## Adding a User to Grafana
 
 1. They should [login](https://grafana.denbi.uni-freiburg.de/login) using GitHub auth.
@@ -37,12 +44,6 @@
 
 - Now you can embed individual portions of these graphs.
 
-## Read-only Fridays
-
-- **NO EXCEPTIONS**
-- Do not merge things to the playbook repositories that will be auto-applied
-- Do not do any manual systems administration
-- Consider writing documentation or more test cases instead.
 
 ## Updating a Tool
 
@@ -61,7 +62,7 @@ bash fix_conda_env.sh
 ## Adjusting a Tool's Requirements (Increasing Memory / CPU)
 
 1. Edit https://github.com/usegalaxy-eu/galaxy-playbook-temporary/blob/master/roles/galaxy_config/templates/tool_destinations.yaml
-2. <PR is merged>
+2. PR is merged
 3. Wait until the end of the hour, at which the playbook will run. You should be able to confirm this via [grafana](https://grafana.denbi.uni-freiburg.de/dashboard/db/galaxy?refresh=1m&panelId=39&fullscreen&orgId=1)
 
 [An example PR](https://github.com/usegalaxy-eu/galaxy-playbook-temporary/pull/83/files)
