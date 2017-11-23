@@ -58,13 +58,13 @@ shed-install --name suite_openms --owner galaxyp --section_label 'Proteomics' --
 bash fix_conda_env.sh
 ```
 
-## Adjusting a Tool's Requirements
+## Adjusting a Tool's Requirements (Increasing Memory / CPU)
 
-1. Edit https://github.com/usegalaxy-eu/galaxy-playbook-temporary/blob/master/roles/galaxy_config/templates/job_conf.xml
-2. Mirror changes to https://github.com/usegalaxy-eu/galaxy-playbook-temporary/blob/master/roles/galaxy_config/templates/job_conf.py)
+1. Edit https://github.com/usegalaxy-eu/galaxy-playbook-temporary/blob/master/roles/galaxy_config/templates/tool_destinations.yaml
+2. <PR is merged>
 3. Wait until the end of the hour, at which the playbook will run. You should be able to confirm this via [grafana](https://grafana.denbi.uni-freiburg.de/dashboard/db/galaxy?refresh=1m&panelId=39&fullscreen&orgId=1)
 
-[An example PR](https://github.com/usegalaxy-eu/galaxy-playbook-temporary/pull/3/files)
+[An example PR](https://github.com/usegalaxy-eu/galaxy-playbook-temporary/pull/83/files)
 
 
 ## Restarting Galaxy
