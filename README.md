@@ -15,9 +15,11 @@ Galaxy Configuration:
 
 1. [Add your site](https://github.com/usegalaxy-eu/galaxy-playbook-temporary/blob/master/roles/galaxy_config/vars/subsites.yml) to the temporary playbook and wait until the top of the hour for it to run. The css and HTML pages will be created for you. It shold look something like:
 
+    ```yaml
     - name: example
       brand: Example
       index: /index-example.html
+    ```
 
     Name is used in creation of several filenames, such as `welcome-example.html` and `base-example.css` which are custom home pages and custom CSS just for your sub-galaxy.
 
