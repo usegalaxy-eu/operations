@@ -1,5 +1,36 @@
 # Operations Manual for usegalaxy.eu
 
+## Custom Galaxy Subdomain
+
+First, choose a name. In this tutorial we'll use `example` which will be `example.usegalaxy.eu`, with a brand of "Example". Remember to change as appropriate for your name.
+
+Galaxy Configuration:
+
+1. [Add your site](https://github.com/usegalaxy-eu/galaxy-playbook-temporary/blob/master/roles/galaxy_config/vars/subsites.yml) to the temporary playbook and wait until the top of the hour for it to run. The css and HTML pages will be created for you. It shold look something like:
+
+    - name: example
+      brand: Example
+      index: /index-example.html
+
+    Name is used in creation of several filenames, such as `welcome-example.html` and `base-example.css` which are custom home pages and custom CSS just for your sub-galaxy.
+
+2. [Create an index](https://github.com/usegalaxy-eu/website/blob/master/index-metagenomics.md) page in the website repository. Above we specified that `index: /index-example.html`, so you should create `index-example.md` in the root of the website repository.
+
+Subdomain and redirection:
+
+1. Add an entry for `example.usegalaxy.eu` to [haproxy.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/haproxy.yml) / `server_names`.
+2. Edit `group_vars/haproxy.yml`:
+	1. Add an ACL to [match your domain](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/32aaa6503b14a1baf0af98cec0616c775ffa6053/group_vars/haproxy.yml#L15)
+	2. Add two `use_backend` statements, going to `<name>special`, one for each of [welcome and basecss](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/32aaa6503b14a1baf0af98cec0616c775ffa6053/group_vars/haproxy.yml#L25).
+	3. Add a ["special"](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/32aaa6503b14a1baf0af98cec0616c775ffa6053/group_vars/haproxy.yml#L45) backend that rewrites the URLs to the CSS and index file. E.g. replace metagenomics with another keyword.
+
+3. Run `make haproxy` at least until `hxr.dns` and `geerlingguy.haproxy` are finished. Nothing else needs to run.
+4. Check that your new hostname is set (`nslookup example.usegalaxy.eu`). Next test accessing that hostname which should load the galaxy homepage by default. It should load galaxy with a correct brand name  and welcome page (if the galaxy playbook has run.)
+
+Customizing Tools:
+
+1. Edit [global_host_filter.py](https://github.com/usegalaxy-eu/galaxy-playbook-temporary/blob/master/roles/galaxy_config/templates/global_host_filters.py.j2), you'll want to edit both functions to define appropriate values for your galaxy subdomain.
+
 ## Adding a User to Grafana
 
 1. They should [login](https://grafana.denbi.uni-freiburg.de/login) using GitHub auth.
@@ -89,16 +120,15 @@ For administration tasks, sending events to influxdb is a good way to note any p
 ```bash
 function influxdb_event(){
 	q=`date +%s`000000000;
-	title=$1;
-	desc=$2;
-	tags=$3;
+	desc=$1;
+	tags=$2;
 	curl -i \
 		-XPOST \
 		'http://influxdb:8086/write?db=rancher' \
-		--data-binary "events,dc=rz value=\"$title\",description=\"$desc\",tags=\"$tags\" $q";
+		--data-binary "events description=\"$desc\",tags=\"$tags\" $q";
 }
 
-influxdb_event "testing some events" "with <b>description</b>" "galaxy,testing"
+influxdb_event "testing some events with <b>description</b>" "galaxy,testing"
 ```
 
 These functions are easy to insert anywhere and everywhere and let us make
