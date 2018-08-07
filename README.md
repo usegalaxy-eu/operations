@@ -33,8 +33,9 @@ First, choose a name. In this tutorial we'll use `example` which will be `exampl
 	2. Add two `use_backend` statements, going to `<name>special`, one for each of [welcome and basecss](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/32aaa6503b14a1baf0af98cec0616c775ffa6053/group_vars/haproxy.yml#L25).
 	3. Add a ["special"](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/32aaa6503b14a1baf0af98cec0616c775ffa6053/group_vars/haproxy.yml#L45) backend that rewrites the URLs to the CSS and index file. E.g. replace metagenomics with another keyword.
 
-3. Run `make haproxy` at least until `hxr.dns` and `geerlingguy.haproxy` are finished. Nothing else needs to run.
-4. Check that your new hostname is set (`nslookup example.usegalaxy.eu`). Next test accessing that hostname which should load the galaxy homepage by default. It should load galaxy with a correct brand name  and welcome page (if the galaxy playbook has run.)
+3. [Admin] Run `make haproxy` at least until `hxr.dns` and `geerlingguy.haproxy` are finished. Nothing else needs to run.
+4. [Admin] Execute `/usr/sbin/cert-refresh`
+5. Check that your new hostname is set (`nslookup example.usegalaxy.eu`). Next test accessing that hostname which should load the galaxy homepage by default. It should load galaxy with a correct brand name  and welcome page (if the galaxy playbook has run.)
 
 ### Customizing Tools
 
