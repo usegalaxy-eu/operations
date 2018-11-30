@@ -13,7 +13,7 @@ First, choose a name. In this tutorial we'll use `example` which will be `exampl
 
 ### Galaxy Configuration
 
-1. [Add your site](https://github.com/usegalaxy-eu/galaxy-playbook-temporary/blob/master/roles/galaxy_config/vars/subsites.yml) to the temporary playbook and wait until the top of the hour for it to run. The css and HTML pages will be created for you. It shold look something like:
+1. [Add your site](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/galaxy.yml#L853). It shold look something like:
 
     ```yaml
     - name: example
@@ -24,18 +24,13 @@ First, choose a name. In this tutorial we'll use `example` which will be `exampl
     Name is used in creation of several filenames, such as `welcome-example.html` and `base-example.css` which are custom home pages and custom CSS just for your sub-galaxy.
 
 2. [Create an index](https://github.com/usegalaxy-eu/website/blob/master/index-metagenomics.md) page in the website repository. Above we specified that `index: /index-example.html`, so you should create `index-example.md` in the root of the website repository.
+3. Add an entry for `example.usegalaxy.eu` to [haproxy.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/haproxy.yml#L39) / `galaxy_hosts`.
+4. Make a PR with these changes
 
-### Subdomain and redirection
+### DNS Changes
 
-1. Add an entry for `example.usegalaxy.eu` to [haproxy.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/haproxy.yml) / `server_names`.
-2. Edit `group_vars/haproxy.yml`:
-	1. Add an ACL to [match your domain](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/32aaa6503b14a1baf0af98cec0616c775ffa6053/group_vars/haproxy.yml#L15)
-	2. Add two `use_backend` statements, going to `<name>special`, one for each of [welcome and basecss](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/32aaa6503b14a1baf0af98cec0616c775ffa6053/group_vars/haproxy.yml#L25).
-	3. Add a ["special"](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/32aaa6503b14a1baf0af98cec0616c775ffa6053/group_vars/haproxy.yml#L45) backend that rewrites the URLs to the CSS and index file. E.g. replace metagenomics with another keyword.
-
-3. [Admin] Run `make haproxy` at least until `hxr.dns` and `geerlingguy.haproxy` are finished. Nothing else needs to run.
-4. [Admin] Execute `/usr/sbin/cert-refresh`
-5. Check that your new hostname is set (`nslookup example.usegalaxy.eu`). Next test accessing that hostname which should load the galaxy homepage by default. It should load galaxy with a correct brand name  and welcome page (if the galaxy playbook has run.)
+1. Add your domain to [this list](https://github.com/usegalaxy-eu/infrastructure/blob/master/dns.tf#L36) under `subdomain`, and increase the `count` parameter below by one.
+2. Make a PR with these changes.
 
 ### Customizing Tools
 
@@ -55,7 +50,7 @@ First, choose a name. In this tutorial we'll use `example` which will be `exampl
 
    - Must use dashes
    - Must be prefixed with `training-`
-   
+
 2. Add users / groups to this role
 3. Edit [resources.yaml](https://github.com/usegalaxy-eu/vgcn-infrastructure/blob/master/resources.yaml) and create a section in the yaml file like the example training group.
 4. Ensure that the `tag: training-some-training-identifier` in the resources.yaml matches **exactly** to the role name you created in step 1.
