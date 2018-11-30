@@ -34,7 +34,7 @@ First, choose a name. In this tutorial we'll use `example` which will be `exampl
 
 ### Customizing Tools
 
-1. Edit [global_host_filter.py](https://github.com/usegalaxy-eu/galaxy-playbook-temporary/blob/master/roles/galaxy_config/templates/global_host_filters.py.j2), you'll want to edit both functions to define appropriate values for your galaxy subdomain.
+1. Edit [global_host_filter.py](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/templates/galaxy/config/global_host_filters.py.j2), you'll want to edit both functions to define appropriate values for your galaxy subdomain.
 
 ## Adding a User to Grafana
 
@@ -90,11 +90,9 @@ bash fix_conda_env.sh
 
 ## Adjusting a Tool's Requirements (Increasing Memory / CPU)
 
-1. Edit https://github.com/usegalaxy-eu/galaxy-playbook-temporary/blob/master/roles/galaxy_config/templates/tool_destinations.yaml
+1. Edit
 2. PR is merged
 3. Wait until the end of the hour, at which the playbook will run. You should be able to confirm this via [grafana](https://grafana.denbi.uni-freiburg.de/dashboard/db/galaxy?refresh=1m&panelId=39&fullscreen&orgId=1)
-
-[An example PR](https://github.com/usegalaxy-eu/galaxy-playbook-temporary/pull/83/files)
 
 
 ## Restarting Galaxy
