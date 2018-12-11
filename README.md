@@ -44,49 +44,9 @@ First, choose a name. In this tutorial we'll use `example` which will be `exampl
 3. Find them and "edit"
 4. Under "Organizations" type "Main" and select the main organisation that shows up, adding them as the appropriate role.
 
-## TaaS Groups
-
-1. Create a **role** in Galaxy
-
-   - Must use dashes
-   - Must be prefixed with `training-`
-
-2. Add users / groups to this role
-3. Edit [resources.yaml](https://github.com/usegalaxy-eu/vgcn-infrastructure/blob/master/resources.yaml) and create a section in the yaml file like the example training group.
-4. Ensure that the `tag: training-some-training-identifier` in the resources.yaml matches **exactly** to the role name you created in step 1.
-
-## Linking to Grafana Graphs
-
-- First, share the entire dashboad.
-
-  ![](./images/share-dashboard.png)
-
-- You'll want to make a snapshot
-
-  ![](./images/share.png)
-
-- And finally use the green button to share it. Beware that if it is a
-  data-heavy dashboard (e.g. featuring many large queries), you'll need
-  to bump the timeout for fetching data.
-
-  ![](./images/share-menu.png)
-
-- Now you can embed individual portions of these graphs.
-
-
 ## Updating a Tool
 
-Please either use ephemeris from the command, or the admin interface. In the future this will be replaced completely by just editing the [yaml file](https://github.com/usegalaxy-eu/usegalaxy-eu-tools), but for now please use one of the previous options.
-
-ephermeris method:
-
-```bash
-export PATH=/usr/local/tools/_conda/bin/:$PATH
-source activate ephemeris
-cd /usr/local/galaxy/galaxy-fr-tools
-shed-install --name suite_openms --owner galaxyp --section_label 'Proteomics' --api_key $GALAXY_API_KEY --galaxy https://galaxy.uni-freiburg.de
-bash fix_conda_env.sh
-```
+Please just editing the [yaml file](https://github.com/usegalaxy-eu/usegalaxy-eu-tools)
 
 ## Adjusting a Tool's Requirements (Increasing Memory / CPU)
 
@@ -94,47 +54,20 @@ bash fix_conda_env.sh
 2. PR is merged
 3. Wait until the end of the hour, at which the playbook will run. You should be able to confirm this via [grafana](https://grafana.denbi.uni-freiburg.de/dashboard/db/galaxy?refresh=1m&panelId=39&fullscreen&orgId=1)
 
-
 ## Restarting Galaxy
 
 If you're doing a full restart of the server, use `supervisorctl restart all`
-followed by `supervisorctl stop gx:zergling1` as supervisor restart restarts
+followed by `supervisorctl stop z1:zergling1` as supervisor restart restarts
 too much.
 
-Restarting handlers can be done via `supervisorctl restart hd:`, in case
+Restarting handlers can be done via `gxadmin handler restart`, in case
 changes are made to job scheduling.
 
 However if you just want to swap the zerglings in use (e.g. for a newly
-installed set of tools), then you must use `~/galaxy-dist/restart.sh` which
+installed set of tools), then you must use `gxadmin zeg swap` which
 includes special logic for waiting until the new zergling is alive and then
 stopping the old one, because they don't do the magic turning of the other one
 off that is described in the galaxy training.
-
-## InfluxDB Events
-
-For administration tasks, sending events to influxdb is a good way to note any potential impacts your actions had on the server. Here's an example bash function:
-
-```bash
-function influxdb_event(){
-	q=`date +%s`000000000;
-	desc=$1;
-	tags=$2;
-	curl -i \
-		-XPOST \
-		'http://influxdb:8086/write?db=rancher' \
-		--data-binary "events description=\"$desc\",tags=\"$tags\" $q";
-}
-
-influxdb_event "testing some events with <b>description</b>" "galaxy,testing"
-```
-
-These functions are easy to insert anywhere and everywhere and let us make
-notes on Grafana about these events. When trying to correlate things like "I
-replaced the XML parsing in this service and restarted galaxy" annotated events
-can be helpful in seeing the effects downstream.
-
-![](./images/events.png)
-
 
 ## Galaxy Upgrading procedures
 
@@ -144,76 +77,19 @@ can be helpful in seeing the effects downstream.
 
 ### 1 day before downtime
 
-- Check out the recent Galaxy version locally
-- Check out out Galaxy playbook
-- Sync `galaxy.ini` and `datatypes_conf.xml` with their respective sample files
-- Create a PR with all changes to the playbook
-
-
-### 1-2 hours before downtime
-
-- Post a message to the Galaxy Frieburg lobby and the galaxy-fr channel
-
-### <1 hour before downtime
-
-Assuming that you plan to start the upgrade procedure at the start of an hour:
-
-- Merge the PR during that hour preceding so that the playbook will run normally at the top of the hour.
+1. Clone [our fork](https://github.com/usegalaxy-eu/galaxy/).
+2. Check out our current release branch (e.g. `release_18.05_europe`)
+3. `git format-patch release_18.05` (e.g.) in order to get the patches from our current release
+4. Go through and delete any that are described as being already upstreamed for the current release.
+5. Checkout latest release, and create a branch with `_europe` from there.
+6. Apply the remaining patches
+7. Update [`infrastructure-playbook`](https://github.com/usegalaxy-eu/infrastructure-playbook/) to sync configuration files and PR this + latest commit ID of the new branch
 
 ### Downtime begins
 
-As root:
-
-- Update `/etc/nginx/conf.d/galaxy.conf` to only allow the person that is updating Galaxy see the Galaxy site, everyone else sees a maintainence page
-
-    A diff like the following works well:
-    ```nginx
-    - uwsgi_pass      127.0.0.1:4002;
-    + uwsgi_pass      127.0.0.1:9002; # Does not exist
-    + if ($remote_addr ~* 132.XXX.YYY.ZZZ) {
-    +     uwsgi_pass      127.0.0.1:4002;
-    + }
-    ```
-
-    You can add multiple copies of the if block for your testers.
-- `nginx -t`
-- `service restart nginx`
-
-Switch to the galaxy user:
-
-- `cd ~/galaxy-dist/`
-- `supervisorctl stop gx: hd:`
-- Commit any and all remaining local changes to the git repository. You should be on a branch like `release_xx.yy_freiburg`
-- Run `git format-patch release_xx.yy` which should produce a set of patches for all of the local changes since the previous release.
-- `git fetch origin`
-- `git checkout release_aa.bb`, Check out the newest release that you are switching to.
-- `git checkout -b release_aa.bb_freiburg`
-- Go through the patches you made in the format-patch step, resolving them one-by-one, in order. Delete them as you finish.
-- (optional?) We temporarily added `exit 0;` to the top of `~/galaxy-dist/restart.sh` in
-  order to allow the playbook to run successfully. Otherwise it was finding
-  that both handlers were offline and failing to execute.
-- (optional?) Manually ran `galaxy-config/playbook.sh` to apply some more config changes.
-- Run `run.sh` to make and database migrations and fetch new wheels, `ctrl-c` once it gets successfully started and says it is listening. Listening may look like:
-
-    ```
-    galaxy.tools.search DEBUG 2017-11-08 17:33:50,914 Toolbox index finished (40.040 ms)
-    galaxy.queue_worker INFO 2017-11-08 17:33:50,916 Instance 'main' received 'rebuild_toolbox_search_index' task, executing now.
-    galaxy.tools.search DEBUG 2017-11-08 17:33:50,916 Starting to build toolbox index.
-    galaxy.tools.search DEBUG 2017-11-08 17:33:50,939 Toolbox index finished (22.785 ms)
-    ```
-
-At this point the upgrade is done and you need to start testing:
-
-- `supervisorctl start gx: hd:`
-- `supervisorctl stop gx:zergling1` Stop the extra zergling, no need for it to even try to boot.
-- `gl` to follow galaxy logs
-- test features that have changed and ensure they are functional now
-
-Now everything should be working fine and you're ready to start finishing the downtime.
-
-- (as root) undo the nginx configuration that you've done
-- (as root) `nginx -t`
-- (as root) `service restart nginx` opening Galaxy to everyone again
+- Run playbook (maybe with `make galaxy CHECK=1` to be certain of your changes.)
+- `gxadmin restart handler`
+- `gxadmin zerg swap`
 - Add a blog post about this (an [example](https://github.com/usegalaxy-eu/galaxy-freiburg/pull/82))
 
 ## Conda "read only" error on tool run
