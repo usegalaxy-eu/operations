@@ -13,19 +13,21 @@ First, choose a name. In this tutorial we'll use `example` which will be `exampl
 
 ### Galaxy Configuration
 
-1. [Add your site](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/galaxy.yml#L853). It shold look something like:
+1. [Add your site](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/custom-sites.yml). It should look something like:
 
     ```yaml
     - name: example
       brand: Example
-      index: /index-example.html
     ```
 
-    Name is used in creation of several filenames, such as `welcome-example.html` and `base-example.css` which are custom home pages and custom CSS just for your sub-galaxy.
+    Name is an id used in creation of several filenames internally and in the website repository. It should match `[a-z]+`
 
-2. [Create an index](https://github.com/usegalaxy-eu/website/blob/master/index-metagenomics.md) page in the website repository. Above we specified that `index: /index-example.html`, so you should create `index-example.md` in the root of the website repository.
-3. Add an entry for `example.usegalaxy.eu` to [haproxy.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/haproxy.yml#L39) / `galaxy_hosts`.
-4. Make a PR with these changes
+2. Make a PR with these changes
+
+In the website repository:
+
+1. [Create an index page like this one](https://github.com/usegalaxy-eu/website/blob/master/index-metagenomics.md) in the website repository. Above we specified that `name: example`, so you should create `index-example.md` in the root of the website repository.
+2. Make a PR with these changes
 
 ### DNS Changes
 
