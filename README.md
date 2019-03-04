@@ -75,7 +75,7 @@ off that is described in the galaxy training.
 
 ### 7 days before downtime
 
-- Write an announcment about the Galaxy downtime explaining what is being upgraded. Be sure to link to the release annoucement.
+- (If necessary) Write an announcment about the Galaxy downtime explaining what is being upgraded. Be sure to link to the release annoucement.
 
 ### 1 day before downtime
 
@@ -86,6 +86,8 @@ off that is described in the galaxy training.
 5. Checkout latest release, and create a branch with `_europe` from there.
 6. Apply the remaining patches
 7. Update [`infrastructure-playbook`](https://github.com/usegalaxy-eu/infrastructure-playbook/) to sync configuration files and PR this + latest commit ID of the new branch
+8. `make client-production`
+9. `git add -f static/`
 
 ### Downtime begins
 
