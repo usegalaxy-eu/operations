@@ -71,6 +71,17 @@ includes special logic for waiting until the new zergling is alive and then
 stopping the old one, because they don't do the magic turning of the other one
 off that is described in the galaxy training.
 
+## (Re-)sending activation links
+
+Some users do not get the activation email or are unable to find it. On request we can generate the link with the
+following procedure:
+
+```bash
+cd /opt/galaxy/server/
+. ../venv/bin/activate
+python /data/gxmnt/galaxy-dist/scripts/activation_link.py -c ~/config/galaxy.ini -e <their email>
+```
+
 ## Galaxy Upgrading procedures
 
 ### 7 days before downtime
