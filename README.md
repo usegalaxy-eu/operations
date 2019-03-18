@@ -108,6 +108,4 @@ If you're rebasing against an updated release branch (because you branched much 
 ### Downtime begins
 
 - Run playbook (maybe with `make galaxy CHECK=1` to be certain of your changes.)
-- `gxadmin restart handler`
-- `gxadmin zerg swap`
 - Add a blog post about this (an [example](https://github.com/usegalaxy-eu/galaxy-freiburg/pull/82))
