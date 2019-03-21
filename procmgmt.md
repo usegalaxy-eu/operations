@@ -34,6 +34,22 @@ galaxy-zergling@2:
 galaxy-zergling@3:
 ```
 
+# Restarting handlers
+
+Equivalent to `supervisorctl restart hd:`
+
+```console
+for i in {0..11}; do
+  systemctl restart galaxy-handler@$i
+done
+```
+
+Equivalent to `supervisorctl restart hd:handler_main_1`
+
+```console
+systemctl restart galaxy-handler@1
+```
+
 # Restarting Zerglings
 
 This is the unintelligent way of doing it.
