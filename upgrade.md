@@ -26,5 +26,6 @@ If you're rebasing against an updated release branch (because you branched much 
 
 # Downtime begins
 
+- (optionally) update conda with `conda update -n base -c conda-forge conda`
 - Run playbook (maybe with `make galaxy CHECK=1` to be certain of your changes.)
 - Add a blog post about this (an [example](https://github.com/usegalaxy-eu/galaxy-freiburg/pull/82))
