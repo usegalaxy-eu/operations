@@ -26,6 +26,14 @@ If you're rebasing against an updated release branch (because you branched much 
 
 # Downtime begins
 
-- (optionally) update conda with `conda update -n base -c conda-forge conda`
+- (optionally) update conda with
+
+```bash
+galaxy@sn04:~$ export PATH=/usr/local/tools/_conda/bin/:$PATH
+galaxy@sn04:~$ which conda
+/usr/local/tools/_conda/bin/conda
+galaxy@sn04:~$ conda update -n base -c conda-forge conda
+```
+
 - Run playbook (maybe with `make galaxy CHECK=1` to be certain of your changes.)
 - Add a blog post about this (an [example](https://github.com/usegalaxy-eu/galaxy-freiburg/pull/82))
