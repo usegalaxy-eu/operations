@@ -8,7 +8,7 @@ Galaxy Admin:
 - [Upgrade Procedures](./upgrade.md)
 - [Rebasing when upstream gets backports](./rebasing.md)
 - [Process Management](./procmgmt.md)
-
+- [TIaaS Requests](./tiaas.md)
 
 ## Read-only Fridays
 
