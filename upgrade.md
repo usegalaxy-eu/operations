@@ -5,16 +5,16 @@ title: Galaxy Upgrading procedures
 
 # 7 days before downtime
 
-- (If necessary) Write an announcment about the Galaxy downtime explaining what is being upgraded. Be sure to link to the release annoucement.
+- Write an announcment about the potential Galaxy downtime explaining that Galaxy is being upgraded. Be sure to link to the release annoucement.
 
 # 1 day before downtime
 
 1. Clone [our fork](https://github.com/usegalaxy-eu/galaxy/).
 2. Check out our current release branch (e.g. `release_XX.YY_europe`)
 3. `git format-patch release_XX.YY` (e.g.) in order to get the patches from our current release
-4. Go through and *delete* any that are described as being **already upstreamed** for the current release.
-5. Checkout latest release, and create a branch with `_europe` from there.
-6. Apply the remaining patches
+4. Go through and *delete* any that are described as being **already upstreamed** for the current release. Delete any CLIENTBUILD steps.
+5. Checkout latest release (e.g. `release_AA.BB`), and create a branch with `release_AA.BB_europe` from there.
+6. Apply the remaining patch files that were generated in step 3
 7. Update [`infrastructure-playbook`](https://github.com/usegalaxy-eu/infrastructure-playbook/) to sync configuration files and PR this + latest commit ID of the new branch
 8. `make client-production`
 9. `python scripts/plugin_staging.py` (if it exists)
@@ -37,3 +37,12 @@ galaxy@sn04:~$ conda update -n base -c conda-forge conda
 
 - Run playbook (maybe with `make galaxy CHECK=1` to be certain of your changes.)
 - Add a blog post about this (an [example](https://github.com/usegalaxy-eu/galaxy-freiburg/pull/82))
+
+# Rebuilding the client
+
+```
+make client-production
+git add -f static/
+git commit -a -m 'CLIENTBUILD'
+git push -f
+```
