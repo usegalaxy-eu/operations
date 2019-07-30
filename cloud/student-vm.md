@@ -21,7 +21,7 @@ resource "openstack_compute_instance_v2" "student-hr1025" {
   image_name      = "Ubuntu 18.04"
   flavor_name     = "m1.medium"
   key_pair        = "student-hr1025"
-  security_groups = "${var.sg_webservice-pubssh}"
+  security_groups = "public"
 
   network {
     name = "public"
