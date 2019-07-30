@@ -2,7 +2,7 @@
 title: Launching a Student VM
 ---
 
-Launching VMs under the `freiburg_galaxy` account can be a nice workaround to requesting more quota for students, one-by-one. This can be done with the [`infrastructure`](https://github.com/usegalaxy-eu/infrastructure) repository which we use to manage all of the single VMs that we launch to run different services (e.g. apollo, stats, etc.)
+Launching VMs under the `freiburg_galaxy` account can be a nice workaround to requesting more quota for students, one-by-one, as our group project has an unlimited quota. This can be done with the [`infrastructure`](https://github.com/usegalaxy-eu/infrastructure) repository which we use to manage all of the single VMs that we launch to run different services (e.g. apollo, stats, etc.)
 
 Here is an example instance, this launched an Ubuntu 18.04 instance with flavour m1.medium, and the keypair of `student-hr1025`. I've used the format `student-<uniid>` but it does not need to be specifically in this format (allowed characters `[A-Za-z0-9-_]`). Maybe this makes it easier to keep track of which students have access to which instances and make it easy to figure out which should be removed when their project is complete? The important thing is that it should be consistent between:
 
