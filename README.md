@@ -10,6 +10,10 @@ Galaxy Admin:
 - [Process Management](./procmgmt.md)
 - [TIaaS Requests](./tiaas.md)
 
+Cloud Admin:
+
+- [Launching a student VM](./cloud/student-vm.md)
+
 ## Read-only Fridays
 
 - **NO EXCEPTIONS**
