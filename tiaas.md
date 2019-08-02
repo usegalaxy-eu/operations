@@ -4,7 +4,7 @@ title: Approving TIaaS Requests
 
 # Approving TIaaS Requests
 
-Check for rows with no value in the **Processed** column. For each of these rows:
+Go to the [Google Form spreadsheet](https://docs.google.com/spreadsheets/d/17e8BYfvr54-mqi8pEUji_kxN4wEAyGV1JdWy-A80b20/edit). Check for rows with no value in the **Processed** column. For each of these rows:
 
 - Look at the trainings that will be run, is it RNA-seq, is it something else. This can give you an idea of the maximum memory they will request at one time, for one tool run, but it does not tell the whole story.
   - You don't know what time limitations they have, maybe they expect a step to run in 1 minute, but we don't know that.
@@ -23,6 +23,11 @@ Ensure that you have:
 - https://github.com/usegalaxy-eu/vgcn-infrastructure
 - https://github.com/usegalaxy-eu/infrastructure-playbook
 
+```bash
+git clone https://github.com/usegalaxy-eu/vgcn-infrastructure.git
+git clone https://github.com/usegalaxy-eu/infrastructure-playbook.git
+```
+
 cloned, with the same parent directory, like so:
 
 ```
@@ -30,6 +35,8 @@ cloned, with the same parent directory, like so:
 ├── vgcn-infrastructure
 └── infrastructure-playbook
 ```
+
+If you have both repositories, make sure they are up to date and you are on the master branch.
 
 ## Running the script
 
