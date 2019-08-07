@@ -20,3 +20,13 @@ title: Galaxy Europe Services
 - username + password in [github.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/secret_group_vars/github.yml)
 - mostly jenkins using this account to comment things or pull code
 - there is a grafana-gitter-bridge running on [grafana](#grafana) host
+
+# Apollo
+
+- lives on apollo.internal.galaxyproject.eu
+- [vm definition](https://github.com/usegalaxy-eu/infrastructure/blob/master/instance_apollo.tf)
+- [playbook](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/apollo.yml)
+- [playbook job](https://build.galaxyproject.eu/job/usegalaxy-eu/job/playbooks/job/apollo/)
+- requires the apollo.war file on https://usegalaxy.eu/static/vgcn/
+	- which is built/uploaded by [this job](https://build.galaxyproject.eu/job/usegalaxy-eu/job/apollo-builder/)
+
