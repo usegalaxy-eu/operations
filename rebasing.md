@@ -9,7 +9,7 @@ git checkout release_xx.yy
 git pull # upstream release_xx.yy
 git checkout release_xx.yy_europe
 git rebase release_xx.yy
-git rebase -i HEAD~5 # drop the latest CLIENTBUILD
+git rebase -i release_xx.yy # drop the latest CLIENTBUILD
 make client-production
 git add -f static
 git commit -a -m 'CLIENTBUILD'
