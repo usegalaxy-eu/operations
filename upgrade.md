@@ -10,11 +10,10 @@ title: Galaxy Upgrading procedures
 # 1 day before downtime
 
 1. Clone [our fork](https://github.com/usegalaxy-eu/galaxy/).
-2. Check out our current release branch (e.g. `release_XX.YY_europe`)
-3. `git format-patch release_XX.YY` (e.g.) in order to get the patches from our current release
-4. Go through and *delete* any that are described as being **already upstreamed** for the current release. Delete any CLIENTBUILD steps.
-5. Checkout latest release (e.g. `release_AA.BB`), and create a branch with `release_AA.BB_europe` from there.
-6. Apply the remaining patch files that were generated in step 3
+2. Check out the release branch you want to switch to, e.g. `release_XX.ZZ`
+3. Ensure it's updated: `git pull`
+4. Checkout *our* previous release branch (`release_XX.YY`)
+5. `git rebase -i release_XX.ZZ` to rebase our commits on top of the
 7. Update [`infrastructure-playbook`](https://github.com/usegalaxy-eu/infrastructure-playbook/) to sync configuration files and PR this + latest commit ID of the new branch
 8. `make client-production`
 9. `python scripts/plugin_staging.py` (if it exists)
