@@ -1,3 +1,5 @@
+[![documentation](https://img.shields.io/badge/documentation-online-blue)](https://usegalaxy-eu.github.io/operations/)
+
 # Operations Manual for usegalaxy.eu
 
 - [Custom Subdomain](./subdomains.md)
