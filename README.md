@@ -11,6 +11,8 @@ Galaxy Admin:
 - [Rebasing when upstream gets backports](./rebasing.md)
 - [Process Management](./procmgmt.md)
 - [TIaaS Requests](./tiaas.md)
+- [Jobs](./jobs.md)
+
 
 Cloud Admin:
 
