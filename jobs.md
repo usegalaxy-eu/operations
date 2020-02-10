@@ -31,3 +31,10 @@ The following command is failing all jobs of the service-account user.
 ```bash
 gxadmin query queue-details | grep  service-account | awk '{print $3}' |  xargs -I {} sh -c "gxadmin mutate fail-job {} --commit"
 ```
+
+-----
+### Jobs running into a specific host
+
+```bash
+condor_q -autoformat ClusterID JobDescription RemoteHost | grep cn032
+```
