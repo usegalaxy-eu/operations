@@ -16,30 +16,27 @@ Check for rows with no value in the **Processed** column. For each of these rows
 - Select the start/end date columns and ensure they are formatted to `YYYY-mm-dd`
 - You're ready to run the script!
 
-## Repository Setup
+## Finding to-be-approved trainings
 
-Ensure that you have:
+- [Go here](https://usegalaxy.eu/tiaas/admin/training/training/?processed__exact=UN)
+  These are all unprocessed.
+- Click on one training
+- This brings you to the edit-tiaas-request page
+- Check their request
+- At the bottom, change **Processed** to Approved
+- Save
 
-- https://github.com/usegalaxy-eu/vgcn-infrastructure
-- https://github.com/usegalaxy-eu/infrastructure-playbook
-
-cloned, with the same parent directory, like so:
-
-```
-.
-├── vgcn-infrastructure
-└── infrastructure-playbook
-```
+you've approved it in our system, but now you need to allocate resources!
 
 ## Running the script
+
+Ensure that you have https://github.com/usegalaxy-eu/vgcn-infrastructure cloned.
 
 Go into `vgcn-infrastructure`, and run `./add-training.sh`. It will print out the arguments you need to supply (I do this every time because I never remember.)
 
 Copy and paste values from the spreadsheet into the correct places in the command line, and run it. The script will do a few things:
 
 - adds an entry to [`resources.yaml`](https://github.com/usegalaxy-eu/vgcn-infrastructure/blob/master/resources.yaml) with the information for the training
-- commits and pushes
-- adds an entry to [`../infrastructure-playbook/group_vars/tiaas.yml`](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/tiaas.yml), with the training ID
 - commits and pushes
 - print out an email you should send the person.
 
