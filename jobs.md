@@ -38,3 +38,9 @@ gxadmin query queue-details | grep  service-account | awk '{print $3}' |  xargs 
 ```bash
 condor_q -autoformat ClusterID JobDescription RemoteHost | grep cn032
 ```
+
+### Number of cores available
+
+```bash
+condor_status -autoformat Name Cpus | cut -f2 -d' ' | paste -s -d'+' | bc
+```
