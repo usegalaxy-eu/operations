@@ -1,56 +1,42 @@
----
-title: Approving TIaaS Requests
----
-
 # Approving TIaaS Requests
 
-Check for rows with no value in the **Processed** column. For each of these rows:
+1. Go to the [unprocessed trainings](https://usegalaxy.eu/tiaas/admin/training/training/?processed__exact=UN).
+2. Click on one training: this brings you to the edit-tiaas-request page.
+3. Check the request.
+4. Estimate the resources:
+    - Get the [individual resources for each tool](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/files/galaxy/dynamic_rules/usegalaxy/tool_destinations.yaml) needed in the training. If a tool is not on the list, you can assume `{mem: 4, cores: 1}`.
+    - Get the max_resources based on the max mem and max cores for all the requested tools.
+    - estimated_resources = max_resources * (#users + 2)
+5. Change the status of the request: at the bottom, change `Processed` to `Approved`.
+6. Save the changes.
+7. Script for the resource allocation:
+    - Clone https://github.com/usegalaxy-eu/vgcn-infrastructure
+    - Go into `vgcn-infrastructure`, and run `./add-training.sh` with the left parameters:
 
-- Look at the trainings that will be run, is it RNA-seq, is it something else. This can give you an idea of the maximum memory they will request at one time, for one tool run, but it does not tell the whole story.
-  - You don't know what time limitations they have, maybe they expect a step to run in 1 minute, but we don't know that.
-  - You don't know if they'll run a dataset collection. That tool which took 2 cores/8GB now takes 10 times that, and they have 30 students running it at once.
-  - Basically: there is no hope to guess the number correctly without more information that isn't so easy to collect.
-- We generally assign c.c32m240 machines
-  - you can maximally assign up to 8
-  - That flavour is more or less only used for training, so no changes to main queue needed.
-- Select the start/end date columns and ensure they are formatted to `YYYY-mm-dd`
-- You're ready to run the script!
+   ```
+    Usage:
+      ./add-training.sh <training-identifier> <vm-size (e.g. c.c32m240)> <vm-count> <start in YYYY-mm-dd> <end in YYYY-mm-dd> [-- donotautocommitpush]
+    ```    
+    - The script will add an entry to [`resources.yaml`](https://github.com/usegalaxy-eu/vgcn-infrastructure/blob/master/resources.yaml) with the information for the training.
+    - If the option `donotautocommitpush` was not used, the script will commit and push.
+    - A template email will be printed as a result of the script.
+    
+8. Check in the [calendar](https://usegalaxy.eu/tiaas/calendar/) that the training has been booked.
+9. Send the email to the user.
 
-## Finding to-be-approved trainings
-
-- [Go here](https://usegalaxy.eu/tiaas/admin/training/training/?processed__exact=UN)
-  These are all unprocessed.
-- Click on one training
-- This brings you to the edit-tiaas-request page
-- Check their request
-- At the bottom, change **Processed** to Approved
-- Save
-
-you've approved it in our system, but now you need to allocate resources!
-
-## Running the script
-
-Ensure that you have https://github.com/usegalaxy-eu/vgcn-infrastructure cloned.
-
-Go into `vgcn-infrastructure`, and run `./add-training.sh`. It will print out the arguments you need to supply (I do this every time because I never remember.)
-
-Copy and paste values from the spreadsheet into the correct places in the command line, and run it. The script will do a few things:
-
-- adds an entry to [`resources.yaml`](https://github.com/usegalaxy-eu/vgcn-infrastructure/blob/master/resources.yaml) with the information for the training
-- commits and pushes
-- print out an email you should send the person.
-
-## Sending the email
-
-Copy and paste it into your email, and send it. Mark the row as 'processed' in the spreadsheet.
-
-## What happens in the background
+### What happens in the background
 
 - The next time the galaxy playbook runs, it deploys the tiaas training. Then the URL becomes active.
 - Whenever `todays_date >= start date`, vgcn-infrastructure will automatically **try** and launch the VM.
+
+---
 
 # FAQ
 
 Question | Answer
 --- | ---
-What if there are multiple trainings? | Has not happened yet. If it has, it is with long running trainings and we usually give them fewer / smaller machines.
+What if there are multiple trainings? | It has not happened yet. If it does, it is with long-running trainings and we usually give them fewer / smaller machines.
+What is the recommended machine? | `c.c32m240`, generally used for training, so no changes to the main queue needed.
+What is the format for the date? | `YYYY-mm-dd`
+How many machines can be assigned? | There is a maximum of __8__ machines.
+How do I estimate the resources accurately? | It's hard to estimate the number correctly without more information that isn't so easy to collect. Usually there's no information about the time limitations they have, maybe they expect a step to run in 1 minute, but we don't know that. We don't know either if they'll run a dataset collection.
