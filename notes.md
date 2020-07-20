@@ -66,7 +66,7 @@ Sun Aug 25 22:41:01 2019
 ```
 root@build:~$ grep -A1 vault-pass-usegalaxy-star /opt/jenkins/jenkins/jobs/usegalaxy-eu/config.xml
               <description>vault-pass-usegalaxy-star</description>
-              <secret>{supersecreststringhere}</secret>
+              <secret>{supersecretstringhere}</secret>
 ```
 3. decrypt
 
@@ -74,6 +74,6 @@ go to jenkins → manage jenkins → script console
 https://build.galaxyproject.eu/script
 
 google "jenkins decrypt secret" because you can never remember  
-println(hudson.util.Secret.fromString("{supersecreststringhere}").getPlainText())
+println(hudson.util.Secret.fromString("{supersecretstringhere}").getPlainText())
 
 4. done!
