@@ -60,6 +60,8 @@ Sun Aug 25 22:41:01 2019
 
 1. find out the credential name from the "Bindings" tab in the project's configuration.
 
+![](images/image.png)
+
 2. find the encrypted value:
 ```
 root@build:~$ grep -A1 vault-pass-usegalaxy-star /opt/jenkins/jenkins/jobs/usegalaxy-eu/config.xml
