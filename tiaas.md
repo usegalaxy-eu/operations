@@ -38,5 +38,5 @@ Question | Answer
 What if there are multiple trainings? | It has not happened yet. If it does, it is with long-running trainings and we usually give them fewer / smaller machines.
 What is the recommended machine? | `c.c32m240`, generally used for training, so no changes to the main queue needed.
 What is the format for the date? | `YYYY-mm-dd`
-How many machines can be assigned? | There is a maximum of __8__ machines.
+How many machines can be assigned? | There is a maximum of __9__ machines.
 How do I estimate the resources accurately? | It's hard to estimate the number correctly without more information that isn't so easy to collect. Usually there's no information about the time limitations they have, maybe they expect a step to run in 1 minute, but we don't know that. We don't know either if they'll run a dataset collection.
