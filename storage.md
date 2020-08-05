@@ -47,4 +47,6 @@ So dnb01 will be available under /data/dnb01
 # Sync
 We have `/usr/bin/galaxy-sync-to-nfs`, created by this [Ansible role](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/roles/usegalaxy-eu.rsync-to-nfs/tasks/main.yml), on sn04 that takes care of synchronizing Galaxy data from sn04 to the storage into the computational cluster.
 
-Currently, the script is invoked by the [handler](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/73c4945d9465ec454313049f42e7e9c0c31f5c4a/galaxy.yml#L54) in the Galaxy playbook.
+Currently, the script is invoked:
+* by the [handler](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/73c4945d9465ec454313049f42e7e9c0c31f5c4a/galaxy.yml#L54) in the Galaxy playbook.
+* by Jenkins, as a downstream project at the end of tools installation. See [install_tools](https://build.galaxyproject.eu/job/usegalaxy-eu/job/install-tools/)
