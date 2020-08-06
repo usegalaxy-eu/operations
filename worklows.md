@@ -2,6 +2,7 @@
 
 If you have some workflows that are in a `failed` state, because of single jobs failing and re-running turned the workflow to stop, than you can do the following.
 
+![](images/workflow_error.png)
 
 ```bash
 galaxy@sn04:~$ . venv/bin/activate
