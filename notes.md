@@ -81,3 +81,7 @@ println(hudson.util.Secret.fromString("{supersecretstringhere}").getPlainText())
 # How Condor honors TIaaS priorities
 
 All the details in this https://github.com/usegalaxy-eu/issues/issues/277
+
+# PostgreSQL configuarions
+
+* [PGTune](https://pgtune.leopard.in.ua) is a PG configurator assistent
