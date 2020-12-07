@@ -85,3 +85,7 @@ All the details in this https://github.com/usegalaxy-eu/issues/issues/277
 # PostgreSQL configuarions
 
 * [PGTune](https://pgtune.leopard.in.ua) is a PG configurator assistent
+
+# How to install pdsh with genders support on Centos8
+
+https://gist.github.com/gmauro/cc97ff1287282469ce98c2b8035100f2
