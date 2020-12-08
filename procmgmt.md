@@ -39,10 +39,9 @@ galaxy-zergling@3:
 Equivalent to `supervisorctl restart hd:`
 
 ```console
-for i in {0..11}; do
-  systemctl restart galaxy-handler@$i
-done
+  systemctl restart 'galaxy-handler@*'
 ```
+In theory `galaxy-handler@{0..11}` should also work.
 
 Equivalent to `supervisorctl restart hd:handler_main_1`
 
