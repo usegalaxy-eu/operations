@@ -92,6 +92,8 @@ associate the tool to that handler
 		<tool id="gmx_sim" destination="gateway_singlerun" resources="usegpu" />
 		<tool id="param_value_from_file" handler="special_handlers" />
 ```
+restart workflow schedulers
+and
 move all running jobs to the new handler
 
 ```bash
