@@ -67,5 +67,34 @@ A quick check into the compute node
 ```
 showed it was not mounting properly the NFS export.
 
+### Reserve an handler for a tool and move all running jobs to it
 
+Add a new handler to the `job_conf.xml`
+
+```xml
+	<handlers assign_with="db-skip-locked" max_grab="8">
+		<handler id="handler_key_0"/>
+		<handler id="handler_key_1"/>
+		<handler id="handler_key_2"/>
+		<handler id="handler_key_3"/>
+		<handler id="handler_key_4"/>
+		<handler id="handler_key_5"/>
+		<handler id="handler_key_6" tags="special_handlers"/>
+	</handlers>
+```
+associate the tool to that handler
+
+```xml
+	<tools>
+		<tool id="upload1" destination="gateway_singlerun" />
+		<tool id="toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/2020.4+galaxy0" destination="gateway_singlerun" resources="usegpu" />
+		<tool id="toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/2019.1.5.1" destination="gateway_singlerun" resources="usegpu" />
+		<tool id="gmx_sim" destination="gateway_singlerun" resources="usegpu" />
+		<tool id="param_value_from_file" handler="special_handlers" />
+```
+move all running jobs to the new handler
+
+```bash
+for j in `gxadmin query queue-detail --all| grep param_value_from_file |grep -v handler_key_6 | cut -f2 -d'|' | paste -s -d ' '`; do gxadmin mutate reassign-job-to-handler $j handler_key_6 --commit;done
+```
 
