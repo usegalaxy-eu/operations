@@ -32,6 +32,15 @@ The following command is failing all jobs of the service-account user.
 gxadmin query queue-details | grep  service-account | awk '{print $3}' |  xargs -I {} sh -c "gxadmin mutate fail-job {} --commit"
 ```
 
+### fail all jobs on the nodes, in cases when condor_rm does not do the job
+
+This cmd will find all jobs matching a string (here "obabel"), returns the group-pid and kills those group process. This seems to be the only way
+to remove jobs from the condor nodes when condor_rm was not able to kill the jobs.
+
+```bash
+pdsh -g cloud 'ps xao pgid,cmd | grep "[o]babel" | awk "{ print \$1 }" | xargs -I {} sudo kill -9 {}'
+```
+
 -----
 ### Jobs running into a specific host
 
