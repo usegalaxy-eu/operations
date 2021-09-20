@@ -109,3 +109,16 @@ move all running jobs to the new handler
 for j in `gxadmin query queue-detail --all| grep param_value_from_file |grep -v handler_key_6 | cut -f2 -d'|' | paste -s -d ' '`; do gxadmin mutate reassign-job-to-handler $j handler_key_6 --commit;done
 ```
 
+### How to shut down/start up a single execute node without killing jobs
+
+This “peaceful” shutdown of a startd will cause that daemon to wait indefinitely for all existing jobs to exit before shutting down. During this time, no new jobs will start.
+```bash
+condor_off -paceful -startd vgcnbwc-worker-c125m425-8231.novalocal
+```
+
+To begin running or restarting all daemons (other than condor_master) given in the configuration variable DAEMON_LIST on the host:
+```bash
+condor_on vgcnbwc-worker-c125m425-8231.novalocal
+```
+
+Both commands can be executed from the submitter node.
