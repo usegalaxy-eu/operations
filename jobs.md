@@ -113,7 +113,7 @@ for j in `gxadmin query queue-detail --all| grep param_value_from_file |grep -v 
 
 This “peaceful” shutdown of a startd will cause that daemon to wait indefinitely for all existing jobs to exit before shutting down. During this time, no new jobs will start.
 ```bash
-condor_off -paceful -startd vgcnbwc-worker-c125m425-8231.novalocal
+condor_off -peaceful -startd vgcnbwc-worker-c125m425-8231.novalocal
 ```
 
 To begin running or restarting all daemons (other than condor_master) given in the configuration variable DAEMON_LIST on the host:
