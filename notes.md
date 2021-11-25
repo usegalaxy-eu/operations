@@ -1,3 +1,9 @@
+# decode Galaxy id
+```
+(venv) galaxy@sn06:~$ python server/scripts/secret_decoder_ring.py decode ec81bbe85ee13506
+746380
+```
+
 # non responsive yum
 
 ```
