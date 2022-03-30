@@ -4,6 +4,7 @@
 
 - [Custom Subdomain](./subdomains.md)
 - [Update a Tool](https://github.com/usegalaxy-eu/usegalaxy-eu-tools)
+- [Galaxy Europe Services](./cloud/services.md)
 
 Galaxy Admin:
 
