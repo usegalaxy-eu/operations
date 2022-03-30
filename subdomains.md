@@ -24,7 +24,7 @@ In the website repository:
 
 ## DNS Changes
 
-1. Add your domain to [this list](https://github.com/usegalaxy-eu/infrastructure/blob/master/dns.tf#L36) under `subdomain`, and increase the `count` parameter below by one.
+1. Add your domain to [this list](https://github.com/usegalaxy-eu/infrastructure/blob/main/dns.tf#L24) under `subdomain`, and increase the `count` parameter below by one.
 2. Make a PR with these changes.
 
 ## Customizing Tools
