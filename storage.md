@@ -53,7 +53,7 @@ So dnb01 will be available under /data/dnb01
 # Group based storage
 
 It is possible to assign storage to dedicated Galaxy users groups. For example the above storage `dp01` is dedicated for the DataPLANT project
-and can be only be used by researchers associated with the `dataplant` Galaxy group.
+and can be only used by researchers associated with the `dataplant` Galaxy group.
 This works via our dynamic job submission system (sorting-hat). All jobs are going through this rules and we added a special one for the `dataplant`
 group. See the code [here](https://github.com/usegalaxy-eu/sorting-hat/pull/9/files#diff-383169e44c84e4fdd975aa09423aa5152bd87e5fc2fd7482acad1caa071d131aR149). The drawback is that you can not easily assign multiple storage backends
 to one group or different weights at the moment. 
