@@ -15,13 +15,7 @@ title: Galaxy Upgrading procedures
 4. Checkout *our* previous release branch (`release_XX.YY`)
 5. `git rebase -i release_XX.ZZ` to rebase our commits on top of the
 7. Update [`infrastructure-playbook`](https://github.com/usegalaxy-eu/infrastructure-playbook/) to sync configuration files and PR this + latest commit ID of the new branch
-8. `make client-production`
-9. `python scripts/plugin_staging.py` (if it exists)
-9. `git add -f static/`
-10. `git commit -a -m 'CLIENTBUILD'`
-11. `git push -f`
 
-If you're rebasing against an updated release branch (because you branched much earlier) then you'll want to do a `git rebase -i release_XX.YY` and **drop** any 'CLIENTBUILD' type commits, before doing another round of client-build / plugin staging / adding static / committing.
 
 # Downtime begins
 
