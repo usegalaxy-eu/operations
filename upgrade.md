@@ -5,7 +5,7 @@ title: Galaxy Upgrading procedures
 
 # 7 days before downtime
 
-- Write an announcment about the potential Galaxy downtime explaining that Galaxy is being upgraded. Be sure to link to the release annoucement.
+- Write an announcment about the potential Galaxy downtime explaining that Galaxy is being upgraded. Be sure to link to the release annoucement,  see https://github.com/usegalaxy-eu/website/blob/master/_data/notices.yml
 
 # 1 day before downtime
 
@@ -14,7 +14,9 @@ title: Galaxy Upgrading procedures
 3. Ensure it's updated: `git pull`
 4. Checkout *our* previous release branch (`release_XX.YY`)
 5. `git rebase -i release_XX.ZZ` to rebase our commits on top of the
-7. Update [`infrastructure-playbook`](https://github.com/usegalaxy-eu/infrastructure-playbook/) to sync configuration files and PR this + latest commit ID of the new branch
+6. Update [`infrastructure-playbook`](https://github.com/usegalaxy-eu/infrastructure-playbook/) to:
+ * sync configuration files, see https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/bin/diff-before-update
+ * update to the latest commit ID of the new branch, see https://github.com/usegalaxy-eu/infrastructure-playbook/blob/341d1e41c519f400b24f58d01aa356d3fe961fe8/group_vars/sn06.yml#L538
 
 
 # Downtime begins
@@ -22,20 +24,13 @@ title: Galaxy Upgrading procedures
 - (optionally) update conda with
 
 ```bash
-galaxy@sn04:~$ export PATH=/usr/local/tools/_conda/bin/:$PATH
-galaxy@sn04:~$ which conda
+galaxy@sn06:~$ export PATH=/usr/local/tools/_conda/bin/:$PATH
+galaxy@sn06:~$ which conda
 /usr/local/tools/_conda/bin/conda
-galaxy@sn04:~$ conda update -n base -c conda-forge conda
+galaxy@sn06:~$ conda update -n base -c conda-forge conda
 ```
 
-- Run playbook (maybe with `make galaxy CHECK=1` to be certain of your changes.)
+- Run playbook (maybe with `make main.eu CHECK=1` to be certain of your changes.)
 - Add a blog post about this (an [example](https://github.com/usegalaxy-eu/galaxy-freiburg/pull/82))
 
-# Rebuilding the client
 
-```
-make client-production
-git add -f static/
-git commit -a -m 'CLIENTBUILD'
-git push -f
-```
