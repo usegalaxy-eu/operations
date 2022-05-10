@@ -6,11 +6,11 @@ With the help of this tutorial, you will learn how to access the bwCloud via Ter
 Make sure you can log in to [portal.bwCloud.org](portal.bwCloud.org) using your university login credentials.
 You should see your personal dashboard.
 
-Next make sure to install OpenStack and Terraform to your machine.
+Next make sure to install [OpenStack command-line client](https://docs.openstack.org/python-openstackclient/latest/) and [Terraform](https://terraform.io) to your machine.
 Create a new directory for your project.
 
 ## Create Keyfile
-First of all, we want to crate a key pair to use with our VMs to use SSH.
+First of all, we want to create a key pair to use with our VMs to use SSH.
 In your bwCloud overview click on 'Key Pairs' and then on 'Create Key Pair'. Name it and select 'SSH' as type.
 After approving, your browser will download a private keyfile automatically. Move that keyfile to your project directory we created earlier. Open a shell and set it's permissions:
 
