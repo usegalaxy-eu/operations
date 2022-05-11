@@ -4,7 +4,7 @@ title: Accessing bwCloud with Terraform in a Seperate Project
 # Accessing bwCloud with Terraform
 With the help of this tutorial, you will learn how to access the bwCloud via Terraform.
 
-A more detaild tutorial on how to use Terraform can be found [here](https://docs.google.com/presentation/d/1Pp5o8z4gUGVZ-odzbg2fYT7NHZ30lqGYMqtrqjDAmzI/edit#slide=id.p).
+A more detailed tutorial on how to use Terraform can be found [here](https://docs.google.com/presentation/d/1Pp5o8z4gUGVZ-odzbg2fYT7NHZ30lqGYMqtrqjDAmzI/edit#slide=id.p).
 
 Make sure you can log in to [portal.bwCloud.org](portal.bwCloud.org) using your university login credentials.
 You should see your personal dashboard.
