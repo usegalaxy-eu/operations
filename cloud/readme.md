@@ -1,9 +1,6 @@
 ---
-title: Cloud Overview
+title: VMs Overview
 ---
-
-- [services](./services.md)
-
 
 There are two main groups of VMs:
 

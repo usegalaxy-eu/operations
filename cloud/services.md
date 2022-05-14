@@ -51,7 +51,7 @@ title: Galaxy Europe Services
 
 # CVMFS stratum 0
 
-- managed by [Nate Coroar](https://github.com/natefoo)
+- managed by [Nate Corar](https://github.com/natefoo)
 - lives on cvmfs-stratum0.galaxyproject.eu
 - [VM definition](https://github.com/usegalaxy-eu/infrastructure/blob/main/instance_core_cvmfs0_eu.tf)
 
@@ -64,4 +64,4 @@ They are 2 clusters because if you need to operate/destroy/rebuild one of them, 
 - [VM definition Gold cluster](https://github.com/usegalaxy-eu/infrastructure/blob/main/instance_core_jenkins-worker-gold.tf)
 - [VM definition Silver cluster](https://github.com/usegalaxy-eu/infrastructure/blob/main/instance_core_jenkins-worker-silver.tf#L1)
 
-Both of them are established into the `public-extended` network, so they can reach internal services.
+Both of them are established into the `private` network, so they can reach internal services.
