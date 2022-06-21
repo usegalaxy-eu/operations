@@ -1,6 +1,8 @@
 # decode Galaxy id
 ```
-(venv) galaxy@sn06:~$ python server/scripts/secret_decoder_ring.py decode ec81bbe85ee13506
+user@sn06:~$ . /opt/galaxy/venv/bin/activate
+(venv) user@sn06:~$ cd /opt/galaxy
+(venv) user@sn06:/opt/galaxy$ python server/scripts/secret_decoder_ring.py decode ec81bbe85ee13506
 746380
 ```
 
