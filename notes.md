@@ -8,7 +8,7 @@ user@sn06:~$ . /opt/galaxy/venv/bin/activate
 or using gxadmin
 ```
 user@sn06:~$ . /opt/galaxy/venv/bin/activate
-(venv) stats@sn06:~$ GALAXY_ROOT=/opt/galaxy/server GALAXY_CONFIG_FILE=/opt/galaxy/config/galaxy.yml gxadmin galaxy decode ec81bbe85ee13506
+(venv) user@sn06:~$ GALAXY_ROOT=/opt/galaxy/server GALAXY_CONFIG_FILE=/opt/galaxy/config/galaxy.yml gxadmin galaxy decode ec81bbe85ee13506
 746380
 ```
 
