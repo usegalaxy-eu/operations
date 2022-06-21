@@ -5,6 +5,12 @@ user@sn06:~$ . /opt/galaxy/venv/bin/activate
 (venv) user@sn06:/opt/galaxy$ python server/scripts/secret_decoder_ring.py decode ec81bbe85ee13506
 746380
 ```
+or using gxadmin
+```
+user@sn06:~$ . /opt/galaxy/venv/bin/activate
+(venv) stats@sn06:~$ GALAXY_ROOT=/opt/galaxy/server GALAXY_CONFIG_FILE=/opt/galaxy/config/galaxy.yml gxadmin galaxy decode ec81bbe85ee13506
+746380
+```
 
 # non responsive yum
 
