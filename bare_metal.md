@@ -16,6 +16,6 @@ They have  f.q.d.n. assigned by us and are collected [here](https://github.com/u
 
 `zfs1.galaxyproject.eu` is a ZFS server
 
-`ssds1.galaxyproject.eu` is an SSD tank
+`ssds1.galaxyproject.eu` is  an all-flash ZFS server
 
 `manager.vgcn.galaxyproject.eu` was the previous HTCondor central manager and is waiting to be reallocated
