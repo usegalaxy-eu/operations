@@ -4,7 +4,7 @@ title: Bare metal nodes
 
 # Bare metal nodes
 
-We are using a few bare metal nodes form some critical services.
+We are using a few bare metal nodes for some critical services.
 
 They have  f.q.d.n. assigned by us and are collected [here](https://github.com/usegalaxy-eu/infrastructure/blob/4e22b02395c1bb8872ebda711cc123968ae8589f/dns.tf#L102)
 
