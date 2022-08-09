@@ -16,7 +16,7 @@ title: Galaxy Europe Services
 - [Grafana dashboards](https://github.com/usegalaxy-eu/grafana-dashboards)
 - Open issues: [244](https://github.com/usegalaxy-eu/infrastructure-playbook/issues/244), [245](https://github.com/usegalaxy-eu/infrastructure-playbook/issues/245)
 
-# InfluxDB
+# [InfluxDB](../influxdb.md)
 
 - lives in influxdb.galaxyproject.eu
 - [VM definition](https://github.com/usegalaxy-eu/infrastructure/blob/main/instance_core_influxdb.tf)
