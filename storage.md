@@ -51,8 +51,8 @@ So dnb01 will be available under /data/dnb01
 
 # Different kind of storages
 
-* managed iSilon storage
-* managed NetApp storage
+* managed iSilon storage (NFS)
+* managed NetApp storage (NFS, S3 possible)
 * zfs1: Big machine (>200TB) with spinning disks and SSD cache frontend (self-build)
 * ssds1: SSD-only machine (24x1.8TB) (self-build)
 
