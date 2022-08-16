@@ -47,8 +47,14 @@ jwd     -rw,hard,nosuid      denbi.svm.bwsfs.uni-freiburg.de:/ws01/&
 ```
 
 
-
 So dnb01 will be available under /data/dnb01
+
+# Different kind of storages
+
+* managed iSilon storage
+* managed NetApp storage
+* zfs1: Big machine (>200TB) with spinning disks and SSD cache frontend (self-build)
+* ssds1: SSD-only machine (24x1.8TB) (self-build)
 
 # Group based storage
 
