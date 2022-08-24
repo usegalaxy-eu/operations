@@ -55,7 +55,7 @@ condor_status -autoformat Name Cpus | cut -f2 -d' ' | paste -s -d'+' | bc
 ```
 
 ### Debugging of a Condor job that was giving back an empty file as result
-As input we had a galaxy job id `11ac94870d0bb33a8013642012e063ec (11384941)` and a note of an empty file as result. The job was a step of a big collection where the other steps were successful.
+As input we had a galaxy job id `11ac61790d0cc33b8086442012d093zu (11384941)` and a note of an empty file as result. The job was a step of a big collection where the other steps were successful.
 
 To understand the reason for the problem, I proceeded as follows:
 

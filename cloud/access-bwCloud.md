@@ -11,7 +11,6 @@ You should see your personal dashboard.
 
 Next make sure to install [OpenStack command-line client](https://docs.openstack.org/python-openstackclient/latest/) and [Terraform](https://terraform.io) to your machine.
 
-Next make sure to install OpenStack and Terraform to your machine.
 Create a new directory for your project.
 
 ## Create Keyfile

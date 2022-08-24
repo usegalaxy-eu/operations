@@ -5,6 +5,7 @@
 - [Custom Subdomain](./subdomains.md)
 - [Update a Tool](https://github.com/usegalaxy-eu/usegalaxy-eu-tools)
 - [Galaxy Europe Services](./cloud/services.md)
+- [Bare metal nodes](./bare_metal.md)
 
 Galaxy Admin:
 
@@ -18,7 +19,10 @@ Galaxy Admin:
 
 Cloud Admin:
 
+- [VMs overview](./cloud/readme.md)
+- [Accessing bwCloud with Terraform](./cloud/access-bwCloud.md)
 - [Launching a student VM](./cloud/student-vm.md)
+- [Services in the bwCloud](./cloud/services.md)
 
 ## Read-only Fridays
 
