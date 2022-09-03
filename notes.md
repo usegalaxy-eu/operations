@@ -111,6 +111,7 @@ All the details in this https://github.com/usegalaxy-eu/issues/issues/277
 # PostgreSQL configuarions
 
 * [PGTune](https://pgtune.leopard.in.ua) is a PG configurator assistent
+* configuration files are under /var/lib/pgsql/13/data/
 
 # How to install pdsh with genders support on Centos8
 
