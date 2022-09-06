@@ -84,7 +84,7 @@ git push
 
 ```
 
-Finally, we need to add a tiny test file to the [galaxy-test-data repository](https://github.com/galaxyproject/galaxy-test-data), which will be used for manually testing the new datatype by running the following command (it should be included in the description of the Pull Request:
+Finally, we need to add a tiny test file to the [galaxy-test-data repository](https://github.com/galaxyproject/galaxy-test-data), which will be used for manually testing the new datatype by running the following command (it should be included in the description of the [Pull Request](https://github.com/galaxyproject/galaxy/pull/12199):
 
 ```console
 from galaxy.datatypes.sniff import get_test_fname
