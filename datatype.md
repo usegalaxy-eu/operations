@@ -13,7 +13,7 @@ cd galaxy
 git checkout -b "Add_new_datatype"
 ```
 
-Then, we need to register the new datatype in the [**datatypes_conf.xml.sample**](https://github.com/galaxyproject/galaxy/blob/dev/lib/galaxy/config/sample/datatypes_conf.xml.sample) file. The sample `<datatype` tag includes the following attributes:
+Then, we need to register the new datatype in the [**lib/galaxy/config/sample/datatypes_conf.xml.sample**](https://github.com/galaxyproject/galaxy/blob/dev/lib/galaxy/config/sample/datatypes_conf.xml.sample) file. The sample `<datatype` tag includes the following attributes:
 
 - extension - the datatype's file extension
 - type - the path to the class for that data type
@@ -44,7 +44,7 @@ xxd example_file.bref3 | head
 
 The magic number can be found in the first line, in our example: *7a88 74f4 0015 6272*.
 
-The next step is to add the corresponding class to `lib/galaxy/datatypes/binary.py` (be aware that the specific Python file depends on your datatype); in our case:
+The next step is to add the corresponding class to [**lib/galaxy/datatypes/binary.py**](https://github.com/galaxyproject/galaxy/blob/dev/lib/galaxy/datatypes/binary.py) (be aware that the specific Python file depends on your datatype); in our case:
 
 ```console
 class Bref3(Binary):
@@ -74,15 +74,25 @@ class Bref3(Binary):
 
 ```
 
-Finally, we need to add a tiny test file to the [galaxy-test-data repository](https://github.com/galaxyproject/galaxy-test-data), which will be used for manually testing the new datatype by running the following command:
+Now, we can commit and push the changes:
 
 ```console
-> from galaxy.datatypes.sniff import get_test_fname
-> fname = get_test_fname('affy_v_agcc.cel')
-> Bref3().sniff(fname)
+git add lib/galaxy/datatypes/binary.py
+git add lib/galaxy/config/sample/datatypes_conf.xml.sample
+git commit -m "Add new datatype"
+git push
+
+```
+
+Finally, we need to add a tiny test file to the [galaxy-test-data repository](https://github.com/galaxyproject/galaxy-test-data), which will be used for manually testing the new datatype by running the following command (it should be included in the description of the Pull Request:
+
+```console
+from galaxy.datatypes.sniff import get_test_fname
+fname = get_test_fname('affy_v_agcc.cel')
+Bref3().sniff(fname)
 False
-> fname = get_test_fname('ref.bref3')
-> Bref3().sniff(fname)
+fname = get_test_fname('ref.bref3')
+Bref3().sniff(fname)
 True
 
-```x
+```
