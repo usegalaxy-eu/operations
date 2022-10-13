@@ -16,13 +16,13 @@ Galaxy Admin:
 - [Jobs](./jobs.md)
 - [Mixed Notes](./notes.md)
 
-
 Cloud Admin:
 
 - [VMs overview](./cloud/readme.md)
 - [Accessing bwCloud with Terraform](./cloud/access-bwCloud.md)
 - [Launching a student VM](./cloud/student-vm.md)
 - [Services in the bwCloud](./cloud/services.md)
+- [Celery](./celery.md)
 
 ## Read-only Fridays
 
