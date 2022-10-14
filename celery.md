@@ -28,7 +28,7 @@ amqp_internal_connection: pyamqp://user:strongpw@mq.example.com:5671/galaxy?ssl=
 If you can see galaxy connecting to your rabbit in the RabbitMQ dashboard, you know it worked.  
 By the way, we dont need to specify the database for celery, because it should be already in the config file. (As URL, not as socket!)
 
-## Chapter Three: The Red Queen
+## Chapter Two: The Red Queen
 
 Set up a node on which you want to run Celery. This node has to get access to your database.  
 In case of PostgreSQL you should edit the `postgresql_pg_hba.conf` and add the IP of your new Celery node (or manage everything nice and clean with Tailscale, in this case you can just add the Tailnet IP address)
@@ -41,7 +41,7 @@ Be careful with the numbers! "I see what I eat" is not the same thing as "I eat 
 10 is not a 100 and you know what the red queen does when you mess it up!  
 Another thing that enrages her, is when you not restart the Celery workers, after you changed something in your Galaxy instance. (update, code, config...)
 
-## Chapter Two: The Secret Garden
+## Chapter Three: The Secret Garden
 
 The rabbit led you in the wonderland of asynchronous Python tasks, you are now ready to install celery on your second node.  
  Keep in mind that Celery needs access to all Galaxy configuration, app code and all the python packages in the `.venv` folder to grow and..sorry, execute the tasks correctly. The easiest way to achieve that is to rsync/nfs/.. the whole galaxy directory to your new Celery node.
@@ -55,12 +55,12 @@ $ /path/to/galaxy/venv/bin/celery --app galaxy.celery worker --concurrency 32 -n
 
 For better experience I recommend our [Systemd Ansible Role](https://github.com/usegalaxy-eu/ansible-galaxy-systemd).
 
-## Chapter Three: The Talking Flowers
+## Chapter Four: The Talking Flowers
 
 To be able to watch your Celery tasks grow and monitor it's behavior, you can talk to the Flower.  
 It's a beautiful Celery dashboard, installable with `pip` or by using another convenient [Ansible role](https://galaxy.ansible.com/usegalaxy_eu/flower). Flower needs the same access to packages, paths and folders as Celery workers and additionally it's RabbitMQ user needs to have at least monitoring permission for the galaxy queue. In order to access the dashboard, you need to be in the same Tailscale network or use SSH tunneling.
 
-## Chapter Four: Be On Good Terms With Time
+## Chapter Five: Be On Good Terms With Time
 
 Having time on you side makes life easier, right?  
 You can easily do that by using InfluxDB and import all your information you got from Flower directly with [Telegraf](https://galaxy.ansible.com/dj-wasabi/telegraf/).
