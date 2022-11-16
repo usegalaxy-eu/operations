@@ -48,6 +48,12 @@ pdsh -g cloud 'ps xao pgid,cmd | grep "[o]babel" | awk "{ print \$1 }" | xargs -
 condor_q -autoformat ClusterID JobDescription RemoteHost | grep cn032
 ```
 
+### cndor_q is very powerful
+
+```bash
+condor_q  -constraint 'JobDescription == "spades"' -af ClusterID JobDescription RemoteHost RequestMemory MemoryUsage HoldReason
+```
+
 ### Number of cores available
 
 ```bash
