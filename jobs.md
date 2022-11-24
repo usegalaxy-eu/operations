@@ -11,7 +11,7 @@ gxadmin tsvquery queue-detail-by-handler handler_main_11  | cut -f1 | xargs -I{}
 
 ### Change job properties on the fly
 
-condor_edit is your friend and the htcondor classads. A list of all [Job ClassAd Attributes](https://htcondor.readthedocs.io/en/latest/classad-attributes/job-classad-attributes.html).
+condor_edit is your friend and the htcondor classads. Most commonly used ones are `RequestCpus`, `RequestMemory`, `RequestGpus`, but a full list of all [Job ClassAd Attributes can be found in the htcondor docs.](https://htcondor.readthedocs.io/en/latest/classad-attributes/job-classad-attributes.html).
 
 ```bash
 condor_qedit 37110378 RequestMemory=50000
