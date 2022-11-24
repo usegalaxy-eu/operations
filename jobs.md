@@ -7,6 +7,15 @@ Reassign jobs from handler 11 to handler 3 with gxadmin:
 gxadmin tsvquery queue-detail-by-handler handler_main_11  | cut -f1 | xargs -I{} -n1 gxadmin mutate reassign-job-to-handler {} handler_main_3 --commit
 
 ```
+------
+
+### Change job properties on the fly
+
+condor_edit is your friend and the htcondor classads. A list of all [Job ClassAd Attributes](https://htcondor.readthedocs.io/en/latest/classad-attributes/job-classad-attributes.html).
+
+```bash
+condor_qedit 37110378 RequestMemory=50000
+```
 
 -----
 
