@@ -51,7 +51,7 @@ pdsh -g cloud 'ps xao pgid,cmd | grep "[o]babel" | awk "{ print \$1 }" | xargs -
 ```
 
 -----
-### Jobs running into a specific host
+### Jobs/tools running into a specific host/flavour
 
 ```bash
 condor_q -autoformat ClusterID JobDescription RemoteHost | grep cn032
