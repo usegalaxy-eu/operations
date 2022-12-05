@@ -7,7 +7,7 @@ and as soon as we have HTCondor on sn07 running we could uncomment it, because i
 The other two cron jobs are a `docker purge` and `gxadmin cleanup` we most likely dont need docker anymore (also commented out) and can run `gxadmin cleanup` only on one node, because it will lead to conflicts otherwise.
 ### usegalaxy-eu.monitoring
 #### NFS access time in cloud and nfsstat
-This role adds a script to the telegraf exec plugin, which executes several pdsh commands to gather NFS access-time information from all worker nodes. It is basically a redundancy of usegalaxy-eu.montor-disk-access-time, so I will merge these roles in a later commit. The other part it does without pdsh is collecting the output from nfsstat commant and send it to influxDB
+This role adds a script to the telegraf exec plugin, which executes several pdsh commands to gather NFS access-time information from all worker nodes. It is basically a redundancy of usegalaxy-eu.montor-disk-access-time, which was merged to monitoring. The other part it does without pdsh is collecting the output from nfsstat commant and send it to influxDB
 **This role can and should be moved to monitoring worker completely**
 
 ### usegalaxy-eu.rsync-to-nfs
