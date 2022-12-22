@@ -71,23 +71,24 @@ Currently, the script is invoked:
 * by the [handler](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/4e6121da8af500dfe878c312243be49807ac5f48/sn06.yml#L57) in the Galaxy playbook.
 * by Jenkins, as a downstream project at the end of tools installation. See [install_tools](https://build.galaxyproject.eu/job/usegalaxy-eu/job/install-tools/)
 
-# Cluster and Mounts
+# Cluster and Mounts (WIP)
 
 Adding new storage/mount points to galaxy is not trivial, since there are many machines involved.
 
-For most machines it is sufficient to add the mount point to [infrastucture-playbook/group_vats/all.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/all.yml) in the `autofs_conf_files` section.
+After adding a DNS-A-Record to the [infrastructure/dns.tf](https://github.com/mira-miracoli/infrastructure/blob/main/dns.tf),
+
+it issufficiant for most machines to add the mount point to [infrastucture-playbook/group_vats/all.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/all.yml) in the `autofs_conf_files` section.
 
 **HOWEVER** for
 
-* VGCN, you have to add the mountpoint to [vgcn-infrastructure/userdata.yaml](https://github.com/usegalaxy-eu/vgcn-infrastructure/blob/main/userdata.yaml)
-* incoming (FTP), add it to its own [group_vars/incoming.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/incoming.yml)
+* **VGCN**, you have to add the mountpoint to [vgcn-infrastructure/userdata.yaml](https://github.com/usegalaxy-eu/vgcn-infrastructure/blob/main/userdata.yaml)
+* **incoming (FTP)**, add it to its own [group_vars/incoming.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/incoming.yml)
 
 The following table shall give an overview of the different mount points and where they are used:
 
 
 | Mountpoint       | Physical machine | Purpose                             | sn05               | sn06               | sn07               | incoming           | celery             | VGCN |
 | :----------------- | ------------------ | ------------------------------------- | -------------------- | :------------------- | -------------------- | -------------------- | -------------------- | ------ |
-|                  |                  |                                     |                    |                    |                    |                    |                    | WIP  |
 | /data/jwd        |                  | job working dir                     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    | :heavy_check_mark: |      |
 | /data/jwd01      |                  | job working dir (full-flash)        | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |      |
 | /data/jwd02f     |                  | job working dir (full-flash)        | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    | :heavy_check_mark: |      |
