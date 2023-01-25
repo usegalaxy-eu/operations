@@ -22,6 +22,19 @@ Then you can execute the makefile with
 ```bash
 make mynewdistro-10.x-86_64/base
 ```
+Then you create a directory in `http/` and copy the kickstart file from an other distro into it. You have to change it accordingly:
+```bash
+mkdir http/mydistro-9.x
+cp http/rockylinux-9.x/anaconda-ks.cfg http/mydistro-9.x/
+vim http/mydistro-9.x/anaconda-ks-cfg
+```
+```diff
+install
+text
+reboot
+- url --url=https://ftp.fau.de/rockylinux/9/BaseOS/x86_64/os/
++ url --url=https://ftp.fau.de/mydistro/9/BaseOS/x86_64/os/
+```
 
 ## Jenkins build script
 Since we can not place it in the VGCN repo because of lack of reusability for the community, I decided to place it here (as backup).
