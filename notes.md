@@ -118,7 +118,9 @@ Get older Jenkins version and restart.
 /usr/share/java$ wget https://updates.jenkins.io/download/war/2.374/jenkins.war
 /usr/share/java$ systemctl restart jenkins
 ```
-
+*or*
+Instead of rollback try the newest release with
+`sudo yum update jenkins`
 
 # How Condor honors TIaaS priorities
 
