@@ -64,7 +64,7 @@ zfs,scope=dataset,fset=space,vers=1,ds=zp0/upload01 used=209664,avail=2143106066
 
 - The remaining field groups (`used`, `avail`, `compr`) report block
   usage at the dataset ("filesystem") level . The data comes from the
-  command `zfs get` and reports the ZFS properties "used", "avail"
+  command `zfs list` and reports the ZFS properties "used", "avail"
   (bytes) and "compressratio" (ratio as floating point).
 
   There is one `scope=dataset,fset=space` field group for every
