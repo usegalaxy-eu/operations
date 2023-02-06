@@ -68,7 +68,8 @@ zfs,scope=dataset,fset=space,vers=1,ds=zp0/upload01 used=209664,avail=2143106066
   (bytes) and "compressratio" (ratio as floating point).
 
   There is one `scope=dataset,fset=space` field group for every
-  dataset or zvol found in any of the active zpools on the system.
+  dataset or zvol (including the zpool's root data set) found in any
+  of the active zpools on the system.
 
 
 
