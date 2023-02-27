@@ -137,3 +137,10 @@ condor_on vgcnbwc-worker-c125m425-8231.novalocal
 ```
 
 Both commands can be executed from the submitter node.
+
+### How to raise awareness for Climate Stike Fridays by closing the queue
+Do these steps for every training that should run on that Friday.
+- for every training put an equal share of all non-training worker vms into a `mytraining1.txt` hostfile
+- on Thursday evening, or Friday morning run `pssh -h mytraining1.txt -l centos 'sudo sed -i '"'"'s/"compute"/"<training-tag>"/g'"'"' /etc/condor/condor_config.local; sudo sed -i '"'"'s/GalaxyTraining = false/GalaxyTraining = true/g'"'"' /etc/condor/condor_config.local; sudo systemctl reload condor'`
+- TEST and make sure that training still works by running `condor_status | grep training` (and perhaps submit a job while having the training role)
+- on Friday evening run `pssh -h mytraining1.txt -l centos 'sudo sed -i '"'"'s/"<training-tag>"/"compute"/g'"'"' /etc/condor/condor_config.local; sudo sed -i '"'"'s/GalaxyTraining = true/GalaxyTraining = false/g'"'"' /etc/condor/condor_config.local; sudo systemctl reload condor'`
