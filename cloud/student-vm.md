@@ -39,3 +39,18 @@ resource "openstack_compute_keypair_v2" "student-hr1025" {
 ```
 
 Commiting these changes to this repository should immediately trigger a run of [terraform in Jenkins](https://build.galaxyproject.eu/job/usegalaxy-eu/job/infrastructure/).
+
+## enable ZRAM compression
+
+If users have the need of high memory nodes but are less CPU limited, consider to enable ZRAM.
+
+```
+modprobe zram
+
+echo "${amount}" > /sys/block/zram0/disksize
+
+mkswap --label zram0 /dev/zram0
+swapon --priority 100 /dev/zram0
+```
+
+This will give you more memory than is available physically (because everything in memory is compressed) at the cost of higher CPU utilization.
