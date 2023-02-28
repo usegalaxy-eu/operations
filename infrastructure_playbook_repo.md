@@ -19,7 +19,7 @@
 * [roles](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles): contains the roles that are included/imported in the playbooks. The roles contain a set of tasks to configure a host to serve a certain purpose like configuring a service.
 * [secret_group_vars](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/secret_group_vars): This is our vault. It contains the passwords and other sensitive information that is used by the playbooks/roles. The files are encrypted using [Ansible Vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html).
 * [templates](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/templates): contains the templates that are used by the playbooks/roles. The templates are used to generate the final configuration files that are used by the services. The templates are written in [Jinja2](https://jinja.palletsprojects.com/en/3.0.x/) syntax.
-ansible.cfg: contains the configuration of Ansible. This is used to define the location of the inventory file, the vault password file, etc.
+* [ansible.cfg](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/ansible.cfg): contains the configuration of Ansible. This is used to define the location of the inventory file, the vault password file, etc.
 * [hosts](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/hosts): contains the inventory of the hosts that are managed by Ansible.
 
 ## Playbooks
@@ -42,6 +42,7 @@ The playbooks are:
   * [sn06.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/sn06.yml): This playbook configures the [Galaxy server](https://usegalaxy.eu). This is the main Galaxy server that is used by the users. This we denote as `headnode 1`. Refer to this [training material](https://training.galaxyproject.org/training-material/topics/admin/tutorials/ansible-galaxy/tutorial.html) to set up Galaxy.
   * [sn07.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/sn07.yml): This playbook also configures the `galaxy server` but this is not in production (for now 22/02/2023). This we denote as `headnode 2`. Refer to this [training material](https://training.galaxyproject.org/training-material/topics/admin/tutorials/ansible-galaxy/tutorial.html) to set up Galaxy.
   * [syn-to-nfs.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/sync-to-nfs.yml): This playbook is used to sync the data of the Galaxy codebase on `headnode 1 (sn06)` to a NFS server. This is then synced to all nodes that needs the up-to-date Galaxy codebase and configuration files.
+  * [telescope.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/telescope.yml): This playbook is used to setup the [Galactic Radio Telescope](https://github.com/hexylena/galactic-radio-telescope)
   * [upload.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/upload.yml): This playbook sets up the [TUS](https://tus.io/) server that is used to upload data to Galaxy. Refer to this [training material](https://training.galaxyproject.org/training-material/topics/admin/tutorials/tus/tutorial.html) to set up TUS.
 
   ## Roles
@@ -49,7 +50,7 @@ Our locally maintained Ansible roles are located in the [roles directory](https:
 
     ansible-galaxy install -r requirements.yaml
 
-### [Local roles](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles)
+### Roles in use
 * _Separate repo: Whether the role has its own repo or is it a local role located and available only in the [infrastructure_playbook](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles) repo_
 * _Still being used: Whether the role is included/imported in any of the above listed playbooks_
 
@@ -57,84 +58,84 @@ Our locally maintained Ansible roles are located in the [roles directory](https:
 | :--- | :---: | :---: | :--- |
 | [devops.tomcat7](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/devops.tomcat7) |  | :heavy_check_mark: | Installs Tomcat 7 on RedHat/CentOS Linux servers |
 | [dj-wasabi.telegraf](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/dj-wasabi.telegraf) |  | :heavy_check_mark: | Installs and configures [telegraf](https://www.influxdata.com/time-series-platform/telegraf/) |
-| [docker](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/docker) |  |  | Installs and configures docker; sets up SSL certs |
+| [docker](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/docker) |  |  | Installs and configures docker; sets up SSL certificates |
 | [galaxyprojectdotorg.proftpd](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/galaxyprojectdotorg.proftpd) |  | :heavy_check_mark: | Installs, configures and manges [proftpd](http://www.proftpd.org/) (FTP) server.|
 | [geerlingguy.haproxy](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/geerlingguy.haproxy) |  |  | Installs [HAProxy](https://www.haproxy.org/) |
 | [geerlingguy.nginx](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/geerlingguy.nginx) |  |  | Installs and configures Nginx |
 | [hostname](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hostname) |  | :heavy_check_mark: | Set's system's hostname |
 | [htcondor](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/htcondor) |  |  | Installs and configures HTCondor |
-| [hxr.admin-tools](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.admin-tools) |  |  |
-| [hxr.api-check](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.api-check) |  |  |
-| [hxr.apollo](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.apollo) |  |  |
-| [hxr.autofs](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.autofs) |  |  |
-| [hxr.autofs-format-n-mount](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.autofs-format-n-mount) |  |  |
-| [hxr.aws-cli](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.aws-cli) |  |  |
-| [hxr.dns](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.dns) |  |  |
-| [hxr.docker-ssl](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.docker-ssl) |  |  |
-| [hxr.docker-ssl-client](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.docker-ssl-client) |  |  |
-| [hxr.exclude-repo](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.exclude-repo) |  |  |
-| [hxr.galaxy-cron](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.galaxy-cron) |  |  |
-| [hxr.galaxy-echo-tool](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.galaxy-echo-tool) |  |  |
-| [hxr.galaxy-log-dir](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.galaxy-log-dir) |  |  |
-| [hxr.galaxy-nonreproducible-tools](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.galaxy-nonreproducible-tools) |  |  |
-| [hxr.grafana-gitter-bridge](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.grafana-gitter-bridge) |  |  |
-| [hxr.gx-cookie-proxy](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.gx-cookie-proxy) |  |  |
-| [hxr.haproxy-error-pages](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.haproxy-error-pages) |  |  |
-| [hxr.install-to-venv](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.install-to-venv) |  |  |
-| [hxr.monitor-cluster](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.monitor-cluster) |  |  |
-| [hxr.monitor-cvmfs](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.monitor-cvmfs) |  |  |
-| [hxr.monitor-email](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.monitor-email) |  |  |
-| [hxr.monitor-galaxy](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.monitor-galaxy) |  |  |
-| [hxr.monitor-galaxy-journalctl](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.monitor-galaxy-journalctl) |  |  |
-| [hxr.monitor-galaxy-queue](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.monitor-galaxy-queue) |  |  |
-| [hxr.monitor-squid](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.monitor-squid) |  |  |
-| [hxr.monitor-ssl](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.monitor-ssl) |  |  |
-| [hxr.postgres-connection](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.postgres-connection) |  |  |
-| [hxr.remap-user](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.remap-user) |  |  |
-| [hxr.replace-galaxy-user](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.replace-galaxy-user) |  |  |
-| [hxr.sentry](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.sentry) |  |  |
-| [hxr.simple-nagios](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.simple-nagios) |  |  |
-| [hxr.zfs-monit](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.zfs-monit) |  |  |
-| [jasonroyle.rabbitmq](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/jasonroyle.rabbitmq) |  |  |
-| [linuxhq.yum_cron](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/linuxhq.yum_cron) |  |  |
-| [matterircd](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/matterircd) |  |  |
-| [multinic](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/multinic) |  |  |
-| [multinic-old](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/multinic-old) |  |  |
-| [pgs](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/pgs) |  |  |
-| [sentry](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/sentry) |  |  |
-| [ssh-host-resign](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/ssh-host-resign) |  |  |
-| [ssh-host-sign](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/ssh-host-sign) |  |  |
-| [usegalaxy-eu.bashrc](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.bashrc) |  |  |
-| [usegalaxy-eu.create-user](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.create-user) |  |  |
-| [usegalaxy-eu.error-pages](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.error-pages) |  |  |
-| [usegalaxy-eu.fix-ancient-ftp-data](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-ancient-ftp-data) |  |  |
-| [usegalaxy-eu.fix-failing-to-fail-jobs](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-failing-to-fail-jobs) |  |  |
-| [usegalaxy-eu.fix-galaxy-server-dir](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-galaxy-server-dir) |  |  |
-| [usegalaxy-eu.fix-missing-api-keys](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-missing-api-keys) |  |  |
-| [usegalaxy-eu.fix-oidc](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-oidc) |  |  |
-| [usegalaxy-eu.fix-stop-ITs](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-stop-ITs) |  |  |
-| [usegalaxy-eu.fix-stuck-handlers](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-stuck-handlers) |  |  |
-| [usegalaxy-eu.fix-unscheduled-jobs](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-unscheduled-jobs) |  |  |
-| [usegalaxy-eu.fix-unscheduled-workflows](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-unscheduled-workflows) |  |  |
-| [usegalaxy-eu.fix-user-quotas](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-user-quotas) |  |  |
-| [usegalaxy-eu.galactic-radio-telescope](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.galactic-radio-telescope) |  |  |
-| [usegalaxy-eu.galaxy-cleanup](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.galaxy-cleanup) |  |  |
-| [usegalaxy-eu.galaxy-procstat](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.galaxy-procstat) |  |  |
-| [usegalaxy-eu.galaxy-slurp](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.galaxy-slurp) |  |  |
-| [usegalaxy-eu.gapars-galaxy](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.gapars-galaxy) |  |  |
-| [usegalaxy-eu.gie-deployer](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.gie-deployer) |  |  |
-| [usegalaxy-eu.gie-node-proxy](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.gie-node-proxy) |  |  |
-| [usegalaxy-eu.google-verification](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.google-verification) |  |  |
-| [usegalaxy-eu.grt-client](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.grt-client) |  |  |
-| [usegalaxy-eu.grt-export](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.grt-export) |  |  |
-| [usegalaxy-eu.htcondor_release](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.htcondor_release) |  |  |
-| [usegalaxy-eu.jenkins-ssh-key](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.jenkins-ssh-key) |  |  |
-| [usegalaxy-eu.log-cleaner](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.log-cleaner) |  |  |
-| [usegalaxy-eu.logrotate](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.logrotate) |  |  |
-| [usegalaxy-eu.monitoring](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.monitoring) |  |  |
-| [usegalaxy-eu.plausible](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.plausible) |  |  |
-| [usegalaxy-eu.remap-user](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.remap-user) |  |  |
-| [usegalaxy-eu.rsync-to-nfs](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.rsync-to-nfs) |  |  |
-| [usegalaxy-eu.subdomain-themes](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.subdomain-themes) |  |  |
-| [usegalaxy-eu.tours](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.tours) |  |  |
-| [usegalaxy-eu.webhooks](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.webhooks) |  |  |
+| [hxr.admin-tools](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.admin-tools) |  | :heavy_check_mark: | Install's some admin packages via the package manager and stops firewalld service if its installed |
+| [hxr.api-check](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.api-check) |  |  | Installs a bash script to check the http status |
+| [hxr.apollo](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.apollo) |  | :heavy_check_mark: | Installs and configures a genome annotation web-based editor |
+| [hxr.autofs](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.autofs) |  | :heavy_check_mark: | Installs autofs and adds autofs configuration to mount needed NFS shares _(NOTE: This should be merged/replaced with [usegalaxy-eu.autofs](https://github.com/usegalaxy-eu/ansible-autofs) role at some point)_ |
+| [hxr.autofs-format-n-mount](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.autofs-format-n-mount) |  |  | Copies a script to format a certain disk and mount it |
+| [hxr.aws-cli](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.aws-cli) |  | :heavy_check_mark: | Creates AWS directory (`~/.aws`) and deploys (copies) AWS credentials to a given system user account |
+| [hxr.dns](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.dns) |  |  | Sets DNS entries using `route53` and refreshes the certbot certificates if domains have changed |
+| [hxr.docker-ssl](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.docker-ssl) |  |  | Configures docker to use SSL certificates |
+| [hxr.docker-ssl-client](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.docker-ssl-client) |  |  | Adds SSL certs to the user home directory |
+| [hxr.exclude-repo](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.exclude-repo) |  |  | Excludes a given list of YUM repositories |
+| [hxr.galaxy-cron](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.galaxy-cron) |  |  | Adds cron jobs for cleaning up docker (via `prune`) and for cleaning up condor held jobs |
+| [hxr.galaxy-echo-tool](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.galaxy-echo-tool) |  |  | Add a custom nagios "echo" tool to the Galaxy tool directory |
+| [hxr.galaxy-log-dir](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.galaxy-log-dir) |  |  | Creates galaxy log directory if it does not exist |
+| [hxr.galaxy-nonreproducible-tools](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.galaxy-nonreproducible-tools) |  | :heavy_check_mark: | Clones temporary tools repo to the Galaxy's custom tools directory |
+| [hxr.grafana-gitter-bridge](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.grafana-gitter-bridge) |  | :heavy_check_mark: | Configures a bridge between Grafana and Gitter |
+| [hxr.gx-cookie-proxy](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.gx-cookie-proxy) |  |  | Sets up and configures the [translation of a galaxy session cookie into a remote user identity](https://github.com/hexylena/gx-cookie-proxy/) |
+| [hxr.haproxy-error-pages](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.haproxy-error-pages) |  |  | Downloads Galaxy error pages through a bash script _(NOTE: Bash script is not found in the role, so can't explain what these error pages are)_ |
+| [hxr.install-to-venv](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.install-to-venv) |  | :heavy_check_mark: | Installs Python dependencies into any requested virtual environment |
+| [hxr.monitor-cluster](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.monitor-cluster) |  | :heavy_check_mark: | Adds Condor cluster monitoring scripts and configures Telegraf user to run these scripts |
+| [hxr.monitor-cvmfs](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.monitor-cvmfs) |  | :heavy_check_mark: | Adds a Telegraf task that monitors the CernVM-FS repos |
+| [hxr.monitor-email](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.monitor-email) |  | :heavy_check_mark: | Adds an `/var/spool/mail` counter script and adds an Telegraf task to monitor |
+| [hxr.monitor-galaxy](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.monitor-galaxy) |  |  | _NOTE: Tasks file is empty_ |
+| [hxr.monitor-galaxy-journalctl](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.monitor-galaxy-journalctl) |  | :heavy_check_mark: | Adds a script and a Telegraf task to monitor Galaxy's journalctl logs |
+| [hxr.monitor-galaxy-queue](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.monitor-galaxy-queue) |  |  | Adds a Telegraf task to run `gxadmin` queries for monitoring Galaxy queue and workflow-incovcation-status |
+| [hxr.monitor-squid](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.monitor-squid) |  | :heavy_check_mark: | Adds a [squid proxy](https://github.com/squid-cache/squid) data parser script and a Telegraf task to monitor |
+| [hxr.monitor-ssl](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.monitor-ssl) |  | :heavy_check_mark: | Adds an SSL check script and a Telegraf task to monitor SSL certificates expiry |
+| [hxr.postgres-connection](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.postgres-connection) |  | :heavy_check_mark: | Adds Galaxy database credentials and required ENVs to the user's bashrc file and creates a `~/.pgpass` file as well |
+| [hxr.remap-user](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.remap-user) |  | :heavy_check_mark: | Remaps system user's UID and GID to the tomcat user/group |
+| [hxr.replace-galaxy-user](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.replace-galaxy-user) |  | :heavy_check_mark: | Creates a system user and group with 999 as UID and GID |
+| [hxr.sentry](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.sentry) |  |  | Installs and configures [Sentry](https://github.com/getsentry/self-hosted) service |
+| [hxr.simple-nagios](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.simple-nagios) |  |  | Installs a few "simple" scripts that performs various tasks related to Galaxy, Nagios, and SSL certificate check |
+| [hxr.zfs-monit](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.zfs-monit) |  |  | _NOTE: Task file does not exist_ |
+| [jasonroyle.rabbitmq](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/jasonroyle.rabbitmq) |  |  | Installs and configures [RabbitMQ](https://www.rabbitmq.com/) |
+| [linuxhq.yum_cron](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/linuxhq.yum_cron) |  | :heavy_check_mark: | Installs `yum-cron` and adds required configuration |
+| [matterircd](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/matterircd) |  |  | Sets up a minimal IRC server using Docker that can integrate with mattermost, slack, and mastodon |
+| [multinic](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/multinic) |  |  | Adds network config files and configures multiple NICs |
+| [multinic-old](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/multinic-old) |  |  | Same as [multinic](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/multinic) but without routing config etc. |
+| [pgs](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/pgs) |  | :heavy_check_mark: | Sets upProbes [Public Galaxy Servers](https://github.com/martenson/public-galaxy-servers) (pgs) instances |
+| [sentry](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/sentry) |  |  | Sets up [Sentry](https://sentry.io/welcome/) a realtime event logging and aggregation platform using Docker |
+| [ssh-host-resign](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/ssh-host-resign) |  | :heavy_check_mark: | Copies server CA and signs the Host SSH keys |
+| [ssh-host-sign](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/ssh-host-sign) |  | :heavy_check_mark: | Sign the server host key to prevent [TOFU](https://www.mioso.com/blog/it-security/schluss-mit-tofu-bei-ssh/) for SSH |
+| [usegalaxy-eu.bashrc](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.bashrc) |  | :heavy_check_mark: | Adds ENVs, aliases, etc. to the bashrc file for any given user |
+| [usegalaxy-eu.create-user](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.create-user) |  | :heavy_check_mark: | Creates a `galaxy` system user and group |
+| [usegalaxy-eu.error-pages](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.error-pages) |  | :heavy_check_mark: | Copies Nginx's error (404, 502, 503, and 504) pages |
+| [usegalaxy-eu.fix-ancient-ftp-data](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-ancient-ftp-data) |  | :heavy_check_mark: | Removes old FTP data and adds a cron job to create FTP users |
+| [usegalaxy-eu.fix-failing-to-fail-jobs](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-failing-to-fail-jobs) |  | :heavy_check_mark: | Adds a cron job to fix failing to fail jobs |
+| [usegalaxy-eu.fix-galaxy-server-dir](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-galaxy-server-dir) |  | :heavy_check_mark: | Creates a GDPR compliance log file if it does not exist and creates a symlink of all tools present in `/usr/local/tools` to `<galaxy_server_dir>/dependencies` |
+| [usegalaxy-eu.fix-missing-api-keys](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-missing-api-keys) |  | :heavy_check_mark: | Adds a cron job that generates and adds missing API keys for IE ([Interactive Environments](https://training.galaxyproject.org/training-material/topics/dev/tutorials/interactive-environments/slides-plain.html)) users |
+| [usegalaxy-eu.fix-oidc](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-oidc) |  | :heavy_check_mark: | Adds a cron job that finds all of the OIDC authenticated users that do not have any roles associated to them and fixes them |
+| [usegalaxy-eu.fix-stop-ITs](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-stop-ITs) |  | :heavy_check_mark: | Adds a cron job that finds the [Galaxy ITs](https://training.galaxyproject.org/training-material/topics/admin/tutorials/interactive-tools/tutorial.html) running longer than 24 hrs and terminates them |
+| [usegalaxy-eu.fix-stuck-handlers](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-stuck-handlers) |  | :heavy_check_mark: | Adds several cron jobs (sync-to-nfs, restart galaxy handlers systemd service, restart gunicorn systemd service, restart galaxy workflow schedulers systemd service) |
+| [usegalaxy-eu.fix-unscheduled-jobs](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-unscheduled-jobs) |  | :heavy_check_mark: | Adds a cron job that finds the Galaxy jobs that failed to run (unscheduled) and sets its `state` to `error` in the Galaxy database |
+| [usegalaxy-eu.fix-unscheduled-workflows](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-unscheduled-workflows) |  | :heavy_check_mark: | Adds a cron job _(the Ansible task is commented, so it does not create a cron job at the moment)_ that fixes unscheduled workflows |
+| [usegalaxy-eu.fix-user-quotas](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-user-quotas) |  | :heavy_check_mark: | Adds cron jobs that recalculates user quotas and sets ELIXIR quota for ELIXIR users |
+| [usegalaxy-eu.galactic-radio-telescope](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.galactic-radio-telescope) |  | :heavy_check_mark: | Installs and configures [Galactic Radio Telescope](https://github.com/erasche/galactic-radio-telescope)  |
+| [usegalaxy-eu.galaxy-cleanup](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.galaxy-cleanup) |  | :heavy_check_mark: | Adds a Telegraf task that performs a cleanup of histories/hdas/etc that are older than 60 days |
+| [usegalaxy-eu.galaxy-procstat](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.galaxy-procstat) |  | :heavy_check_mark: | Adds Telegraf [procstat](https://www.influxdata.com/integration/procstat/) tasks that collects metrics from processes (Gunicorn, Galaxy handlers, Galaxy workflow schedulers) |
+| [usegalaxy-eu.galaxy-slurp](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.galaxy-slurp) |  | :heavy_check_mark: | Adds cron jobs for pulling Galaxy stats (like, how many users were registered as of date X, current user count, current dataset size/distribution/etc.) into InfluxDB using `gxadmin`'s `slurp` commands |
+| [usegalaxy-eu.gapars-galaxy](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.gapars-galaxy) |  | :heavy_check_mark: | Sets up and installs the [GAPARS](http://gapars.mmos.ch/) Galaxy [webhook](https://github.com/galaxyecology/webhook_SPIPOLL_Flash) |
+| [usegalaxy-eu.gie-deployer](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.gie-deployer) |  |  | Creates [GIE](https://docs.galaxyproject.org/en/release_20.09/admin/special_topics/interactive_environments.html) (Galaxy Interactive Environments) required directories, adds config, etc to deploy GIE |
+| [usegalaxy-eu.gie-node-proxy](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.gie-node-proxy) |  |  | Clones [GIE NodeJS proxy](https://github.com/galaxyproject/gx-it-proxy) configurations and installs Node dependencies and sets up the [GIE proxy](https://docs.galaxyproject.org/en/release_20.09/admin/special_topics/interactive_environments.html#setting-up-the-proxy)  |
+| [usegalaxy-eu.google-verification](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.google-verification) |  |  | Adds Google site verification HTML file and adds required Nginx configuration |
+| [usegalaxy-eu.grt-client](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.grt-client) |  |  | Adds cron jobs that can export and upload data to [GRT](https://github.com/hexylena/galactic-radio-telescope) |
+| [usegalaxy-eu.grt-export](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.grt-export) |  |  | Adds a cron job that exports data to GRT |
+| [usegalaxy-eu.htcondor_release](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.htcondor_release) |  | :heavy_check_mark: | Adds a cron job that releases Condor jobs that are in hold state _(also removes jobs in hold state that are resubmitted more than two times)_ |
+| [usegalaxy-eu.jenkins-ssh-key](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.jenkins-ssh-key) |  | :heavy_check_mark: | Creates SSH directory and adds a key to the Jenkins user |
+| [usegalaxy-eu.log-cleaner](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.log-cleaner) |  | :heavy_check_mark: | Adds cron job to clean up old journalctl logs of gunicorn and galaxy handlers services |
+| [usegalaxy-eu.logrotate](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.logrotate) |  | :heavy_check_mark: | Adds logrotate configuration for galaxy and atop logs  |
+| [usegalaxy-eu.monitoring](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.monitoring) |  | :heavy_check_mark: | Adds Telegraf tasks for monitoring NFS shares access times, and to collect NFS stats |
+| [usegalaxy-eu.plausible](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.plausible) |  | :heavy_check_mark: | Clones [Plausible](https://github.com/plausible/analytics)  Analytics [setup](https://github.com/usegalaxy-eu/hosting) and adds the configuration and starts the service using Docker |
+| [usegalaxy-eu.remap-user](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.remap-user) |  |  | Remaps system user and group with UID and GID 999 to a different UID and GID so Galaxy user can be created with 999 UID and GID |
+| [usegalaxy-eu.rsync-to-nfs](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.rsync-to-nfs) |  | :heavy_check_mark: | Adds and executes a script that performs a Rsync operation of the Galaxy root directory to NFS location |
+| [usegalaxy-eu.subdomain-themes](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.subdomain-themes) |  | :heavy_check_mark: | Adds custom subdomain themes (HTML and CSS files) |
+| [usegalaxy-eu.tours](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.tours) |  | :heavy_check_mark: | Clones Galaxy [tours repo](https://github.com/usegalaxy-eu/galaxy-tours)  |
+| [usegalaxy-eu.webhooks](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.webhooks) |  | :heavy_check_mark: | Clones [webhooks repo](https://github.com/usegalaxy-eu/galaxy-webhooks) |
