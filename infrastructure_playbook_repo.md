@@ -46,13 +46,13 @@ The playbooks are:
   * [upload.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/upload.yml): This playbook sets up the [TUS](https://tus.io/) server that is used to upload data to Galaxy. Refer to this [training material](https://training.galaxyproject.org/training-material/topics/admin/tutorials/tus/tutorial.html) to set up TUS.
 
   ## Roles
-Our locally maintained Ansible roles are located in the [roles directory](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles). Also, we maintain several other roles and all of them are in their own github repositories and can be found in our [organization](https://github.com/orgs/usegalaxy-eu/repositories). Most of these roles are published on [Ansible Galaxy](https://galaxy.ansible.com/usegalaxy_eu). In addition to our roles we also use roles from the [galaxyproject (Galaxy USA instance)](https://galaxy.ansible.com/galaxyproject) All the roles we use are listed in our [requirements.yaml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/requirements.yaml) file. These roles can be installed by running the following command:
+Our locally maintained Ansible roles are located in the [roles directory](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles). Also, we maintain several other roles and all of them are in their own github repositories and can be found in our [organization](https://github.com/orgs/usegalaxy-eu/repositories). Most of these roles are published on [Ansible Galaxy](https://galaxy.ansible.com/usegalaxy_eu). In addition to our roles we also use roles from the [galaxyproject (Galaxy USA instance)](https://galaxy.ansible.com/galaxyproject) All the roles (non-local) we use are listed in our [requirements.yaml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/requirements.yaml) file. These roles can be installed by running the following command:
 
     ansible-galaxy install -r requirements.yaml
 
 ### Roles in use
-* _Separate repo: Whether the role has its own repo or is it a local role located and available only in the [infrastructure_playbook](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles) repo_
-* _Still being used: Whether the role is included/imported in any of the above listed playbooks_
+* _**Separate repo:** Whether the role has its own repo or is it a local role located and available only in the [infrastructure_playbook](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles) repo_
+* _**Still being used:** Whether the role is included/imported in any of the above listed playbooks_
 
 | Roles | Separate repo | Still being used | Description |
 | :--- | :---: | :---: | :--- |
@@ -139,3 +139,41 @@ Our locally maintained Ansible roles are located in the [roles directory](https:
 | [usegalaxy-eu.subdomain-themes](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.subdomain-themes) |  | :heavy_check_mark: | Adds custom subdomain themes (HTML and CSS files) |
 | [usegalaxy-eu.tours](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.tours) |  | :heavy_check_mark: | Clones Galaxy [tours repo](https://github.com/usegalaxy-eu/galaxy-tours)  |
 | [usegalaxy-eu.webhooks](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.webhooks) |  | :heavy_check_mark: | Clones [webhooks repo](https://github.com/usegalaxy-eu/galaxy-webhooks) |
+| [dev-sec.os-hardening](https://galaxy.ansible.com/devsec/hardening) | :heavy_check_mark: | :heavy_check_mark: | Now, part of [devsec.hardening](https://github.com/dev-sec/ansible-collection-hardening) collection. This [role](https://github.com/dev-sec/ansible-collection-hardening/tree/master/roles/os_hardening) provides numerous security-related configurations, providing all-round base protection to the system |
+| [dev-sec.ssh-hardening](https://galaxy.ansible.com/devsec/hardening) | :heavy_check_mark: | :heavy_check_mark: | Now, part of [devsec.hardening](https://github.com/dev-sec/ansible-collection-hardening) collection. This [role](https://github.com/dev-sec/ansible-collection-hardening/tree/master/roles/ssh_hardening) provides secure ssh-client and ssh-server configurations. |
+| [devops.tomcat7](https://galaxy.ansible.com/devops/tomcat7) | :heavy_check_mark: | :heavy_check_mark: | Installs Tomcat 7 on RedHat/CentOS Linux servers |
+| [dj-wasabi.telegraf](https://galaxy.ansible.com/dj-wasabi/telegraf) | :heavy_check_mark: | :heavy_check_mark: | Installs and configures [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) |
+| [galaxyproject.galaxy](https://github.com/galaxyproject/ansible-galaxy) | :heavy_check_mark: | :heavy_check_mark: | Installs and configures [Galaxy](https://galaxyproject.org/) |
+| [galaxyproject.cvmfs](https://github.com/usegalaxy-eu/ansible-cvmfs) | :heavy_check_mark: | :heavy_check_mark: | Install and configure [CernVM-FS (CVMFS)](https://cernvm.cern.ch/portal/filesystem), particularly for Galaxy servers. |
+| [galaxyproject.proftpd](https://galaxy.ansible.com/galaxyproject/proftpd) | :heavy_check_mark: | :heavy_check_mark: | Installs, configures and manges proftpd (FTP) server. |
+| [usegalaxy_eu.ansible_nginx_upload_module](https://galaxy.ansible.com/usegalaxy_eu/ansible_nginx_upload_module) | :heavy_check_mark: | :heavy_check_mark: | Role for building the Nginx upload module |
+| [usegalaxy-eu.nginx](https://github.com/usegalaxy-eu/ansible-nginx) | :heavy_check_mark: | :heavy_check_mark: | Role for installing and managing nginx servers |
+| [galaxyproject.nginx](https://galaxy.ansible.com/galaxyproject/nginx) | :heavy_check_mark: | :heavy_check_mark: | Role for installing and managing nginx servers |
+| [galaxyproject.postgresql](https://galaxy.ansible.com/galaxyproject/postgresql) | :heavy_check_mark: |  |  Role for installing and managing PostgreSQL servers |
+| [usegalaxy-eu.ansible-postgresql](https://github.com/usegalaxy-eu/ansible-postgresql) | :heavy_check_mark: | :heavy_check_mark: | Role for installing and managing PostgreSQL servers |
+| [geerlingguy.docker](https://galaxy.ansible.com/geerlingguy/docker) | :heavy_check_mark: | :heavy_check_mark: | Role for installing [Docker](https://www.docker.com/) |
+| [geerlingguy.java](https://galaxy.ansible.com/geerlingguy/java) | :heavy_check_mark: | :heavy_check_mark: | Role for installing Java |
+| [geerlingguy.jenkins](https://galaxy.ansible.com/geerlingguy/jenkins) | :heavy_check_mark: | :heavy_check_mark: | Role for installing [Jenkins CI](https://www.jenkins.io/) |
+| [geerlingguy.repo-epel](https://galaxy.ansible.com/geerlingguy/repo-epel) | :heavy_check_mark: | :heavy_check_mark: | Installs the [EPEL repository](https://fedoraproject.org/wiki/EPEL) |
+| [influxdata.chrony](https://github.com/usegalaxy-eu/ansible-chrony) | :heavy_check_mark: | :heavy_check_mark: | Manages the Chrony services on Linux. |
+| [linuxhq.yum_cron](https://galaxy.ansible.com/linuxhq/yum_cron) | :heavy_check_mark: | :heavy_check_mark: | Installs `yum-cron` and adds required configuration  |
+| [galaxyproject.gxadmin](https://galaxy.ansible.com/galaxyproject/gxadmin) | :heavy_check_mark: | :heavy_check_mark: | Installs and configures [gxadmin](https://github.com/galaxyproject/gxadmin) |
+| [usegalaxy-eu.certbot](https://github.com/usegalaxy-eu/ansible-certbot) | :heavy_check_mark: |  | Installs and configures Certbot (for Let's Encrypt). |
+| [usegalaxy_eu.galaxy_systemd](https://galaxy.ansible.com/usegalaxy_eu/galaxy_systemd) | :heavy_check_mark: | :heavy_check_mark: | Sets up Galaxy server processes ussing systemd |
+| [usegalaxy-eu.dynmotd](https://github.com/usegalaxy-eu/ansible-dynmotd) | :heavy_check_mark: | :heavy_check_mark: | Sets up a dynamic message-of-the-day login prompt |
+| [cloudalchemy.grafana](https://galaxy.ansible.com/cloudalchemy/grafana) | :heavy_check_mark: | :heavy_check_mark: | Role for provisioning and managing [Grafana](https://grafana.com/) platform for analytics and monitoring |
+| [galaxyproject.tiaas2](https://galaxy.ansible.com/galaxyproject/tiaas2) | :heavy_check_mark: | :heavy_check_mark: | Install and configure [TIaaS](https://github.com/galaxyproject/tiaas2) (Training Infrastructure as a Service) |
+| [usegalaxy-eu.autoupdates](https://github.com/usegalaxy-eu/ansible-autoupdates) | :heavy_check_mark: | :heavy_check_mark: | Sets up automatic system Updates using Dnf-automatic |
+| [usegalaxy_eu.htcondor](https://galaxy.ansible.com/usegalaxy_eu/htcondor) | :heavy_check_mark: | :heavy_check_mark: | Role for installing and configuring [HTCondor](https://htcondor.org/) |
+| [usegalaxy-eu.update-hosts](https://github.com/usegalaxy-eu/ansible-update-hosts) | :heavy_check_mark: | :heavy_check_mark: | Adds a cron job to update computing nodes list in a HTCondor managed cluster |
+| [usegalaxy_eu.gie_proxy](https://galaxy.ansible.com/usegalaxy_eu/gie_proxy) | :heavy_check_mark: | :heavy_check_mark: | Install and configure the proxy server used by Galaxy for IE (Interactive Environments) and IT (Interactive Tools) |
+| [usegalaxy-eu.autofs](https://github.com/usegalaxy-eu/ansible-autofs) | :heavy_check_mark: | :heavy_check_mark: | Installs autofs and configures mount points for auto mounting |
+| [usegalaxy_eu.fs_maintenance](https://galaxy.ansible.com/usegalaxy_eu/fs_maintenance) | :heavy_check_mark: | :heavy_check_mark: | Role for deploying and configuring some common Galaxy file system maintenance routines and also adds cron jobs |
+| [galaxyproject.tusd](https://galaxy.ansible.com/galaxyproject/tusd) | :heavy_check_mark: | :heavy_check_mark: | Installs and configures the [tusd](https://tus.io/) server |
+| [usegalaxy_eu.rabbitmqserver](https://galaxy.ansible.com/usegalaxy_eu/rabbitmqserver) | :heavy_check_mark: | :heavy_check_mark: | Role to deploy and configure a RabbitMQ server using a docker container |
+| [usegalaxy_eu.influxdbserver](https://galaxy.ansible.com/usegalaxy_eu/influxdbserver) | :heavy_check_mark: | :heavy_check_mark: | Role to deploy and configure an InfluxDB server using a docker container |
+| [usegalaxy_eu.flower](https://galaxy.ansible.com/usegalaxy_eu/flower) | :heavy_check_mark: | :heavy_check_mark: | Role for installing Celery's Web UI [Flower](http://flower.readthedocs.io/en/latest/). |
+| [paprikant.beacon](https://github.com/Paprikant/ansible-role-beacon) | :heavy_check_mark: | :heavy_check_mark: | Role that sets up a running instance of [beacon-python](https://beacon-python.readthedocs.io/en/latest/), with an accompaning PostgreSQL database |
+| [paprikant.beacon-importer](https://github.com/Paprikant/ansible-role-beacon_importer) | :heavy_check_mark: | :heavy_check_mark: | Sets up Beacon importer and adds a cron job for the import task |
+| [galaxyproject.miniconda](https://galaxy.ansible.com/galaxyproject/miniconda) | :heavy_check_mark: | :heavy_check_mark: | Role for installing and managing Miniconda installation and Conda environments|
+| [usegalaxy_eu.tpv_auto_lint](https://galaxy.ansible.com/usegalaxy_eu/tpv_auto_lint) | :heavy_check_mark: | :heavy_check_mark: | Adds a [TPV](https://total-perspective-vortex.readthedocs.io/en/latest/) (Total Perspective Vortex) [lint](https://total-perspective-vortex.readthedocs.io/en/latest/topics/shell_commands.html#lint) script that automatically lints all TPV YAML files |
