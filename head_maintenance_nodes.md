@@ -29,6 +29,7 @@
 | [hxr.aws-cli](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.aws-cli) | :heavy_check_mark:  |   |  |   |   |  |
 | [galaxyproject.tiaas2](https://galaxy.ansible.com/galaxyproject/tiaas2) | :heavy_check_mark:  |   |  |   |   | :heavy_check_mark: |
 | [usegalaxy-eu.nginx](https://github.com/usegalaxy-eu/ansible-nginx) | :heavy_check_mark:  |   |  |   |   | :heavy_check_mark: |
+| [usegalaxy_eu.ansible_nginx_upload_module](https://galaxy.ansible.com/usegalaxy_eu/ansible_nginx_upload_module) | :heavy_check_mark:  |   |  |   |   | :heavy_check_mark: |
 | [usegalaxy-eu.gapars-galaxy](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.gapars-galaxy) | :heavy_check_mark:  |   |  |   |   |  |
 | [usegalaxy_eu.galaxy_systemd](https://galaxy.ansible.com/usegalaxy_eu/galaxy_systemd) | :heavy_check_mark:  |   |  |   |   | :heavy_check_mark: |
 | [usegalaxy-eu.subdomain-themes](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.subdomain-themes) | :heavy_check_mark:  |   |  |   |   |  |
