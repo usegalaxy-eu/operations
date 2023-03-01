@@ -166,7 +166,7 @@ Our locally maintained Ansible roles are located in the [roles directory](https:
 | [usegalaxy-eu.autoupdates](https://github.com/usegalaxy-eu/ansible-autoupdates) | :heavy_check_mark: | :heavy_check_mark: | Sets up automatic system Updates using Dnf-automatic |
 | [usegalaxy_eu.htcondor](https://galaxy.ansible.com/usegalaxy_eu/htcondor) | :heavy_check_mark: | :heavy_check_mark: | Role for installing and configuring [HTCondor](https://htcondor.org/) |
 | [usegalaxy-eu.update-hosts](https://github.com/usegalaxy-eu/ansible-update-hosts) | :heavy_check_mark: | :heavy_check_mark: | Adds a cron job to update computing nodes list in a HTCondor managed cluster |
-| [usegalaxy_eu.gie_proxy](https://galaxy.ansible.com/usegalaxy_eu/gie_proxy) | :heavy_check_mark: | :heavy_check_mark: | Install and configure the proxy server used by Galaxy for IE (Interactive Environments) and IT (Interactive Tools) |
+| [usegalaxy_eu.gie_proxy](https://galaxy.ansible.com/usegalaxy_eu/gie_proxy) | :heavy_check_mark: | :heavy_check_mark: | Install and configure the proxy server used by Galaxy for IE (Interactive Environments) /IT (Interactive Tools) |
 | [usegalaxy-eu.autofs](https://github.com/usegalaxy-eu/ansible-autofs) | :heavy_check_mark: | :heavy_check_mark: | Installs autofs and configures mount points for auto mounting |
 | [usegalaxy_eu.fs_maintenance](https://galaxy.ansible.com/usegalaxy_eu/fs_maintenance) | :heavy_check_mark: | :heavy_check_mark: | Role for deploying and configuring some common Galaxy file system maintenance routines and also adds cron jobs |
 | [galaxyproject.tusd](https://galaxy.ansible.com/galaxyproject/tusd) | :heavy_check_mark: | :heavy_check_mark: | Installs and configures the [tusd](https://tus.io/) server |
