@@ -159,7 +159,7 @@ Our locally maintained Ansible roles are located in the [roles directory](https:
 | [linuxhq.yum_cron](https://galaxy.ansible.com/linuxhq/yum_cron) | :heavy_check_mark: | :heavy_check_mark: | Installs `yum-cron` and adds required configuration  |
 | [galaxyproject.gxadmin](https://galaxy.ansible.com/galaxyproject/gxadmin) | :heavy_check_mark: | :heavy_check_mark: | Installs and configures [gxadmin](https://github.com/galaxyproject/gxadmin) |
 | [usegalaxy-eu.certbot](https://github.com/usegalaxy-eu/ansible-certbot) | :heavy_check_mark: |  | Installs and configures Certbot (for Let's Encrypt). |
-| [usegalaxy_eu.galaxy_systemd](https://galaxy.ansible.com/usegalaxy_eu/galaxy_systemd) | :heavy_check_mark: | :heavy_check_mark: | Sets up Galaxy server processes ussing systemd |
+| [usegalaxy_eu.galaxy_systemd](https://galaxy.ansible.com/usegalaxy_eu/galaxy_systemd) | :heavy_check_mark: | :heavy_check_mark: | Copies systemd service files and starts processes for Gunicorn handlers, Galaxy (workflow) handlers and celery. Important to configure those processes|
 | [usegalaxy-eu.dynmotd](https://github.com/usegalaxy-eu/ansible-dynmotd) | :heavy_check_mark: | :heavy_check_mark: | Sets up a dynamic message-of-the-day login prompt |
 | [cloudalchemy.grafana](https://galaxy.ansible.com/cloudalchemy/grafana) | :heavy_check_mark: | :heavy_check_mark: | Role for provisioning and managing [Grafana](https://grafana.com/) platform for analytics and monitoring |
 | [galaxyproject.tiaas2](https://galaxy.ansible.com/galaxyproject/tiaas2) | :heavy_check_mark: | :heavy_check_mark: | Install and configure [TIaaS](https://github.com/galaxyproject/tiaas2) (Training Infrastructure as a Service) |
