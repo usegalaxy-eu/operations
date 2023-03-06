@@ -59,5 +59,6 @@
 | [usegalaxy-eu.htcondor_release](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.htcondor_release) |  | :heavy_check_mark: |  | :heavy_check_mark:  | condor release held jobs as cron task |  |
 | [usegalaxy-eu.fix-unscheduled-workflows](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-unscheduled-workflows/tasks) |  | :heavy_check_mark: |  | :heavy_check_mark:  |   |  |
 | [usegalaxy-eu.fix-stop-ITs](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-stop-ITs) |  | :heavy_check_mark: |  | :heavy_check_mark:  |   |  |
+| [usegalaxy-eu.vgcn-monitoring](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.vgcn-monitoring) |  | :heavy_check_mark: |  |  |  |  |
 
 _Separate repo: Whether the role has its own repo or is it a local role located and available only in the [infrastructure_playbook](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles) repo_
