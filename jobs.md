@@ -144,3 +144,11 @@ Do these steps for every training that should run on that Friday.
 - on Thursday evening, or Friday morning run `pssh -h mytraining1.txt -l centos 'sudo sed -i '"'"'s/"compute"/"<training-tag>"/g'"'"' /etc/condor/condor_config.local; sudo sed -i '"'"'s/GalaxyTraining = false/GalaxyTraining = true/g'"'"' /etc/condor/condor_config.local; sudo systemctl reload condor'`
 - TEST and make sure that training still works by running `condor_status | grep training` (and perhaps submit a job while having the training role)
 - on Friday evening run `pssh -h mytraining1.txt -l centos 'sudo sed -i '"'"'s/"<training-tag>"/"compute"/g'"'"' /etc/condor/condor_config.local; sudo sed -i '"'"'s/GalaxyTraining = true/GalaxyTraining = false/g'"'"' /etc/condor/condor_config.local; sudo systemctl reload condor'`
+
+### Find jobs known to htcondor that are not known to Galaxy anymore
+
+```bash
+comm -23 <(condor_q --json | jq '.[]? | .ClusterId' | sort) <(gxadmin query queue-detail | awk '{print $5}' | sort) 
+```
+
+Those ID can be piped to `condor_rm` if needed.
