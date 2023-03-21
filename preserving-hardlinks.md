@@ -8,16 +8,16 @@ title: Usegalaxy.EU preserving-hardlinks
 Conda makes extensive use of POSIX "hardlinks" in order to save mass
 storage space: if two or more packages share files with identical
 contents, only one copy of the file actually needs to be stored on
-disk. This is fine as long as you never need to make manual changes im
+disk. This is fine as long as you never need to make manual changes in
 the resulting file system tree after the fact.
 
 We did, however, on occasion have to make repairs in the conda tree
 (restoring contents of files that had accidentially been truncated to
-zero length). This operation requires care, so as not to break the
+zero length). This operation requires some care, so as not to break the
 hardlink structure.
 
 
-# Ececutive summary
+# Executive summary
 
 Don't use `rsync(1)` *without* the `--inplace` option for copying over
 files with "multiple hard links" if the link structure is to be
@@ -117,7 +117,7 @@ of equal worth for a given file.
 ## Working with multiple file names
 
 Still there, well beyond the 280-character default attention span?
-Excellent, for now we are ready to discuss the pracgtical side.  How
+Excellent, for now we are ready to discuss the practical side.  How
 are (multiple) file names created and removed or preserved?
 
 Inode links are *created*
