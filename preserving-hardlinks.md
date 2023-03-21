@@ -140,9 +140,10 @@ Inode links are removed (unlinked)
 
 
 Inode links are preserved when just opening a file with `O_TRUNC` and
-re-writing its contents. This is e.g. what `cp(1)` does, it also works
-over NFS. **Do NOT use rsync WITHOUT the --inplace option** for the
-job, it will mess up the link structure:
+re-writing its contents, or even using mmap(2) for copying file
+contents. `cp(1)` works like this, even over NFS. **Do NOT use e.g.
+rsync WITHOUT the --inplace option** for the job, it will mess up the
+link structure:
 
 ```
 $ echo OLD > t1
