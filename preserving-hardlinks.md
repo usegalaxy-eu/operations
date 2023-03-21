@@ -21,7 +21,11 @@ hardlink structure.
 
 Don't use `rsync(1)` *without* the `--inplace` option for copying over
 files with "multiple hard links" if the link structure is to be
-preserved. It's best to try out your preferred method of file copy in
+preserved. And you will *NOT* want to use the `--hard-links` option
+(short form `-H`) of `rsync`, logical as this may seem at first sight
+(see near the end of this file for why).
+
+It's best to try out your preferred method of file copy in
 a different directory on the same file system/network share, to make
 sure files are not accidentially unlinked/moved before they are
 re-written. Check the link count (2nd column in the output of `ls -l`
@@ -176,6 +180,15 @@ $
 ```
 
 This was probably not what you intended...
+
+Also **NOTE** that while `rsync` *does* have a `--hard-links` option
+(to preserve the link structure of the source in the destination), it
+will probably *NOT* work as you might expect for fixing a damaged
+Conda file tree, as it can only detect "hard links" that are *within
+the transfer set*. So unless you are restoring the *entire* Conda file
+tree from a *full*, intact backup copy use of this option *is likely
+to damage the destination link structure beyond repair!* Use `rsync`
+with caution!
 
 When in doubt, test the file copy method you intend to use wrt link
 preservation (as suggested in the "Executive Summary" section) before
