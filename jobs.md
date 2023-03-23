@@ -38,7 +38,7 @@ condor_status -autoformat Machine GalaxyGroup GalaxyDockerHack | grep hack | sor
 The following command is failing all jobs of the service-account user.
 
 ```bash
-gxadmin tsvquery jobs --user=service-account --nonterminal | awk '{print $1}' |  xargs -n 1 gxadmin local fail-job
+gxadmin tsvquery jobs --user=service-account --nonterminal | awk '{print $1}' |  xargs -I {} -n 1 gxadmin mutate fail-job {} --commit 
 ```
 
 ### fail all jobs on the nodes, in cases when condor_rm does not do the job
