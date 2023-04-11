@@ -39,13 +39,13 @@ host    galaxy          galaxy          100.118.169.0/24          md5
 
 Be careful with the numbers! "I see what I eat" is not the same thing as "I eat what I see"!  
 10 is not a 100 and you know what the red queen does when you mess it up!  
-Another thing that enrages her, is when you not restart the Celery workers, after you changed something in your Galaxy instance. (update, code, config...)
+Another thing that enrages her, is when you do not restart the Celery workers, after you changed something in your Galaxy instance. (update, code, config...)
 
 ## Chapter Three: The Secret Garden
 
 The rabbit led you in the wonderland of asynchronous Python tasks, you are now ready to install celery on your second node.  
  Keep in mind that Celery needs access to all Galaxy configuration, app code and all the python packages in the `.venv` folder to grow and..sorry, execute the tasks correctly. The easiest way to achieve that is to rsync/nfs/.. the whole galaxy directory to your new Celery node.
-Now you can `pip install celery` and start your workers with a command like this:
+Now you can `source /path/to/galaxy/venv/bin/activate` and start your workers with a command like this:
 
 ```bash
 $ cd /path/to/galaxy/ #Celery has to find the galaxy.celery app
