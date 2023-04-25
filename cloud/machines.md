@@ -1,6 +1,6 @@
 # Machines underlying the OpenStack Cloud
 The machines are listed under the corresponding OpenStack flavor names.  
-This means that VMs that created with these flavours can only spawn on these hosts.  
+VMs that created with these flavours can only spawn on the below listed hosts.  
 Sorted by cores, than by memory.
 
 ## c1.c28m225
