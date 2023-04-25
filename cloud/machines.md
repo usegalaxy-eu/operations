@@ -14,6 +14,7 @@ max-VMs: 7
 ```
 <details>
     <summary>Hostnames</summary>
+    
 ```yaml
 hosts:
 - n4724.bwcloud.privat
@@ -37,6 +38,7 @@ max-VMs: 12
 ```
 <details>
     <summary>Hostnames</summary>
+    
 ```yaml
 - n4707.bwcloud.privat
 - n4718.bwcloud.privat
@@ -64,6 +66,7 @@ max-VMs: 31
 ```
 <details>
     <summary>Hostnames</summary>
+    
 ```yaml
 - n3619.bwcloud.privat
 - n3620.bwcloud.privat
@@ -110,6 +113,7 @@ max-VMs: 15
 ```
 <details>
     <summary>Hostnames</summary>
+    
 ```yaml
 - n3655.bwcloud.privat
 - n3656.bwcloud.privat
@@ -153,6 +157,7 @@ max-VMs: 14
 ```
 <details>
     <summary>Hostnames</summary>
+    
 ```yaml
 - n3659.bwcloud.privat
 - n3660.bwcloud.privat
@@ -195,6 +200,7 @@ max-VMs: 10
 ```
 <details>
     <summary>Hostnames</summary>
+    
 ```yaml
 - n4686.bwcloud.privat
 - n4685.bwcloud.privat
@@ -215,6 +221,7 @@ max-VMs: 38
 ```
 <details>
     <summary>Hostnames</summary>
+    
 ```yaml
 hosts:
 - n3803.bwcloud.privat
@@ -265,6 +272,7 @@ max-VMs: 10
 ```
 <details>
     <summary>Hostnames</summary>
+    
 ```yaml
 - n4679.bwcloud.privat
 - n4678.bwcloud.privat
