@@ -1,6 +1,16 @@
 # Machines underlying the OpenStack Cloud
+The hostnames are given accoring to the underlying hardware:
+
+| Name | CPU Manufacturer | Cores (physical) | GPUs | relative age              |
+| ---- | ---------------- | ---------------- | ----- | ------------------------ |
+| n36* | Intel            |                  |       | oldes nodes, intel cpu   |
+| n38* | AMD              | 128              |       | new, 256 cores           |
+| n46* | AMD              | 128              | 1     | new, 256 cores, + GPU    |
+| n47* | AMD              |                  |       | old, very stable         |
+
 The machines are listed under the corresponding OpenStack flavor names.  
 VMs that created with these flavours can only spawn on the below listed hosts.  
+Some machines accept multiple flavors.  
 Sorted by cores, than by memory.
 
 ## c1.c28m225
