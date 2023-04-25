@@ -25,6 +25,7 @@ hosts:
 - n4725.bwcloud.privat
 - n4727.bwcloud.privat
 ```
+    
 </details>
 
 ## c1.c28m475
@@ -53,6 +54,7 @@ max-VMs: 12
 - n4715.bwcloud.privat
 - n4716.bwcloud.privat
 ```
+    
 </details>
 
 ## c1.c36m100
@@ -100,6 +102,7 @@ max-VMs: 31
 - n3648.bwcloud.privat
 - n3657.bwcloud.privat
 ```
+    
 </details>
 
 ## c1.c36m225
@@ -131,6 +134,7 @@ max-VMs: 15
 - n3667.bwcloud.privat
 - n3671.bwcloud.privat
 ```
+    
 </details>
 
 ## c1.c36m900
@@ -174,6 +178,7 @@ max-VMs: 14
 - n3678.bwcloud.privat
 - n3677.bwcloud.privat
 ```
+    
 </details>
 
 ## c1.c60m1975
@@ -208,6 +213,7 @@ max-VMs: 10
 - n4688.bwcloud.privat
 - n4687.bwcloud.privat
 ```
+    
 </details>
 
 ## c1.c125m425
@@ -244,6 +250,7 @@ hosts:
 - n4681.bwcloud.privat
 - n4683.bwcloud.privat
 ```
+    
 </details>
 
 # GPU Nodes
@@ -285,6 +292,7 @@ max-VMs: 10
 - n4681.bwcloud.privat
 - n4673.bwcloud.privat
 ```
+    
 </details>
 
 
