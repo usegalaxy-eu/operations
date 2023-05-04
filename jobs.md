@@ -152,3 +152,9 @@ comm -23 <(condor_q --json | jq '.[]? | .ClusterId' | sort) <(gxadmin query queu
 ```
 
 Those ID can be piped to `condor_rm` if needed.
+
+### Concurrent Job Count Highscore
+```bash
+gxadmin query queue-detail --all | awk -F\| '{print$5}' | sort | uniq -c | sort -sn
+```
+Gives a list of all users that currently have jobs in the queue and how many (new, queued and running), in decending order.
