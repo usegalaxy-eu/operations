@@ -158,3 +158,8 @@ Those ID can be piped to `condor_rm` if needed.
 gxadmin query queue-detail --all | awk -F\| '{print$5}' | sort | uniq -c | sort -sn
 ```
 Gives a list of all users that currently have jobs in the queue and how many (new, queued and running), in decending order.
+
+### Show the job starting time human readable
+```
+condor_q -autoformat ClusterId Cmd JobDescription RemoteHost JobStartDate | gawk '{print $1 $2 $3 $4 strftime("%c", $5)}'
+```
