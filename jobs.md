@@ -161,5 +161,5 @@ Gives a list of all users that currently have jobs in the queue and how many (ne
 
 ### Show the job starting time human readable
 ```
-condor_q -autoformat ClusterId Cmd JobDescription RemoteHost JobStartDate | gawk '{print $1 $2 $3 $4 strftime("%c", $5)}'
+condor_q -autoformat ClusterId Cmd JobDescription RemoteHost JobStartDate | awk '{ printf "%s %s %s %s %s\n", $1, $2, $3, $4, strftime("%Y-%m-%d %H:%M:%S", $5) }'
 ```
