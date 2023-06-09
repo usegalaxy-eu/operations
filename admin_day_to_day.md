@@ -10,6 +10,10 @@ This document is a guide to the day-to-day operations of the admin team.
         * This dashboard gives your information related to the worker nodes. Helps to find the worker nodes that are not connected to HTCondor anymore but are still in the BWCloud. Helps to determine the worker nodes in the stuck state. In such cases have a look at the remote logs (`/var/log/remote/<worker_node_name_here>/`) of the worker nodes available on the maintenance server (`maintenance.galaxyproject.eu`).
 	4. [CVMFS](https://stats.galaxyproject.eu/d/XtcPRpImz/cvmfs-stratum-1-server-status?orgId=1)
         * This dashboard gives you an overview of the CVMFS stratum 1 availability and the repo availability.
+       5. [Galaxy](https://stats.galaxyproject.eu/d/000000004)
+        * This dashboard gives you an overview of condor job states and which tools are currently used
+       6. [Jobs-Dashboard](https://stats.galaxyproject.eu/d/000000034)
+        * shows not the Condor job status, but Galaxy's job status
     5. [Alerts](https://stats.galaxyproject.eu/d/000000052/alerts?orgId=1)
 2. Sentry: Check for [new issues](https://sentry.galaxyproject.org/organizations/galaxy/issues/?project=7&statsPeriod=24h)
 3. Rabbitmq: [Dashboard](https://mq.galaxyproject.eu/) (Check for connection errors, have a look at the queue)
