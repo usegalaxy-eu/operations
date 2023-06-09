@@ -17,7 +17,7 @@ This document is a guide to the day-to-day operations of the admin team.
     5. [Alerts](https://stats.galaxyproject.eu/d/000000052/alerts?orgId=1)
 2. Sentry: Check for [new issues](https://sentry.galaxyproject.org/organizations/galaxy/issues/?project=7&statsPeriod=24h)
 3. Rabbitmq: [Dashboard](https://mq.galaxyproject.eu/) (Check for connection errors, have a look at the queue)
-4. Celery Flower: [Dashboard](http://100.118.169.22:5555/dashboard)
+4. Celery Flower: [Dashboard](http://100.118.169.22:5555/dashboard) (Check if workers are offline and the number of failing tasks is increasing, check recent failed tasks in this case)
     * To connect:
         1. Install tailscale client,
         2. Login using GitHub creds,
