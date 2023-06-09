@@ -19,7 +19,7 @@ This document is a guide to the day-to-day operations of the admin team.
         2. Login using GitHub creds,
         3. Select usegalaxy-eu organization (you need to be a member of [usegalaxy-eu/admin](https://github.com/orgs/usegalaxy-eu/teams/admin))
 5. On headnode:
-    1. Check server load: `top`, `htop`
+    1. Check server load: `top`, `htop`, in `top` especially the `wa` (waiting for I/O) value might be interesting. It should not exceed `8.0` and can indicate a storage problem or handler misconfiguration.
 	2. Check storage availability of: JWD's, root partition, etc. (only if not available in Grafana or further investigation is needed)
 	3. Check the idle, running, held jobs in condor queue: `condor_q`
         * If jobs are in held state then investigate those jobs and try to release them.
