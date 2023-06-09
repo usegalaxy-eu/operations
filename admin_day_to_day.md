@@ -17,7 +17,7 @@ This document is a guide to the day-to-day operations of the admin team.
     * To connect:
         1. Install tailscale client,
         2. Login using GitHub creds,
-        3. Select usegalaxy-eu organization (you need to be a member of this organization)
+        3. Select usegalaxy-eu organization (you need to be a member of [usegalaxy-eu/admin](https://github.com/orgs/usegalaxy-eu/teams/admin))
 5. On headnode:
     1. Check server load: `top`, `htop`
 	2. Check storage availability of: JWD's, root partition, etc.
