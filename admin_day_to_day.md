@@ -20,7 +20,7 @@ This document is a guide to the day-to-day operations of the admin team.
         3. Select usegalaxy-eu organization (you need to be a member of [usegalaxy-eu/admin](https://github.com/orgs/usegalaxy-eu/teams/admin))
 5. On headnode:
     1. Check server load: `top`, `htop`
-	2. Check storage availability of: JWD's, root partition, etc.
+	2. Check storage availability of: JWD's, root partition, etc. (only if not available in Grafana or further investigation is needed)
 	3. Check the idle, running, held jobs in condor queue: `condor_q`
         * If jobs are in held state then investigate those jobs and try to release them.
             1. To get the list of jobs in held state and the reason: `condor_q -hold`
