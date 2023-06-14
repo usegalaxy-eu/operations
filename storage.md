@@ -119,7 +119,7 @@ denbi   birna      2         nfs3     10.5.68.0/24     sys    sys    none
 * INFO:
     * policyname _denbi_ is used for all `dnbXX` volumes, policyname _denbi-svc_ is used for the `svc01` volume, policyname _denbi-ws_ is used for the `galaxy_sync`, `ws01`, `ws02` volumes and policyname _birna_ is used for the `birna01` volume.
     * `superuser` means `no_root_squash` in this case. This means that the `root` account on the maschine with ip 132.230.223.239 and the machines within the subnet 10.5.68.0/24 can access (read and write) the volumes.
-    * **Do not use shares exported via `ws01` and `ws02`. These shares will be removed soonish (as of: 14.06.2023)**
+    * **Do not use shares (`jwd`, and `jwd03f`) exported via `ws01` and `ws02`. These shares will be removed soonish (as of: 14.06.2023)**
 
 The following table shall give an overview of the different mount points and where they are used:
 
