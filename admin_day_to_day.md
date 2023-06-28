@@ -15,6 +15,7 @@ This document is a guide to the day-to-day operations of the admin team.
     6. [Jobs-Dashboard](https://stats.galaxyproject.eu/d/000000034)
         * shows not the Condor job status, but Galaxy's job status
     7. [Alerts](https://stats.galaxyproject.eu/d/000000052/alerts?orgId=1)
+    8. _NOTE: There is a new WIP [dashboard](https://stats.galaxyproject.eu/d/ZmZaLfz4k/day-to-day?orgId=1&refresh=30s) that groups and summarizes information_
 2. Sentry: Check for [new issues](https://sentry.galaxyproject.org/organizations/galaxy/issues/?project=7&statsPeriod=24h)
 3. Rabbitmq: [Dashboard](https://mq.galaxyproject.eu/) (Check for connection errors, have a look at the queue)
 4. Celery Flower: [Dashboard](http://100.118.169.22:5555/dashboard) (Check if workers are offline and the number of failing tasks is increasing, check recent failed tasks in this case)
