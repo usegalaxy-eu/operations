@@ -13,6 +13,8 @@ VMs that created with these flavours can only spawn on the below listed hosts.
 Some machines accept multiple flavors.  
 Sorted by cores, than by memory.
 
+_NOTE: We have new flavors as of 27.06.2023 with the same names as below but with a newly added suffix `d50` indicating that these flavors now have 50G disk space. The old flavors are also retained for backwards compatibility. VGCN infrastructure will use these new flavors from now on._
+
 ## c1.c28m225
 ### Description
 'Old' AMD machines, very stable
