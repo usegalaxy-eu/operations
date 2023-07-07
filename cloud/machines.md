@@ -15,7 +15,7 @@ Sorted by cores, than by memory.
 
 _NOTE: We have new flavors as of 27.06.2023 with the same names as below but with a newly added suffix `d50` indicating that these flavors now have 50G disk space. The old flavors are also retained for backwards compatibility. VGCN infrastructure will use these new flavors from now on._
 
-## c1.c28m225
+## c1.c28m225d50
 ### Description
 'Old' AMD machines, very stable
 ### Count
@@ -40,7 +40,7 @@ hosts:
     
 </details>
 
-## c1.c28m475
+## c1.c28m475d50
 ### Description
 'Old' AMD machines, very stable
 ### Count
@@ -69,7 +69,7 @@ max-VMs: 12
     
 </details>
 
-## c1.c36m100
+## c1.c36m100d50
 ### Description
 'Old' Intel machines, not always stable
 ### Count
@@ -117,7 +117,7 @@ max-VMs: 31
     
 </details>
 
-## c1.c36m225
+## c1.c36m225d50
 ### Description
 'Old' Intel machines, not always stable
 ### Count
@@ -149,7 +149,7 @@ max-VMs: 15
     
 </details>
 
-## c1.c36m900
+## c1.c36m900d50
 ### Description
 'Old' Intel machines, not always stable
 ### Count
@@ -162,7 +162,7 @@ max-VMs: 1
 - n3658.bwcloud.privat
 ```
 
-## c1.c36m975
+## c1.c36m975d50
 ### Description
 'Old' Intel machines, not always stable
 ### Count
@@ -193,7 +193,7 @@ max-VMs: 14
     
 </details>
 
-## c1.c60m1975
+## c1.c60m1975d50
 ### Description
 'Old' Intel machines, our machine with the biggest memory
 ### Count
@@ -206,7 +206,7 @@ max-VMs: 1
 - n3681.bwcloud.privat
 ```
 
-## c1.c125m225
+## c1.c120m225d50
 ### Description
 'New' AMD machines, 256 cores / machine
 ### Count
@@ -228,7 +228,7 @@ max-VMs: 10
     
 </details>
 
-## c1.c125m425
+## c1.c120m425d50
 ### Description
 'New' AMD machines, 256 cores each.
 ### Count
@@ -242,14 +242,6 @@ max-VMs: 38
     
 ```yaml
 hosts:
-- n3803.bwcloud.privat
-- n3804.bwcloud.privat
-- n3807.bwcloud.privat
-- n3805.bwcloud.privat
-- n3806.bwcloud.privat
-- n3808.bwcloud.privat
-- n3801.bwcloud.privat
-- n3802.bwcloud.privat
 - n4678.bwcloud.privat
 - n4673.bwcloud.privat
 - n4682.bwcloud.privat
@@ -265,9 +257,35 @@ hosts:
     
 </details>
 
+## c1.c125m425d50
+### Description
+'New' AMD machines, 256 cores each.
+### Count
+```yaml
+VMs-per-machine: 2
+machines: 8
+max-VMs: 16
+```
+<details>
+    <summary>Hostnames</summary>
+    
+```yaml
+hosts:
+- n3803.bwcloud.privat
+- n3804.bwcloud.privat
+- n3807.bwcloud.privat
+- n3805.bwcloud.privat
+- n3806.bwcloud.privat
+- n3808.bwcloud.privat
+- n3801.bwcloud.privat
+- n3802.bwcloud.privat
+```
+
+</details>
+
 # GPU Nodes
 
-## g1.c7m20g1
+## g1.c7m20g1d50
 ### Description
 Node with 8 Tesla T4 GPUs
 ### Count
@@ -280,7 +298,7 @@ max-VMs: 8
 - gput4.bwcloud.privat
 ```
 
-## g1.c8m20g1
+## g1.c8m20g1d50
 ### Description
 'New' AMD machines, one GPU and 256 cores each
 ### Count
@@ -308,7 +326,7 @@ max-VMs: 10
 </details>
 
 
-## g1.c36m100g1
+## g1.c36m100g1d50
 ### Description
 'Old' Intel machines, one GPU per host
 ### Count
