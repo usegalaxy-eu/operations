@@ -1,3 +1,13 @@
+### Move Condor Master to a new node / IP address
+
+1. Update CNAME record for condor-cm.galaxyproject.eu so it points to your new Central Manager
+2. Stop and disable `condor.service` on the old Central Manager host
+3. Change lines in /etc/condor/condor_config.local on the new Central Manager like in https://github.com/usegalaxy-eu/infrastructure-playbook/pull/783/files  
+4. Check if new DNS record is returned on all workers with `pssh -h /your/IPlist -l centos -i 'nslookup condor-cm.galaxyproject.eu'`
+5. If not, temporarily replace the nameserver in `/etc/resolv.conf` on all nodes to e.g. `1.1.1.1`
+6. Restart `condor.service` on the new Central Manager
+7. Update the Manager IP address on all workers with `pssh -h /tmp/condor-nodes -l centos -i 'condor_reconfig'`
+
 
 ### Galaxy Job handling 
 
@@ -152,3 +162,14 @@ comm -23 <(condor_q --json | jq '.[]? | .ClusterId' | sort) <(gxadmin query queu
 ```
 
 Those ID can be piped to `condor_rm` if needed.
+
+### Concurrent Job Count Highscore
+```bash
+gxadmin query queue-detail --all | awk -F\| '{print$5}' | sort | uniq -c | sort -sn
+```
+Gives a list of all users that currently have jobs in the queue and how many (new, queued and running), in decending order.
+
+### Show the job starting time human readable
+```
+condor_q -autoformat ClusterId Cmd JobDescription RemoteHost JobStartDate | awk '{ printf "%s %s %s %s %s\n", $1, $2, $3, $4, strftime("%Y-%m-%d %H:%M:%S", $5) }'
+```

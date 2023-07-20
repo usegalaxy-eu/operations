@@ -47,20 +47,20 @@ jwd     -rw,hard,nosuid      denbi.svm.bwsfs.uni-freiburg.de:/ws01/&
 
 So dnb01 will be available under /data/dnb01
 
-# Different kind of storages
+# Different kinds of storage
 
 * managed iSilon storage (NFS)
 * managed NetApp storage (NFS, S3 possible)
 * zfs1: Big machine (>200TB) with spinning disks and SSD cache frontend (self-build)
 * ssds1: SSD-only machine (24x1.8TB) (self-build)
 
-# Group based storage
+# Group-based storage
 
-It is possible to assign storage to dedicated Galaxy users groups. For example the above storage `dp01` is dedicated for the DataPLANT project
+It is possible to assign storage to dedicated Galaxy user groups. For example, the above storage `dp01` is dedicated to the DataPLANT project
 and can be only used by researchers associated with the `dataplant` Galaxy group.
 This works via our dynamic job submission system ([total-perspective-vortex](https://github.com/galaxyproject/total-perspective-vortex/)).
-All jobs are going through this rules and we added a special one for the `dataplant`
-group. The drawback is that you can not easily assign multiple storage backends
+All jobs are going through these rules and we added a special one for the `dataplant`
+group. The drawback is that you cannot easily assign multiple storage backends
 to one group or different weights at the moment.
 
 # Sync
@@ -78,12 +78,66 @@ Adding new storage/mount points to galaxy is not trivial, since there are many m
 
 After adding a DNS-A-Record to the [infrastructure/dns.tf](https://github.com/mira-miracoli/infrastructure/blob/main/dns.tf),
 
-it issufficiant for most machines to add the mount point to [infrastucture-playbook/group_vats/all.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/all.yml) in the `autofs_conf_files` section.
+it is sufficient for most machines to add the mount point to [infrastucture-playbook/group_vats/all.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/all.yml) in the `autofs_conf_files` section.
 
 **HOWEVER** for
 
 * **VGCN**, you have to add the mountpoint to [vgcn-infrastructure/userdata.yaml](https://github.com/usegalaxy-eu/vgcn-infrastructure/blob/main/userdata.yaml)
 * **incoming (FTP)**, add it to its own [group_vars/incoming.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/incoming.yml)
+
+# Steps to add a new data (_dnbXX_) share
+1. Request the storage team (RZ) for a new data share (_dnbXX_)
+2. Once the new mount point is made available, mount it and test if the new mount point actually works and is reachable (pick a worker node and try it).
+3. The following places must be updated to roll out the new data share and to migrate from the previous share
+   1. Add the new mount point to the [mounts repository](https://github.com/usegalaxy-eu/mounts). An example PR can be found [here](https://github.com/usegalaxy-eu/mounts/pull/4)
+   2. Update the currently running `vgcnbwc-worker-*` nodes with the new mount using `pssh`.
+      ``` bash
+      pssh -h /etc/pssh/cloud -l centos -i 'sudo su -c "echo \"dnb09    -rw,hard,nosuid,nconnect=2      denbi.svm.bwsfs.uni-freiburg.de:/dnb09\" >> /etc/auto.data"'
+      ````
+   3. Verify that the mount is successful
+      ```bash
+      pssh -h /etc/pssh/cloud -l centos -i 'ls -l /data/dnb09/'
+      ```
+   4. Then, update the `object_store_conf.xml`, for example like [see here](https://github.com/usegalaxy-eu/infrastructure-playbook/pull/800)
+   5. Once everything is merged, run the Jenkins job (`sn06` playbook project) to deploy the new data share
+   6. Monitor the changes and the handler logs to make sure that there are no errors.
+
+# NFS export policies
+* Export rules are
+
+```bash
+fr1-cl2::> export-policy rule show -vserver denbi -fields protocol,clientmatch,rorule,rwrule,superuser -policyname denbi     
+vserver policyname ruleindex protocol clientmatch     rorule rwrule superuser 
+------- ---------- --------- -------- --------------- ------ ------ --------- 
+denbi   denbi      1         nfs3     132.230.223.239 sys    sys    any       
+denbi   denbi      3         nfs3     10.5.68.0/24    sys    sys    any       
+2 entries were displayed.
+
+fr1-cl2::> export-policy rule show -vserver denbi -fields protocol,clientmatch,rorule,rwrule,superuser -policyname denbi-svc 
+vserver policyname ruleindex protocol clientmatch     rorule rwrule superuser 
+------- ---------- --------- -------- --------------- ------ ------ --------- 
+denbi   denbi-svc  1         nfs3     132.230.180.148 sys    sys    sys       
+
+fr1-cl2::> export-policy rule show -vserver denbi -fields protocol,clientmatch,rorule,rwrule,superuser -policyname denbi-ws  
+vserver policyname ruleindex protocol clientmatch     rorule rwrule superuser 
+------- ---------- --------- -------- --------------- ------ ------ --------- 
+denbi   denbi-ws   1         nfs3     132.230.223.239 sys    sys    any       
+denbi   denbi-ws   3         nfs3     10.5.68.0/24    sys    sys    any       
+denbi   denbi-ws   4         nfs3     132.230.223.213 sys    sys    none      
+3 entries were displayed.
+
+fr1-cl2::> export-policy rule show -vserver denbi -fields protocol,clientmatch,rorule,rwrule,superuser -policyname birna     
+vserver policyname ruleindex protocol clientmatch      rorule rwrule superuser 
+------- ---------- --------- -------- ---------------- ------ ------ --------- 
+denbi   birna      1         nfs3     132.230.153.0/28 sys    sys    any       
+denbi   birna      2         nfs3     10.5.68.0/24     sys    sys    none      
+2 entries were displayed.
+```
+
+* INFO:
+    * policyname _denbi_ is used for all `dnbXX` volumes, policyname _denbi-svc_ is used for the `svc01` volume, policyname _denbi-ws_ is used for the `galaxy_sync`, `ws01`, `ws02` volumes and policyname _birna_ is used for the `birna01` volume.
+    * `superuser` means `no_root_squash` in this case. This means that the `root` account on the maschine with ip 132.230.223.239 and the machines within the subnet 10.5.68.0/24 can access (read and write) the volumes.
+    * **Do not use shares (`jwd`, and `jwd03f`) exported via `ws01` and `ws02`. These shares will be removed soonish (as of: 14.06.2023)**
 
 The following table shall give an overview of the different mount points and where they are used:
 
@@ -117,7 +171,8 @@ The following table shall give an overview of the different mount points and whe
 | /data/dnb05      | NetApp A400                                                   | denbi.svm.bwsfs.uni-freiburg.de:/dnb01/&                                 | storage (old)                       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
 | /data/dnb06      | NetApp A400                                                   | denbi.svm.bwsfs.uni-freiburg.de:/dnb06                                   | storage (old)                       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
 | /data/dnb07      | NetApp A400                                                   | denbi.svm.bwsfs.uni-freiburg.de:/dnb07                                   | currently used                      | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
-| /data/dnb08      | NetApp A400                                                   | denbi.svm.bwsfs.uni-freiburg.de:/dnb08                                   | unused                              | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
+| /data/dnb08      | NetApp A400                                                   | denbi.svm.bwsfs.uni-freiburg.de:/dnb08                                   | currently used                      | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
+| /data/dnb09      | NetApp A400                                                   | denbi.svm.bwsfs.uni-freiburg.de:/dnb09                                   | unused                              | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
 | /data/dp01       | NetApp A400                                                   | denbi.svm.bwsfs.uni-freiburg.de:/dataplant01                             | special storage for DataPLANT group | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
 
 "old" means in this case, the storage is still used to read old datasets, but not to write new ones.
