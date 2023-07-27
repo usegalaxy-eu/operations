@@ -67,11 +67,17 @@ pdsh -g cloud 'ps xao pgid,cmd | grep "[o]babel" | awk "{ print \$1 }" | xargs -
 condor_q -autoformat ClusterID JobDescription RemoteHost | grep cn032
 ```
 
-### cndor_q is very powerful
+### condor_q is very powerful
 
 ```bash
 condor_q  -constraint 'JobDescription == "spades"' -af ClusterID JobDescription RemoteHost RequestMemory MemoryUsage HoldReason
 ```
+### List tools and requirements for idle jobs
+
+~~~bash
+condor_q -autoformat:t ClusterId JobDescription RequestMemory RequestCpus JobStatus | grep -P "\t1$"
+~~~
+
 
 ### Number of cores available
 
