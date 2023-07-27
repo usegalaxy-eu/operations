@@ -44,10 +44,6 @@ This document is a guide to the day-to-day operations of the admin team.
         1. `watchendnew`: It's an alias, watches the end of the new queue. This helps to find whether the jobs are getting picked up by the handlers or not.
         2. `watchendqueue`: It's an alias, watches the end of the queue. This helps to find whether the jobs are getting assigned the condor id's or not.
         3. `highscore`: It's an alias, shows the number of jobs submitted by each user.
-        4. If many jobs are in idle state, you can get more information about them with:
-           List tools and requirements for idle jobs
-
-		
     6. Check handler logs: `glh` or `journalctl -fu galaxy-handler@<handler_number_here>` and glg or `journalctl -fu galaxy-gunicorn@<handler_number_here>`
     7. Check when was the last time the web handlers wrote some logs: `gxadmin gunicorn lastlog` (should be as recent as possible, if not it means web handlers have some issues)
 
