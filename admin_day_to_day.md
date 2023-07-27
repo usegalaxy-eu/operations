@@ -36,13 +36,18 @@ This document is a guide to the day-to-day operations of the admin team.
         * If many jobs are in the `idle` state then it means the cluster is under heavy load
             1. Check if there are any `Unclaimed/Idle` slots available: `condor_status --compact | (head -n 2; grep Ui)`
             2. Check VGCN monitoring dashboard for any issues related to the availability of the worker nodes: [Dashboard](https://stats.galaxyproject.eu/d/Zn2z0NYVk/vgcn-monitoring?orgId=1)
-            3. Have a brief look at the better analysis of the jobs: `condor_q --better-analyze <job_id>` and check the resource requirements of the job.
-            4. By fixing any issues with the availability of the worker nodes usually fixes the issue.
+            3. Get more information about the idle jobs: `condor_q -autoformat:t ClusterId JobDescription RequestMemory RequestCpus JobStatus | grep -P "\t1$"`
+            4. Have a brief look at the better analysis of the jobs: `condor_q --better-analyze <job_id>` and check the resource requirements of the job.
+            5. By fixing any issues with the availability of the worker nodes usually fixes the issue.
 	4. Gxadmin count of new, queue, running jobs: `gxadmin tsvquery queue-detail --all | awk '{print $1}' | sort | uniq -c`
     5. Watch the new and queue jobs to find if they are getting picked up by the handlers and getting the condor job ids:
         1. `watchendnew`: It's an alias, watches the end of the new queue. This helps to find whether the jobs are getting picked up by the handlers or not.
         2. `watchendqueue`: It's an alias, watches the end of the queue. This helps to find whether the jobs are getting assigned the condor id's or not.
         3. `highscore`: It's an alias, shows the number of jobs submitted by each user.
+        4. If many jobs are in idle state, you can get more information about them with:
+           List tools and requirements for idle jobs
+
+		
     6. Check handler logs: `glh` or `journalctl -fu galaxy-handler@<handler_number_here>` and glg or `journalctl -fu galaxy-gunicorn@<handler_number_here>`
     7. Check when was the last time the web handlers wrote some logs: `gxadmin gunicorn lastlog` (should be as recent as possible, if not it means web handlers have some issues)
 
