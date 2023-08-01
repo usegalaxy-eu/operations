@@ -92,3 +92,11 @@ Then it might be OK to scale up.
 ![](./scale-up.png)
 
 Scaling down should be done when it returns to normal.
+
+# Expected memory consumption of Galaxy processes
+
+* Galaxy 23.0
+  *  web-handler (after 20h): 16.8, 12.5, 11.1
+  *  job-handler (after 20h): 5.0, 5.0, 4.5, 3.5, 3.5 3., 2.9
+  *  workflow-handler (after 20h): 3.0, 3.0, 3.0
+
