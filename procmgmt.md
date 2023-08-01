@@ -98,5 +98,6 @@ Scaling down should be done when it returns to normal.
 * Galaxy 23.0
   *  web-handler (after 20h): 16.8, 12.5, 11.1
   *  job-handler (after 20h): 5.0, 5.0, 4.5, 3.5, 3.5 3., 2.9
+    * after a restart they seem to have 3.0 GB of memory allocated  
   *  workflow-handler (after 20h): 3.0, 3.0, 3.0
 
