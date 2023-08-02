@@ -1,341 +1,160 @@
-# Machines underlying the OpenStack Cloud
-The hostnames are given accoring to the underlying hardware:
+# Galaxy EU compute infrastructure (bwCloud/deNBI/OpenStack cloud)
 
-| Name | CPU Manufacturer | Cores (physical) | GPUs | relative age              |
-| ---- | ---------------- | ---------------- | ----- | ------------------------ |
-| n36* | Intel            |                  |       | oldes nodes, intel cpu   |
-| n38* | AMD              | 128              |       | new, 256 cores           |
-| n46* | AMD              | 128              | 1     | new, 256 cores, + GPU    |
-| n47* | AMD              |                  |       | old, very stable         |
+* Below is the information about the machines that are available for spawning VMs in bwCloud OpenStack under the project `freiburg_galaxy`
+* These constitute the compute infrastructure (VGCN infrastructure) for the Galaxy EU instance
+* We also use some of the following flavors for hosting services as well as dedicated user VMs on special cases
+* We also use some of the following flavors for TIaaS (Training Infrastructure as a Service) for the Galaxy EU instance
+* Other than the following custom flavors we also have regular cloud flavors that are available in bwCloud OpenStack
 
-The machines are listed under the corresponding OpenStack flavor names.  
-VMs that created with these flavours can only spawn on the below listed hosts.  
-Some machines accept multiple flavors.  
-Sorted by cores, than by memory.
+### List of flavors and their count of VMs that can be spawned
 
-_NOTE: We have new flavors as of 27.06.2023 with the same names as below but with a newly added suffix `d50` indicating that these flavors now have 50G disk space. The old flavors are also retained for backwards compatibility. VGCN infrastructure will use these new flavors from now on._
+| Flavors        | Count of VMs that can be spawned |
+|----------------|----------------------------------|
+| c1.c120m225d50 | 10                               |
+| c1.c120m425d50 | 22                               |
+| c1.c125m425d50 | 16                               |
+| c1.c28m225d50  | 7                                |
+| c1.c28m475d50  | 19                               |
+| c1.c28m875d50  | 2                                |
+| c1.c28m935d50  | 4                                |
+| c1.c36m100d50  | 33                               |
+| c1.c36m225d50  | 15                               |
+| c1.c36m900d50  | 1                                |
+| c1.c36m975d50  | 8                                |
+| c1.c60m1975d50 | 1                                |
+| g1.c14m40g1d50 | 4                                |
+| g1.c8m100g1d50 | 2                                |
+| g1.c8m40g1d50  | 4                                |
 
-## c1.c28m225d50
-### Description
-'Old' AMD machines, very stable
-### Count
-```yaml
-VMs-per-machine: 1
-machines: 7
-max-VMs: 7
-```
-<details>
-    <summary>Hostnames</summary>
-    
-```yaml
-hosts:
-- n4724.bwcloud.privat
-- n4721.bwcloud.privat
-- n4722.bwcloud.privat
-- n4726.bwcloud.privat
-- n4723.bwcloud.privat
-- n4725.bwcloud.privat
-- n4727.bwcloud.privat
-```
-    
-</details>
+### List of machines where each flavor can be spawned
+* `Yes` means that the flavor can be spawned on the machine
+* `yes` in `Shared` column means that the machine is shared with other flavors or more than 1 VM of a individual flavor can be spawned on that machine
+* Most hosts can spawn only one flavor but some can spawn more than one flavor or more than 1 VM of a individual flavor and max two VMs per machine
 
-## c1.c28m475d50
-### Description
-'Old' AMD machines, very stable
-### Count
-```yaml
-VMs-per-machine: 1
-machines: 12
-max-VMs: 12
-```
-<details>
-    <summary>Hostnames</summary>
-    
-```yaml
-- n4707.bwcloud.privat
-- n4718.bwcloud.privat
-- n4720.bwcloud.privat
-- n4709.bwcloud.privat
-- n4702.bwcloud.privat
-- n4712.bwcloud.privat
-- n4719.bwcloud.privat
-- n4711.bwcloud.privat
-- n4703.bwcloud.privat
-- n4713.bwcloud.privat
-- n4715.bwcloud.privat
-- n4716.bwcloud.privat
-```
-    
-</details>
+| Hostnames             | Shared | c1.c120m225d50 | c1.c120m425d50 | c1.c125m425d50 | c1.c28m225d50 | c1.c28m475d50 | c1.c28m875d50 | c1.c28m935d50 | c1.c36m100d50 | c1.c36m225d50 | c1.c36m900d50 | c1.c36m975d50 | c1.c60m1975d50 | g1.c14m40g1d50 | g1.c8m100g1d50 | g1.c8m40g1d50 |
+|-----------------------|--------|----------------|----------------|----------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|----------------|----------------|----------------|---------------|
+| n3611.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3612.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3617.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3618.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3619.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3620.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3621.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3623.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3624.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3625.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3626.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3627.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3628.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3629.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3630.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3631.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3633.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3634.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3635.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3637.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3638.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3639.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3640.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3641.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3642.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3643.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3644.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3645.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3646.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3647.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3648.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3649.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3650.bwcloud.privat  |        |                |                |                |               |               |               |               |               | Yes           |               |               |                |                |                |               |
+| n3651.bwcloud.privat  |        |                |                |                |               |               |               |               |               | Yes           |               |               |                |                |                |               |
+| n3652.bwcloud.privat  |        |                |                |                |               |               |               |               |               | Yes           |               |               |                |                |                |               |
+| n3653.bwcloud.privat  |        |                |                |                |               |               |               |               |               | Yes           |               |               |                |                |                |               |
+| n3654.bwcloud.privat  |        |                |                |                |               |               |               |               |               | Yes           |               |               |                |                |                |               |
+| n3655.bwcloud.privat  |        |                |                |                |               |               |               |               |               | Yes           |               |               |                |                |                |               |
+| n3656.bwcloud.privat  |        |                |                |                |               |               |               |               |               | Yes           |               |               |                |                |                |               |
+| n3657.bwcloud.privat  |        |                |                |                |               |               |               |               | Yes           |               |               |               |                |                |                |               |
+| n3658.bwcloud.privat  |        |                |                |                |               |               |               |               |               |               | Yes           |               |                |                |                |               |
+| n3659.bwcloud.privat  | Yes    |                |                |                |               |               |               | Yes           |               |               |               |               |                |                |                | Yes           |
+| n3660.bwcloud.privat  | Yes    |                |                |                |               |               |               | Yes           |               |               |               |               |                |                |                | Yes           |
+| n3661.bwcloud.privat  | Yes    |                |                |                |               |               |               | Yes           |               |               |               |               |                |                |                | Yes           |
+| n3662.bwcloud.privat  | Yes    |                |                |                |               |               |               | Yes           |               |               |               |               |                |                |                | Yes           |
+| n3663.bwcloud.privat  | Yes    |                |                |                |               |               | Yes           |               |               |               |               |               |                |                | Yes            |               |
+| n3664.bwcloud.privat  | Yes    |                |                |                |               |               | Yes           |               |               |               |               |               |                |                | Yes            |               |
+| n3665.bwcloud.privat  |        |                |                |                |               |               |               |               |               | Yes           |               |               |                |                |                |               |
+| n3666.bwcloud.privat  |        |                |                |                |               |               |               |               |               | Yes           |               |               |                |                |                |               |
+| n3667.bwcloud.privat  |        |                |                |                |               |               |               |               |               | Yes           |               |               |                |                |                |               |
+| n3668.bwcloud.privat  |        |                |                |                |               |               |               |               |               | Yes           |               |               |                |                |                |               |
+| n3669.bwcloud.privat  |        |                |                |                |               |               |               |               |               | Yes           |               |               |                |                |                |               |
+| n3670.bwcloud.privat  |        |                |                |                |               |               |               |               |               | Yes           |               |               |                |                |                |               |
+| n3671.bwcloud.privat  |        |                |                |                |               |               |               |               |               | Yes           |               |               |                |                |                |               |
+| n3672.bwcloud.privat  |        |                |                |                |               |               |               |               |               | Yes           |               |               |                |                |                |               |
+| n3673.bwcloud.privat  |        |                |                |                |               |               |               |               |               |               |               | Yes           |                |                |                |               |
+| n3674.bwcloud.privat  |        |                |                |                |               |               |               |               |               |               |               | Yes           |                |                |                |               |
+| n3675.bwcloud.privat  |        |                |                |                |               |               |               |               |               |               |               | Yes           |                |                |                |               |
+| n3676.bwcloud.privat  |        |                |                |                |               |               |               |               |               |               |               | Yes           |                |                |                |               |
+| n3677.bwcloud.privat  |        |                |                |                |               |               |               |               |               |               |               | Yes           |                |                |                |               |
+| n3678.bwcloud.privat  |        |                |                |                |               |               |               |               |               |               |               | Yes           |                |                |                |               |
+| n3679.bwcloud.privat  |        |                |                |                |               |               |               |               |               |               |               | Yes           |                |                |                |               |
+| n3680.bwcloud.privat  |        |                |                |                |               |               |               |               |               |               |               | Yes           |                |                |                |               |
+| n3681.bwcloud.privat  |        |                |                |                |               |               |               |               |               |               |               |               | Yes            |                |                |               |
+| n3801.bwcloud.privat  | Yes    |                |                | Yes            |               |               |               |               |               |               |               |               |                |                |                |               |
+| n3802.bwcloud.privat  | Yes    |                |                | Yes            |               |               |               |               |               |               |               |               |                |                |                |               |
+| n3803.bwcloud.privat  | Yes    |                |                | Yes            |               |               |               |               |               |               |               |               |                |                |                |               |
+| n3804.bwcloud.privat  | Yes    |                |                | Yes            |               |               |               |               |               |               |               |               |                |                |                |               |
+| n3805.bwcloud.privat  | Yes    |                |                | Yes            |               |               |               |               |               |               |               |               |                |                |                |               |
+| n3806.bwcloud.privat  | Yes    |                |                | Yes            |               |               |               |               |               |               |               |               |                |                |                |               |
+| n3807.bwcloud.privat  | Yes    |                |                | Yes            |               |               |               |               |               |               |               |               |                |                |                |               |
+| n3808.bwcloud.privat  | Yes    |                |                | Yes            |               |               |               |               |               |               |               |               |                |                |                |               |
+| n4673.bwcloud.privat  | Yes    |                | Yes            |                |               |               |               |               |               |               |               |               |                |                |                |               |
+| n4674.bwcloud.privat  | Yes    |                | Yes            |                |               |               |               |               |               |               |               |               |                |                |                |               |
+| n4675.bwcloud.privat  | Yes    |                | Yes            |                |               |               |               |               |               |               |               |               |                |                |                |               |
+| n4676.bwcloud.privat  | Yes    |                | Yes            |                |               |               |               |               |               |               |               |               |                |                |                |               |
+| n4677.bwcloud.privat  | Yes    |                | Yes            |                |               |               |               |               |               |               |               |               |                |                |                |               |
+| n4678.bwcloud.privat  | Yes    |                | Yes            |                |               |               |               |               |               |               |               |               |                |                |                |               |
+| n4679.bwcloud.privat  | Yes    |                | Yes            |                |               |               |               |               |               |               |               |               |                |                |                |               |
+| n4680.bwcloud.privat  | Yes    |                | Yes            |                |               |               |               |               |               |               |               |               |                |                |                |               |
+| n4681.bwcloud.privat  | Yes    |                | Yes            |                |               |               |               |               |               |               |               |               |                |                |                |               |
+| n4682.bwcloud.privat  | Yes    |                | Yes            |                |               |               |               |               |               |               |               |               |                |                |                |               |
+| n4683.bwcloud.privat  | Yes    |                | Yes            |                |               |               |               |               |               |               |               |               |                |                |                |               |
+| n4684.bwcloud.privat  | Yes    | Yes            |                |                |               |               |               |               |               |               |               |               |                |                |                |               |
+| n4685.bwcloud.privat  | Yes    | Yes            |                |                |               |               |               |               |               |               |               |               |                |                |                |               |
+| n4686.bwcloud.privat  | Yes    | Yes            |                |                |               |               |               |               |               |               |               |               |                |                |                |               |
+| n4687.bwcloud.privat  | Yes    | Yes            |                |                |               |               |               |               |               |               |               |               |                |                |                |               |
+| n4688.bwcloud.privat  | Yes    | Yes            |                |                |               |               |               |               |               |               |               |               |                |                |                |               |
+| n4702.bwcloud.privat  |        |                |                |                |               | Yes           |               |               |               |               |               |               |                |                |                |               |
+| n4703.bwcloud.privat  |        |                |                |                |               | Yes           |               |               |               |               |               |               |                |                |                |               |
+| n4704.bwcloud.privat  |        |                |                |                |               | Yes           |               |               |               |               |               |               |                |                |                |               |
+| n4705.bwcloud.privat  |        |                |                |                |               | Yes           |               |               |               |               |               |               |                |                |                |               |
+| n4706.bwcloud.privat  |        |                |                |                |               | Yes           |               |               |               |               |               |               |                |                |                |               |
+| n4707.bwcloud.privat  |        |                |                |                |               | Yes           |               |               |               |               |               |               |                |                |                |               |
+| n4708.bwcloud.privat  |        |                |                |                |               | Yes           |               |               |               |               |               |               |                |                |                |               |
+| n4709.bwcloud.privat  |        |                |                |                |               | Yes           |               |               |               |               |               |               |                |                |                |               |
+| n4710.bwcloud.privat  |        |                |                |                |               | Yes           |               |               |               |               |               |               |                |                |                |               |
+| n4711.bwcloud.privat  |        |                |                |                |               | Yes           |               |               |               |               |               |               |                |                |                |               |
+| n4712.bwcloud.privat  |        |                |                |                |               | Yes           |               |               |               |               |               |               |                |                |                |               |
+| n4713.bwcloud.privat  |        |                |                |                |               | Yes           |               |               |               |               |               |               |                |                |                |               |
+| n4714.bwcloud.privat  |        |                |                |                |               | Yes           |               |               |               |               |               |               |                |                |                |               |
+| n4715.bwcloud.privat  |        |                |                |                |               | Yes           |               |               |               |               |               |               |                |                |                |               |
+| n4716.bwcloud.privat  |        |                |                |                |               | Yes           |               |               |               |               |               |               |                |                |                |               |
+| n4717.bwcloud.privat  |        |                |                |                |               | Yes           |               |               |               |               |               |               |                |                |                |               |
+| n4718.bwcloud.privat  |        |                |                |                |               | Yes           |               |               |               |               |               |               |                |                |                |               |
+| n4719.bwcloud.privat  |        |                |                |                |               | Yes           |               |               |               |               |               |               |                |                |                |               |
+| n4720.bwcloud.privat  |        |                |                |                |               | Yes           |               |               |               |               |               |               |                |                |                |               |
+| n4721.bwcloud.privat  |        |                |                |                | Yes           |               |               |               |               |               |               |               |                |                |                |               |
+| n4722.bwcloud.privat  |        |                |                |                | Yes           |               |               |               |               |               |               |               |                |                |                |               |
+| n4723.bwcloud.privat  |        |                |                |                | Yes           |               |               |               |               |               |               |               |                |                |                |               |
+| n4724.bwcloud.privat  |        |                |                |                | Yes           |               |               |               |               |               |               |               |                |                |                |               |
+| n4725.bwcloud.privat  |        |                |                |                | Yes           |               |               |               |               |               |               |               |                |                |                |               |
+| n4726.bwcloud.privat  |        |                |                |                | Yes           |               |               |               |               |               |               |               |                |                |                |               |
+| n4727.bwcloud.privat  |        |                |                |                | Yes           |               |               |               |               |               |               |               |                |                |                |               |
+| gput4.bwcloud.privat  | Yes    |                |                |                | Yes           |               |               |               |               |               |               |               |                | Yes            |                |               |
 
-## c1.c36m100d50
-### Description
-'Old' Intel machines, not always stable
-### Count
-```yaml
-VMs-per-machine: 1
-machines: 31
-max-VMs: 31
-```
-<details>
-    <summary>Hostnames</summary>
-    
-```yaml
-- n3619.bwcloud.privat
-- n3620.bwcloud.privat
-- n3621.bwcloud.privat
-- n3617.bwcloud.privat
-- n3618.bwcloud.privat
-- n3626.bwcloud.privat
-- n3630.bwcloud.privat
-- n3628.bwcloud.privat
-- n3627.bwcloud.privat
-- n3625.bwcloud.privat
-- n3631.bwcloud.privat
-- n3623.bwcloud.privat
-- n3629.bwcloud.privat
-- n3624.bwcloud.privat
-- n3633.bwcloud.privat
-- n3637.bwcloud.privat
-- n3639.bwcloud.privat
-- n3642.bwcloud.privat
-- n3635.bwcloud.privat
-- n3640.bwcloud.privat
-- n3638.bwcloud.privat
-- n3634.bwcloud.privat
-- n3641.bwcloud.privat
-- n3643.bwcloud.privat
-- n3644.bwcloud.privat
-- n3645.bwcloud.privat
-- n3646.bwcloud.privat
-- n3649.bwcloud.privat
-- n3647.bwcloud.privat
-- n3648.bwcloud.privat
-- n3657.bwcloud.privat
-```
-    
-</details>
+### Machines categorized based on their architecture
 
-## c1.c36m225d50
-### Description
-'Old' Intel machines, not always stable
-### Count
-```yaml
-VMs-per-machine: 1
-machines: 15
-max-VMs: 15
-```
-<details>
-    <summary>Hostnames</summary>
-    
-```yaml
-- n3655.bwcloud.privat
-- n3656.bwcloud.privat
-- n3651.bwcloud.privat
-- n3650.bwcloud.privat
-- n3654.bwcloud.privat
-- n3652.bwcloud.privat
-- n3653.bwcloud.privat
-- n3668.bwcloud.privat
-- n3669.bwcloud.privat
-- n3670.bwcloud.privat
-- n3666.bwcloud.privat
-- n3672.bwcloud.privat
-- n3665.bwcloud.privat
-- n3667.bwcloud.privat
-- n3671.bwcloud.privat
-```
-    
-</details>
-
-## c1.c36m900d50
-### Description
-'Old' Intel machines, not always stable
-### Count
-```yaml
-VMs-per-machine: 1
-machines: 1
-max-VMs: 1
-```
-```yaml
-- n3658.bwcloud.privat
-```
-
-## c1.c36m975d50
-### Description
-'Old' Intel machines, not always stable
-### Count
-```yaml
-VMs-per-machine: 1
-machines: 14
-max-VMs: 14
-```
-<details>
-    <summary>Hostnames</summary>
-    
-```yaml
-- n3659.bwcloud.privat
-- n3660.bwcloud.privat
-- n3664.bwcloud.privat
-- n3663.bwcloud.privat
-- n3661.bwcloud.privat
-- n3662.bwcloud.privat
-- n3673.bwcloud.privat
-- n3679.bwcloud.privat
-- n3674.bwcloud.privat
-- n3680.bwcloud.privat
-- n3676.bwcloud.privat
-- n3675.bwcloud.privat
-- n3678.bwcloud.privat
-- n3677.bwcloud.privat
-```
-    
-</details>
-
-## c1.c60m1975d50
-### Description
-'Old' Intel machines, our machine with the biggest memory
-### Count
-```yaml
-VMs-per-machine: 1
-machines: 1
-max-VMs: 1
-```
-```yaml
-- n3681.bwcloud.privat
-```
-
-## c1.c120m225d50
-### Description
-'New' AMD machines, 256 cores / machine
-### Count
-```yaml
-VMs-per-machine: 2
-machines: 5
-max-VMs: 10
-```
-<details>
-    <summary>Hostnames</summary>
-    
-```yaml
-- n4686.bwcloud.privat
-- n4685.bwcloud.privat
-- n4684.bwcloud.privat
-- n4688.bwcloud.privat
-- n4687.bwcloud.privat
-```
-    
-</details>
-
-## c1.c120m425d50
-### Description
-'New' AMD machines, 256 cores each.
-### Count
-```yaml
-VMs-per-machine: 2
-machines: 19
-max-VMs: 38
-```
-<details>
-    <summary>Hostnames</summary>
-    
-```yaml
-hosts:
-- n4678.bwcloud.privat
-- n4673.bwcloud.privat
-- n4682.bwcloud.privat
-- n4680.bwcloud.privat
-- n4675.bwcloud.privat
-- n4679.bwcloud.privat
-- n4676.bwcloud.privat
-- n4677.bwcloud.privat
-- n4674.bwcloud.privat
-- n4681.bwcloud.privat
-- n4683.bwcloud.privat
-```
-    
-</details>
-
-## c1.c125m425d50
-### Description
-'New' AMD machines, 256 cores each.
-### Count
-```yaml
-VMs-per-machine: 2
-machines: 8
-max-VMs: 16
-```
-<details>
-    <summary>Hostnames</summary>
-    
-```yaml
-hosts:
-- n3803.bwcloud.privat
-- n3804.bwcloud.privat
-- n3807.bwcloud.privat
-- n3805.bwcloud.privat
-- n3806.bwcloud.privat
-- n3808.bwcloud.privat
-- n3801.bwcloud.privat
-- n3802.bwcloud.privat
-```
-
-</details>
-
-# GPU Nodes
-
-## g1.c7m20g1d50
-### Description
-Node with 8 Tesla T4 GPUs
-### Count
-```yaml
-VMs-per-machine: 8
-machines: 1
-max-VMs: 8
-```
-```yaml
-- gput4.bwcloud.privat
-```
-
-## g1.c8m20g1d50
-### Description
-'New' AMD machines, one GPU and 256 cores each
-### Count
-```yaml
-VMs-per-machine: 1
-machines: 10
-max-VMs: 10
-```
-<details>
-    <summary>Hostnames</summary>
-    
-```yaml
-- n4679.bwcloud.privat
-- n4678.bwcloud.privat
-- n4675.bwcloud.privat
-- n4677.bwcloud.privat
-- n4682.bwcloud.privat
-- n4676.bwcloud.privat
-- n4674.bwcloud.privat
-- n4680.bwcloud.privat
-- n4681.bwcloud.privat
-- n4673.bwcloud.privat
-```
-    
-</details>
-
-
-## g1.c36m100g1d50
-### Description
-'Old' Intel machines, one GPU per host
-### Count
-```yaml
-VMs-per-machine: 1
-machines: 2
-max-VMs: 2
-```
-```yaml
-- n3611.bwcloud.privat
-- n3612.bwcloud.privat
-```
+| Name  | CPU Manufacturer | Cores (physical) | GPUs   | relative age             |
+| ----- | ---------------- | ---------------- | ------ | ------------------------ |
+| n36*  | Intel            |                  | 6 (T4) | older nodes              |
+| n38*  | AMD              | 128              |        | new, 256 cores           |
+| n46*  | AMD              | 128              |        | new, 256 cores           |
+| n47*  | AMD              |                  |        | old, very stable         |
+| gput4 |                  |                  | 4 (T4) |                          |
