@@ -18,7 +18,7 @@ Here are the steps you need to follow to get your IT deployed.
    It should have:
     - README
     - License
-    - CI that builds and pushed your container (you need to have an account for the dockerhub, for instance quay.io, for which you are pushing your docker on)
+    - CI that builds and pushed your container (you need to have a dockerhub/quay.io account)
    
    Here are a few example repositories:
     - Jupyter-based example: https://github.com/usegalaxy-eu/docker-divand
