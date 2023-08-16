@@ -13,12 +13,12 @@ We are running ITs on EU and have some special nodes dedicated to them. We also 
 In general, we welcome contributions and new ITs to be deployed on the European Galaxy server.
 Here are the steps you need to follow to get your IT deployed.
 
-1. Crate a public GitHub repository in which you publish your Docker container.
+1. Create a public GitHub repository in which you publish your Docker container.
 
    It should have:
     - README
     - License
-    - CI that builds and pushed your container
+    - CI that builds and pushed your container (you need to have an account for the dockerhub, for instance quay.io, for which you are pushing your docker on)
    
    Here are a few example repositories:
     - Jupyter-based example: https://github.com/usegalaxy-eu/docker-divand
