@@ -154,12 +154,79 @@ condor_on vgcnbwc-worker-c125m425-8231.novalocal
 
 Both commands can be executed from the submitter node.
 
-### How to raise awareness for Climate Stike Fridays by closing the queue
-Do these steps for every training that should run on that Friday.
-- for every training put an equal share of all non-training worker vms into a `mytraining1.txt` hostfile
-- on Thursday evening, or Friday morning run `pssh -h mytraining1.txt -l centos 'sudo sed -i '"'"'s/"compute"/"<training-tag>"/g'"'"' /etc/condor/condor_config.local; sudo sed -i '"'"'s/GalaxyTraining = false/GalaxyTraining = true/g'"'"' /etc/condor/condor_config.local; sudo systemctl reload condor'`
-- TEST and make sure that training still works by running `condor_status | grep training` (and perhaps submit a job while having the training role)
-- on Friday evening run `pssh -h mytraining1.txt -l centos 'sudo sed -i '"'"'s/"<training-tag>"/"compute"/g'"'"' /etc/condor/condor_config.local; sudo sed -i '"'"'s/GalaxyTraining = true/GalaxyTraining = false/g'"'"' /etc/condor/condor_config.local; sudo systemctl reload condor'`
+### Raise awareness during Global Climate Strikes on Fridays by closing the job queue
+
+[Fridays for Future](https://fridaysforfuture.org/) organizes Global Climate
+Strikes that take place on specific Fridays to raise awareness of the grim
+consequences of global warming.
+
+Galaxy Europe
+[has participated in such strikes in the past](https://galaxyproject.org/news/2023-09-11-climate-strike/),
+by closing the job queue so that new jobs will not start until the strike is
+over. The strike protocol is as follows:
+- Write a blog post. You can reuse
+  [past blog posts](https://github.com/galaxyproject/galaxy-hub/blob/ca8a80e38b62e36a518570f219624755fb9ba0ac/content/news/2023-09-11-climate-strike/index.md).
+- Notify users in advance. In the past, this
+  [has been done displaying banner on the main page](https://github.com/galaxyproject/galaxy-hub/blob/ca8a80e38b62e36a518570f219624755fb9ba0ac/content/bare/eu/usegalaxy/notices.md?plain=1#L1-L7).
+- Enforce the strike using a TPV rule (read below).
+
+We have written a TPV rule that takes advantage of
+[HTCondor's job deferral feature](https://htcondor.readthedocs.io/en/latest/users-manual/time-scheduling-for-job-execution.html)
+to enforce the strike. A copy of
+[the rule](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/e431458b17ef85162b9c6357810b2e1681774347/files/galaxy/tpv/tool_defaults.yml#L53-L75)
+is available below.
+
+```yaml
+      - id: climate_strike
+        # delay jobs using HTCondor's job deferral feature
+        # https://htcondor.readthedocs.io/en/latest/users-manual/time-scheduling-for-job-execution.html
+        if: True
+        execute: |
+          from datetime import datetime
+
+          strike_start = datetime(2023,9,15,7,0)
+          strike_end = datetime(2023,9,15,19,0)
+
+          training_roles = (
+              [r.name for r in user.all_roles()
+               if not r.deleted and r.name in
+               ("training-bma231-ht23", "training-msc-tmr-ws23",
+                "training-bio00058m")]
+              if user is not None else []
+          )
+
+          now = datetime.now()
+          if strike_start <= now < strike_end and not training_roles:
+              entity.params["deferral_time"] = f"{int(strike_end.timestamp())}"
+              entity.params["deferral_prep_time"] = "60"
+              entity.params["deferral_window"] = "864000"  # 10 days
+```
+
+Before merging the rule to
+[tool_defaults.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/e431458b17ef85162b9c6357810b2e1681774347/files/galaxy/tpv/tool_defaults.yml)
+(as a list item under the key
+[`tools.default.rules`](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/e431458b17ef85162b9c6357810b2e1681774347/files/galaxy/tpv/tool_defaults.yml#L23C8-L23C8)),
+make sure to:
+- Change the strike start and end time.
+- Training roles are not always cleaned up after trainings are over. Thus, it
+  is necessary to **modify the rule so that ongoing trainings are not
+  affected**.
+  - First, log-in to the
+    [TIAAS admin panel](https://usegalaxy.eu/tiaas/admin/). The password, at the
+    moment of writing this text, can be found
+    [here](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/e431458b17ef85162b9c6357810b2e1681774347/secret_group_vars/all.yml). 
+    If the password has changed, you will have to switch to the main branch of
+    the repository.
+  - After logging-in the
+    [TIAAS calendar](https://usegalaxy.eu/tiaas/calendar/) will display the
+    _"Event ID"_ under the _"Details"_ section on the right. Training role names
+    are constructed adding the prefix `"training-"` to the Event ID.
+  - Replace the role names already in the rule with the role names of the
+    ongoing trainings.
+
+After merging the rule, all jobs submitted during the strike will remain on
+_"queued"_ state (gray) until the strike is over. Note that this TPV rule 
+only affects jobs running on HTCondor.
 
 ### Find jobs known to htcondor that are not known to Galaxy anymore
 
