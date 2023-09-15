@@ -214,7 +214,7 @@ make sure to:
   - First, log-in to the
     [TIAAS admin panel](https://usegalaxy.eu/tiaas/admin/). The password, at the
     moment of writing this text, can be found
-    [here](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/e431458b17ef85162b9c6357810b2e1681774347/files/galaxy/tpv/tool_defaults.yml). 
+    [here](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/e431458b17ef85162b9c6357810b2e1681774347/secret_group_vars/all.yml). 
     If the password has changed, you will have to switch to the main branch of
     the repository.
   - After logging-in the
