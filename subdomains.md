@@ -29,7 +29,7 @@ In the website repository:
 
 ### To add GxIT privileges
 
-To allow or grant your domain the GxIT privileges, the following needs to be done,
+To run Galaxy Interactive Tools (GxIT) in your subdomain, we need to generate wildcard certificates for you. To do so the following needs to be done:
 
 1. Create a PR, adding your domains IT wildcard to the [sn06.yml playbook](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/5ecffc1153fefc8f4ff1e44855ebf66a73c0593d/sn06.yml#L34) like done in [this PR](https://github.com/usegalaxy-eu/infrastructure-playbook/pull/916)
 2. Create a PR with the CNAME records routing to `usegalaxy.eu` in the [dns.tf file](https://github.com/usegalaxy-eu/infrastructure/blob/0bd0f81bd9d5ada2ac382da415adea6a910adec1/dns.tf) by adding your domain to [this list](https://github.com/usegalaxy-eu/infrastructure/blob/0bd0f81bd9d5ada2ac382da415adea6a910adec1/dns.tf#L244-L270) under `it-subdomain`, and increase the [`count` parameter below](https://github.com/usegalaxy-eu/infrastructure/blob/0bd0f81bd9d5ada2ac382da415adea6a910adec1/dns.tf#L276) by one. Refer to [this PR](https://github.com/usegalaxy-eu/infrastructure/pull/178)
