@@ -82,10 +82,10 @@ Once your installation is done, you can restore the home directory.
 4. unmount the backup image
 
 ## Playbooks
-Now it gets interesting: Last step is to run the playbooks and see if everything worked as expected.
-NOTICE: It is quite normal for playbooks to fail after installing newer OS versions, many roles are specified to certain versions and break on newer OS versions.
+Last step is to run the playbook `build.yml` and see if everything worked as expected.  
+NOTICE: It is quite normal for playbooks to fail after installing newer OS versions, many roles are specialised for certain versions and break on newer OS versions.  
 You should not break anything by incrementally run the playbook and fix one broken package after the other.
-Once the Playbook ran through, you should be able to reach `build.galaxyproject.eu`
+Once the Playbook ran through, you should be able to reach `build.galaxyproject.eu`.
 
 ## Troubleshooting
 A few errors I ran into:
