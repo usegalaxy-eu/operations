@@ -43,6 +43,10 @@ galaxy@sn06:~$ conda update -n base -c conda-forge conda
 
 # Jenkins
 
+I would recommend to read [the official backup guide](https://www.jenkins.io/doc/book/system-administration/backing-up/) first.  
+
+Announcing the downtime is always important, as well as scheduling preferrably a date in the morning in the compute center for the maintenance. (If you come in the afternoon and something goes wrong it can happen that the room is locked down before you are done.)
+
 Updating Jenkins is generally not difficult, because the whole service is file-based and all relevant files live in the `$JENKINS_HOME` directory. This is defined [here](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/25ddd20a643c33234712ae40641cc29b0fab731d/group_vars/build.yml#L3). This directory lives in a separate Logical Volume and can be backed up easily by shutting Jenkins down and creating a snapshot. After the Upgrade / OS re-installation is done, it can be rsynced / remounted and the build playbook can be run.  
 
 ## Graceful Shutdown
