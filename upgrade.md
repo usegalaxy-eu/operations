@@ -79,7 +79,8 @@ Once your installation is done, you can restore the home directory.
 1. Create a LV for the `$JENKINS_HOME`, create a FS for it, mount it.
 2. Mount in the backup image as described in the Backup step.
 3. rsync the whole directory from the mounted backup image to the LV
-4. unmount the backup image
+4. copy over the keys from `/root/.ssh/` backup to new root directory
+5. unmount the backup image
 
 ## Playbooks
 Last step is to run the playbook `build.yml` and see if everything worked as expected.  
