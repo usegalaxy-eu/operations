@@ -26,6 +26,8 @@
 | g1.c8m100g1d50 | 2                                |
 | g1.c8m40g1d50  | 4                                |
 
+If you multiply cores in the flavours with the count and sum up you get `8952 cores (virtual)` (If each hypervisor supports only one flavor, this should be correct) 
+
 ### List of machines where each flavor can be spawned
 * `Yes` means that the flavor can be spawned on the machine
 * `yes` in `Shared` column means that the machine is shared with other flavors or more than 1 VM of a individual flavor can be spawned on that machine
