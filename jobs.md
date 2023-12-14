@@ -247,6 +247,8 @@ Gives a list of all users that currently have jobs in the queue and how many (ne
 condor_q -autoformat ClusterId Cmd JobDescription RemoteHost JobStartDate | awk '{ printf "%s %s %s %s %s\n", $1, $2, $3, $4, strftime("%Y-%m-%d %H:%M:%S", $5) }'
 ```
 ### Get the jobs that were updated frequently by a handler
+Helped to solve
+- https://github.com/usegalaxy-eu/issues/issues/504
 ~~~
 gxadmin query q "select job.id from job inner join job_state_history jh on job.id = jh.job_id where job.handler = 'handler_sn06_0' and job.tool_id != '__DATA_FETCH__' and ( job.update_time between timestamp '2023-12-14 11:00:00' and '2023-12-14 12:00:00' )" | awk '{print$1}' | sort | uniq -c | sort -sn
 ~~~
