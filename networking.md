@@ -2,7 +2,7 @@
 ## Postgres with tailscale
 Assuming your postgres is already running.
 1. Install tailscale on the postgres server and the machines that should have access
-2. Generate a key in the tailscale or headscale web interface and use `sudo tailscale up --auth-key <your-key>
+2. Generate a key in the tailscale or headscale web interface and use `sudo tailscale up --auth-key <your-key>`
 3. Make sure the ACLs are configured in a way that the other machines can access `5432` on the postgres server
 4. Create firewall rules (described for firewalld here)
    1. `firewall-cmd --new-zone=tailscale --permanent`
