@@ -2,14 +2,14 @@
 
 1. Update CNAME record for condor-cm.galaxyproject.eu so it points to your new Central Manager
 2. Stop and disable `condor.service` on the old Central Manager host
-3. Change lines in /etc/condor/condor_config.local on the new Central Manager like in https://github.com/usegalaxy-eu/infrastructure-playbook/pull/783/files  
+3. Change lines in /etc/condor/condor_config.local on the new Central Manager like in https://github.com/usegalaxy-eu/infrastructure-playbook/pull/783/files
 4. Check if new DNS record is returned on all workers with `pssh -h /your/IPlist -l centos -i 'nslookup condor-cm.galaxyproject.eu'`
 5. If not, temporarily replace the nameserver in `/etc/resolv.conf` on all nodes to e.g. `1.1.1.1`
 6. Restart `condor.service` on the new Central Manager
 7. Update the Manager IP address on all workers with `pssh -h /tmp/condor-nodes -l centos -i 'condor_reconfig'`
 
 
-### Galaxy Job handling 
+### Galaxy Job handling
 
 Reassign jobs from handler 11 to handler 3 with gxadmin:
 
@@ -48,7 +48,7 @@ condor_status -autoformat Machine GalaxyGroup GalaxyDockerHack | grep hack | sor
 The following command is failing all jobs of the service-account user.
 
 ```bash
-gxadmin tsvquery jobs --user=service-account --nonterminal | awk '{print $1}' |  xargs -I {} -n 1 gxadmin mutate fail-job {} --commit 
+gxadmin tsvquery jobs --user=service-account --nonterminal | awk '{print $1}' |  xargs -I {} -n 1 gxadmin mutate fail-job {} --commit
 ```
 
 ### fail all jobs on the nodes, in cases when condor_rm does not do the job
@@ -74,9 +74,9 @@ condor_q  -constraint 'JobDescription == "spades"' -af ClusterID JobDescription 
 ```
 ### List tools and requirements for idle jobs
 
-~~~bash
+```bash
 condor_q -autoformat:t ClusterId JobDescription RequestMemory RequestCpus JobStatus | grep -P "\t1$"
-~~~
+```
 
 
 ### Number of cores available
@@ -98,7 +98,7 @@ to retrieve the condor id
 ```bash
 condor_history -l 6545461
 ```
-to retrieve all the job detail, and here, I found this error message:  
+to retrieve all the job detail, and here, I found this error message:
 `"Error from slot1_1@cn030.bi.uni-freiburg.de: Failed to open '/data/dnb03/galaxy_db/job_working_directory/011/384/11384941/galaxy_11384941.o' as standard output: No such file or directory (errno 2)"`
 
 A quick check into the compute node
@@ -153,6 +153,17 @@ condor_on vgcnbwc-worker-c125m425-8231.novalocal
 ```
 
 Both commands can be executed from the submitter node.
+
+#### Condor drain and condor off
+Since we do not configure `MaxJobRetirementTime` in our condor setup, running `condor_drain` will kill the job immediately as the default value of `MaxJobRetirementTime` is 0.
+
+Instead of `condor_drain`, we could use `condor_off -peaceful -name <worker node name>` and running this command will make the daemons wait for all jobs to finish while ensuring no new jobs are accepted.
+
+**Some useful links:**
+* https://www-auth.cs.wisc.edu/lists/htcondor-users/2021-July/msg00024.shtml
+* https://htcondor.readthedocs.io/en/latest/man-pages/condor_drain.html
+* https://htcondor.readthedocs.io/en/latest/man-pages/condor_off.html
+
 
 ### Raise awareness during Global Climate Strikes on Fridays by closing the job queue
 
@@ -214,7 +225,7 @@ make sure to:
   - First, log-in to the
     [TIAAS admin panel](https://usegalaxy.eu/tiaas/admin/). The password, at the
     moment of writing this text, can be found
-    [here](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/e431458b17ef85162b9c6357810b2e1681774347/secret_group_vars/all.yml). 
+    [here](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/e431458b17ef85162b9c6357810b2e1681774347/secret_group_vars/all.yml).
     If the password has changed, you will have to switch to the main branch of
     the repository.
   - After logging-in the
@@ -225,13 +236,13 @@ make sure to:
     ongoing trainings.
 
 After merging the rule, all jobs submitted during the strike will remain on
-_"queued"_ state (gray) until the strike is over. Note that this TPV rule 
+_"queued"_ state (gray) until the strike is over. Note that this TPV rule
 only affects jobs running on HTCondor.
 
 ### Find jobs known to htcondor that are not known to Galaxy anymore
 
 ```bash
-comm -23 <(condor_q --json | jq '.[]? | .ClusterId' | sort) <(gxadmin query queue-detail | awk '{print $5}' | sort) 
+comm -23 <(condor_q --json | jq '.[]? | .ClusterId' | sort) <(gxadmin query queue-detail | awk '{print $5}' | sort)
 ```
 
 Those ID can be piped to `condor_rm` if needed.
