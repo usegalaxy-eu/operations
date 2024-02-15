@@ -109,7 +109,7 @@ it is sufficient for most machines to add the mount point to [infrastucture-play
 fr1-cl2::> export-policy rule show -vserver denbi -fields protocol,clientmatch,rorule,rwrule,superuser -policyname denbi     
 vserver policyname ruleindex protocol clientmatch     rorule rwrule superuser 
 ------- ---------- --------- -------- --------------- ------ ------ --------- 
-denbi   denbi      1         nfs3     132.230.223.2398 sys    sys    any
+denbi   denbi      1         nfs3     132.230.223.238 sys    sys    any
 denbi   denbi      1         nfs3     132.230.223.239 sys    sys    any       
 denbi   denbi      3         nfs3     10.5.68.0/24    sys    sys    any       
 2 entries were displayed.
