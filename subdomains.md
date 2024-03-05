@@ -6,11 +6,19 @@ First, choose a name. In this tutorial we'll use `example` which will be `exampl
 
 ## Galaxy Configuration
 
-1. [Add your site](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/custom-sites.yml). It should look something like:
+1. add a folder named like your subdomain (here: example.usegalaxy.com) in this [directory](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/files/galaxy/subdomains), with a subfolder called themes containing a yaml file named like your subdomain (if you are not using a theme yet, you can leave the file empty).
+~~~
+└── subdomains/
+    ├── ...
+    └── example/
+        └── themes/
+            └── example.yml
+~~~
+
+1. [Add your site](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/sn06.yml). It should look something like:
 
     ```yaml
     - name: example
-      brand: Example
     ```
 
     Name is an id used in creation of several filenames internally and in the website repository. It should match `[a-z]+`
