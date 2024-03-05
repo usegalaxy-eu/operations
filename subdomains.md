@@ -15,7 +15,7 @@ First, choose a name. In this tutorial we'll use `example` which will be `exampl
             └── example.yml
 ~~~
 
-2. [Add your site](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/sn06.yml). It should look something like:
+2. [Add your site](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/sn06.yml) to the key `galaxy_themes_subdomains` . It should look something like:
 
     ```yaml
     - name: example
