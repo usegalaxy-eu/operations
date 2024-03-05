@@ -6,14 +6,28 @@ First, choose a name. In this tutorial we'll use `example` which will be `exampl
 
 ## Galaxy Configuration
 
-1. [Add your site](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/custom-sites.yml). It should look something like:
+1. add a folder named like your subdomain (here: example.usegalaxy.com) in this [directory](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/files/galaxy/subdomains), with a subfolder called themes containing a yaml file named like your subdomain (if you are not using a theme yet, you can leave the file empty).
+~~~
+└── subdomains/
+    ├── ...
+    └── example/
+        └── themes/
+            └── example.yml
+~~~
+
+2. [Add your site](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/sn06.yml) to the key `galaxy_themes_subdomains` . It should look something like:
 
     ```yaml
     - name: example
-      brand: Example
     ```
 
     Name is an id used in creation of several filenames internally and in the website repository. It should match `[a-z]+`
+
+3. Add a line for your Subdomain under the `brand_by_host` key in [group_vars/gxconfig.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/gxconfig.yml)
+~~~
+'example.usegalaxy.eu': Example
+~~~
+4. Add a line to the [global_host_filters.py.j2](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/88827358fb31fe7eb5fc4c835b92a7a35afc685e/templates/galaxy/config/global_host_filters.py.j2#L147) if you want to modify which tool are shown on your subdomain
 
 2. Make a PR with these changes
 
