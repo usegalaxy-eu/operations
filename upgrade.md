@@ -15,6 +15,7 @@ title: Galaxy Upgrading procedures
 
 ## create a new Galaxy deployment branch
 
+0. Note average memory usage of gunicorns and job handlers
 1. Clone [our fork](https://github.com/usegalaxy-eu/galaxy/).
 2. Check out the release branch you want to switch to, e.g. `release_XX.ZZ`
 3. Ensure it's updated: `git pull`
