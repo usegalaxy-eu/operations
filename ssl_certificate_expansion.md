@@ -27,10 +27,12 @@ Run the following command to expand the current certificate with the new domain 
 _Note: The list of domains (values for option `-d`) can be obtained from the current certificate by running the command from Step 4 or it can be gathered from the console logs of the recent Jenkins job (sn06 project under playbooks)_
 
 ```bash
-/opt/certbot/bin/certbot certonly --non-interactive --dns-route53 -m security@usegalaxy.eu --agree-tos -d usegalaxy.eu,*.usegalaxy.eu,galaxyproject.eu,*.galaxyproject.eu,*.interactivetoolentrypoint.interactivetool.usegalaxy.eu,*.interactivetoolentrypoint.interactivetool.live.usegalaxy.eu,*.interactivetoolentrypoint.interactivetool.test.usegalaxy.eu,*.aqua.usegalaxy.eu --expand
+/opt/certbot/bin/certbot certonly --non-interactive --dns-route53 -m security@usegalaxy.eu --agree-tos \
+-d usegalaxy.eu,*.usegalaxy.eu,galaxyproject.eu,*.galaxyproject.eu,*.interactivetoolentrypoint.interactivetool.usegalaxy.eu,*.interactivetoolentrypoint.interactivetool.live.usegalaxy.eu,*.interactivetoolentrypoint.interactivetool.test.usegalaxy.eu,*.aqua.usegalaxy.eu \
+--expand --cert-name usegalaxy.eu
 ```
 
-_Note: If you are not sure you can append the above command with `--dry-run` and `-v` to perform a dry run and check if everything looks fine_
+_Note: If you are not sure you can append the above command with `--dry-run` and `-v` to perform a dry run and check if everything looks fine. The new certificate is available here `/etc/letsencrypt/live/usegalaxy/fullchain.pem`, and the private key is available here `/etc/letsencrypt/live/usegalaxy/privkey.pem`_
 
 ## Step 4: Verify the inclusion of the new domain
 
@@ -48,20 +50,9 @@ or
 
 After generating and testing the new certificates, you can replace the existing certificates in the following locations:
 
-- Fullchain: `/etc/ssl/certs/fullchain.pem`
-- Private Key: `/etc/ssl/user/privkey-nginx.pem`
+~~~bash
+bash /etc/letsencrypt/renewal-hooks/post/ansible.sh
+~~~
 
-_Note: New certificate is available here `/etc/letsencrypt/live/usegalaxy/fullchain.pem`, and the private key is available here `/etc/letsencrypt/live/usegalaxy/privkey.pem`_
+This script copies the certificates to `/etc/ssl` and `reloads nginx`
 
-```bash
-cp /etc/letsencrypt/live/usegalaxy/fullchain.pem /etc/ssl/certs/fullchain.pem
-cp /etc/letsencrypt/live/usegalaxy/privkey.pem /etc/ssl/user/privkey-nginx.pem
-```
-
-## Step 6: Reload Nginx
-
-Don't forget to reload the Nginx server after renewing or expanding the SSL certificate to apply the changes.
-
-```bash
-systemctl restart nginx
-```
