@@ -42,7 +42,7 @@ If you did everything correctly, the new router appears on Traefik's [dashboard]
 - In order to bridge that time, you can install nginx on Traefik and `proxy_pass` all requests to one headnode directly.
 ### usegalaxy.eu /subdomain is showing a plain `404 not found`
 Most likely something happened to the router.
-- Check the [dashboard](https://traefik./gspringhare-dinosaur.ts.net/dashboard/#/) via tailscale
+- Check the [dashboard](https://traefik.gspringhare-dinosaur.ts.net/dashboard/#/) via tailscale
 - If all routers look fine, check if something happened to the rulefile in `files/traefik/rules/` `usegalaxy-eu-router.yml` for usegalaxy.eu and `template-subdomains.yml` for subdomains. Take a close look at the `HostRegexp` rule.
 - Less likely: check that the `servers` in `usegalaxy-eu-service.yml` are correct and reachable.
 ### `Bad Gateway` error
