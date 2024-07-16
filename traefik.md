@@ -27,9 +27,9 @@ The line should look like the ones above, like this scheme:
 ~~~
 {{template "subdomain" "<your-subdomain-name>"}}
 ~~~
-Be careful, the word `subdomain` in the second colum needs to stay literaly "subdomain", only the 3rd column is changed to the new subdomain,but without any `.usegalaxy.eu`.  
+Be careful, the word `subdomain` in the second colum needs to stay literaly "subdomain", only the 3rd column is changed to the new subdomain, but without any `.usegalaxy.eu`.  
 Once this is deployed, Traefik will automatically create a router for it and fetch certificates for the subdomain as well as a wildcard certificate for ITs.  
-If you did everything correctly, the new router appears on Traefik's [dashboard](https://traefik./gspringhare-dinosaur.ts.net/dashboard/#/).
+If you did everything correctly, the new router appears on Traefik's [dashboard](https://traefik.springhare-dinosaur.ts.net/dashboard/#/).
 
 ## How to debug
 ### 🚑 Galaxy not reachable
@@ -42,11 +42,11 @@ If you did everything correctly, the new router appears on Traefik's [dashboard]
 - In order to bridge that time, you can install nginx on Traefik and `proxy_pass` all requests to one headnode directly.
 ### usegalaxy.eu /subdomain is showing a plain `404 not found`
 Most likely something happened to the router.
-- Check the [dashboard](https://traefik.gspringhare-dinosaur.ts.net/dashboard/#/) via tailscale
+- Check the [dashboard](https://traefik.springhare-dinosaur.ts.net/dashboard/#/) via tailscale
 - If all routers look fine, check if something happened to the rulefile in `files/traefik/rules/` `usegalaxy-eu-router.yml` for usegalaxy.eu and `template-subdomains.yml` for subdomains. Take a close look at the `HostRegexp` rule.
 - Less likely: check that the `servers` in `usegalaxy-eu-service.yml` are correct and reachable.
 ### `Bad Gateway` error
-- One headnode unhealthy? You can test with e.g. `sn07.galaxyproject.eu` directly. Traefik should automatically skip unhealth hosts, see the [dashboard](https://traefik./gspringhare-dinosaur.ts.net/dashboard/#/) and [docs](https://doc.traefik.io/traefik/v3.0/routing/services/#health-check)
+- One headnode unhealthy? You can test with e.g. `sn07.galaxyproject.eu` directly. Traefik should automatically skip unhealth hosts, see the [dashboard](https://traefik.springhare-dinosaur.ts.net/dashboard/#/) and [docs](https://doc.traefik.io/traefik/v3.0/routing/services/#health-check)
 - Can be faulty certificates. When checked everything else, make a backup of `/etc/traefik/acme.json` and delete all its contents (not the file itself), then restart Traefik using `docker restart <Traefik container name>`
 - Service configuration might be faulty: check `usegalaxy-eu-service.yml`
 
