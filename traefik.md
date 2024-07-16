@@ -8,8 +8,13 @@ Docker swarm was used for mainly two reasons:
 3. Features: Traefik comes with many options for middlewares and Plugins. If you would like, for instance, to block certain IP ranges, this could be easily done using a [plugin](https://plugins.traefik.io/plugins).
 
 ## Basics
-The default user is `rocky`  
-Traefiks logs are in `/var/log/traefik`
+|                    |                             |
+| ------------------ | --------------------------  |
+| Default user       | `rocky`                     |    
+| IP                 | `132.230.103.37`            | 
+| Host               | `traefik.galaxyproject.eu`  |   
+| Traefiks logs      | `/var/log/traefik`          |  
+
 To have a pretty output use `hl`:
 ~~~
 sudo ./hl /var/log/traefik/traefik./glog --follow
