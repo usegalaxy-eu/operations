@@ -7,6 +7,7 @@
 - [Update a Tool](https://github.com/usegalaxy-eu/usegalaxy-eu-tools)
 - [Galaxy Europe Services](./cloud/services.md)
 - [Bare metal nodes](./bare_metal.md)
+- [Traefik](./traefik.md)
 
 Galaxy Admin:
 
