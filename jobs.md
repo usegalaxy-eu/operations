@@ -3,10 +3,10 @@
 1. Update CNAME record for condor-cm.galaxyproject.eu so it points to your new Central Manager
 2. Stop and disable `condor.service` on the old Central Manager host
 3. Change lines in /etc/condor/condor_config.local on the new Central Manager like in https://github.com/usegalaxy-eu/infrastructure-playbook/pull/783/files
-4. Check if new DNS record is returned on all workers with `pssh -h /your/IPlist -l centos -i 'nslookup condor-cm.galaxyproject.eu'`
+4. Check if new DNS record is returned on all workers with `pssh -h /etc/pssh/cloud -l centos -i 'nslookup condor-cm.galaxyproject.eu'`
 5. If not, temporarily replace the nameserver in `/etc/resolv.conf` on all nodes to e.g. `1.1.1.1`
 6. Restart `condor.service` on the new Central Manager
-7. Update the Manager IP address on all workers with `pssh -h /tmp/condor-nodes -l centos -i 'condor_reconfig'`
+7. Update the Manager IP address on all workers with `pssh -h /etc/pssh/cloud -l centos -i 'condor_reconfig'`
 
 
 ### Galaxy Job handling
