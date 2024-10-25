@@ -42,7 +42,7 @@ prefixed by "vm-", in order to clarify their purpose.
 ### 2.2 Networking Setup
 
 For each network used by guest VMs, a dedicated bridge has been
-created on `ens802f1`, `build`s second 10 GbE interface (the host's
+created on `ens802f1`, `build`'s second 10 GbE interface (the host's
 primary net IF being `ens802f0`). Because all networks used are
 VLAN-tagged, this requires creating a tagged virtual IF for each
 bridge. With this setup, guests don't have to worry about VLAN
@@ -62,7 +62,7 @@ These bridges have been created with `nmtui(8)` using default values
 
 - "Aging time" set to 0 (infinity)
 
-- "IP CONFIGURATION" set to "<Disabled>" for both IPv4 and IPv6
+- "IP CONFIGURATION" set to `<Disabled>` for both IPv4 and IPv6
 
 A virtual IF with the right VLAN tag needs to be added to the bridge
 as a slave as well.
@@ -75,21 +75,21 @@ as a slave as well.
 Our VM images built for (or extracted from) OpenStack in "raw" format
 can in principle be booted on KVM "as is". Since these images are
 currently set up to be runtime-configured via the cloud-config
-service, which out vanilla KVM server does not provide, there are some
-issued to be dealt with in order to make the guests useful, on which
-see below.
+service, which our "vanilla" KVM server does not provide, there are some
+issues to be dealt with in order to make the guests useful, on which
+see sec. 3.3 "Tweaking VM Images" below.
 
 
 ### 3.2 Guest VM Creation
 
-The actual creation of a guest VM from a could image is in three easy
+The actual creation of a guest VM from a cloud image is in three easy
 steps:
 
 1. It is recommended to create an LV for each disk image that the VM
 uses and copy the image file to that VM with `dd(1)`
 
 2. Copy the template file `kvm-guest-template.xml` found in the same
-directory as this Markdown file to a file <guest-name>.xml (the XML
+directory as this Markdown file to a file _guest-name_`.xml` (the XML
 files are best kept in `/root/kvm`) and make the required changes as
 noted in the header comment.
 

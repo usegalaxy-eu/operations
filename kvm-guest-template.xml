@@ -1,5 +1,5 @@
 <!--
-    Sample domain configuration file for the Galaxy KVM server.
+    VM configuration template file for the Galaxy KVM server.
 
     Values that need to be changed are marked with a placeholder of
     the form
