@@ -93,18 +93,284 @@ directory as this Markdown file to a file _guest-name_`.xml` (the XML
 files are best kept in `/root/kvm`) and make the required changes as
 noted in the header comment.
 
-3. Run the command `virsh define `_description-file_
+3. Run the command `virsh define` _guest-name_`.xml`
 
 
 If all went well, the freshly created guest will show up in the output
-of `virsh list --all` and can be started with `virsh start `_guest_
+of `virsh list --all` and can be started with `virsh start` _guest_
 
 
 ### 3.3 Tweaking VM Images
 
-!FIXME TBD!
+Images built for OpenStack are lacking two critical features when
+started unmodified on a "vanilla" KVM server:
+
+- Account setup
+
+- Console access
+
+These are set up by cloud-config (and in the case of console access,
+provided by the "Dashboard"), a service we don't provide. A quick
+workaround is to mount the image on the KVM server host and tweak the
+image in a chroot shell. (See !FIXME! below for instructions to mount
+the image.)
+
+#### 3.3.1 Account Setup
+
+Passwords and/or `authorized_keys` files must be set up for the users
+`root` and `centos` (or whatever account is being used for SSH access
+in OpenStack instances). The users' home directories can be accessed
+after mounting the image in the host, for changing passwords a
+chroot-shell is the easiest option.
+
+Setting up sudo-rights for the login user is best accomplished by
+creating a file with permissions "440 root:root" in `/etc/sudoers.d`,
+the follwing example assumes the user name `centos`:
+
+```
+centos  ALL=(ALL)       NOPASSWD: ALL
+```
+
+#### 3.3.2 Providing Console Access
+
+If `systemd-getty-generator(8)` is enabled it should start an
+appropriate `agetty(8)` process on the virtual serial console
+"automagically". If this fails for any reason a symlink
+
+```
+serial-getty@ttyS0.service -> /lib/systemd/system/serial-getty@.service
+```
+
+can be created in `/etc/systemd/system/getty.target.wants` using a
+chroot shell.
+
+NOTE that this setup alone will *not* allow for controlling GRUB or
+seeing boot messages on the serial console. Accomplishing this by
+re-configuring GRUB, if desired, is left as an excercise to the
+reader...
 
 
 ## 4 Managing Guest VMs
 
+Management tasks broadly fall in one of the following categories:
+
+- Starting/stopping/modifying VM guests with `virsh(1)`
+
+- Managing VM disk images with LVM tools
+
+- Mounting and manipulating VM disk images in the shell
+
+The most common tasks will be covered in the following subchapters.
+
+
+### 4.1 Basic virsh usage
+
+**NOTE**: When using `virsh(1)` as user `root`, the tool will
+currently spit out the following error message every time it is
+invoked from the shell:
+
+```
+Error registering authentication agent: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: Cannot determine user of subject (polkit-error-quark, 0)
+```
+
+This message, while annoying, is harmless and can safely be ignored.
+
+
+The most pertinent virsh commands are
+
+```
+virsh list
+```
+
+Lists the names and IDs of running VM guests; use `--all` for also
+listing currently inactive guests.
+
+
+```
+virsh start --console GUEST_NAME_OR_ID
+```
+
+(Omit the `--console` option if console access is not immediately
+required. Once the console is launched, `CTRL-]` will close the
+console and return to the shell.)
+
+
+```
+virsh autostart GUEST_NAME_OR_ID
+```
+
+Marks the guest VM for autostarting; this command will **not** start
+the guest immediately. Use `--disable` to disable autostarting
+instead.q
+
+
+```
+virsh console GUEST_NAME_OR_ID
+```
+
+Access the virtual serial console of an already running
+guest. `CTRL-]` will close the console and return to the shell.
+
+
+```
+virsh shutdown GUEST_NAME_OR_ID
+```
+
+Gracefully shutdown the guest
+
+
+```
+virsh destroy GUEST_NAME_OR_ID
+```
+
+Force termination of the guest process; this command will **not**
+remove the guest or its associated disk images.
+
+
+```
+virsh guestinfo GUEST_NAME_OR_ID
+```
+
+Print some useful status info for the guest.
+
+
+`virsh(1)` has many more commands and options, see the manpage for the
+gory detail.
+
+
+### 4.2 
+
+As of this writing, the KVM server does **not** define any libvirt
+storage pools; consequently, the storage pool commands listed in
+section `STORAGE POOL COMMANDS` of the manual page do not work and
+should **not** be used.
+
+Instead, the standard LVM tools are used to manipulate VM disk
+images. The most pertinent commands are `lvs(8)`, `lvcreate(8)`,
+`lvrename(8)`, `lvresize(8)`, `lvremove(8)` and `lvconvert(8)`.
+
+Examples of the most common tasks follow.
+
+### 4.2.1 Listing LVs
+
+```
+lvs
+```
+
+List the logical volumes currently defined on the system. The output
+is **not** limited to VM disk images only but also lists LVs used by
+the host OS such as `root`, `home` or `opt`. It is recommended to
+prefix names of LVs created specifically as VM disk images with the
+literal string "vm" in order to clarify their purpose, e.g.
+`vminfluxdb`. The name(s) must of course match whatever is specified
+in the VM guest definition.
+
+
+### 4.2.2 Creating LVs
+
+```
+lvcreate --name LV_NAME --size LV_SIZE rl_build
+```
+
+This creates a (linear) logical volume of size LV_SIZE with the name
+LV_NAME in the volume group `rl_build` (the only VG currently
+defined). The size parameter can be suffixed with the usual unit
+specifiers `b` `, `s`, `k`, `m`, `g` which are *always* base-2,
+regardless of capitalization. E.g. for creating a 10 GiB LV to hold
+the virtual system disk for a VM named `test1` one would use:
+
+```
+lvcreate --name vmtest1 --size 10g rl_build
+```
+
+
+### 4.2.3 Removing LVs
+
+```
+lvremove rl_build/LV_NAME
+```
+
+Removes the LV named LV_NAME in VG `rl_build`, asking for confirmation first.
+
+**CAVEAT EMPTOR**: omitting the name of the LV will cause
+`lvremove(8)` to *attempt to delete ALL LVs in the VG
+specified(!)*. Fortunately, by default LVs that are mounted or
+otherwise in use will be skipped and confirmation will be required for
+deleting the others. ALWAYS THINK TWICE BEFORE HITTING [RETURN] ON AN
+lvremove COMMAND AND *NEVER*, *EVER* USE ANY OF THE OPTIONS `-y`,
+`--yes`, `-f`, `--force` !!!
+
+(Yes, the syntax and semantics of LV management commands *are* obscure
+and an excellent example of how *not* to design a command line
+interface...)
+
+
+### 4.2.4 Renaming and resizing LVs
+
+```
+lvrename rl_build LV_NAME_BEFORE LV_NAME_AFTER
+```
+
+Rename the LV named LV_NAME_BEFORE in VG `rl_build` to LV_NAME_AFTER.
+
+
+```
+lvresize --size NEW_LV_SIZE rl_build/LV_NAME
+```
+
+Resize the the LV named LV_NAME in VG `rl_build` to NEW_LV_SIZE; this
+can also be used on snapshot LVs (see below) that are smaller than
+their parent and in danger of running out of blocks as more and more
+of the parent's blocks get modified.
+
+
+### 4.2.5 Managing LV snapshots
+
+**NOTE** While the LV snapshot commands themselves are atomic, they
+only manipulate the on-disk state of the associated VM and should thus
+**not** be used on *running* VMs' LVs.
+
+
+```
+lvcreate --snapshot --name LV_SNAPSHOT_NAME --size SNAPSHOT_SIZE rl_build/LV_NAME
+```
+
+Creates a snapshot named LV_SNAPSHOT_NAME of size SNAPSHOT_SIZE on the
+LV named LV_NAME in VG rl_build. It is recommended to embed the date
+and time of snapshot creation in the name; it is also probably best to
+use UTC rather than local time and suffix the time value with the
+literal string "Z". E.g. to create a snapshot of the lv `vmtest1` with
+size 5 GiB capturing the state of, say, Nov 6th 2024 at 16:18 CET one
+could use the command
+
+```
+lvcreate --snapshot --name vmtest1-20241006T1518Z --size 5g rl_build/vmtest1
+```
+
+
+In order to restore an LV to the state captured in a snapshot, the
+snapshot has to be *merged* into its parent with `lvconvert(8)`.
+E.g. to restore the snapshot created in the example immediately above
+one would use
+
+```
+lvconvert --mergesnapshot rl_build/vmtest1-20241006T1518Z --interval 10
+```
+
+(The `--interval` option is purely optional, but as `lvconvert` may
+take its sweet time on larger LVs it is good to have a progress report
+in 10 seconds intervals (or longer, as desired). Note that `lvconvert`
+will usually run for some time even after it has reported "Merged:
+100.00%".)
+
+**NOTE** that `lvconvert --mergesnapshot` will **remove** the snapshot
+LV, so if that state is to be retained for possible future use again,
+a new snapshot will have to be created. Have I already mentioned that
+the syntax and semantics of the Linux LV management tools are
+completely obscure and a prime example of poor design...?
+
+
+## 4.3 Mounting VM images
+
 !FIXME TBD!
+
