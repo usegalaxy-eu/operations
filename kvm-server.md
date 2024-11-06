@@ -238,7 +238,7 @@ Print some useful status info for the guest.
 gory detail.
 
 
-### 4.2 
+### 4.2 Managing Logical Volumes (LVs)
 
 As of this writing, the KVM server does **not** define any libvirt
 storage pools; consequently, the storage pool commands listed in
@@ -275,7 +275,7 @@ lvcreate --name LV_NAME --size LV_SIZE rl_build
 This creates a (linear) logical volume of size LV_SIZE with the name
 LV_NAME in the volume group `rl_build` (the only VG currently
 defined). The size parameter can be suffixed with the usual unit
-specifiers `b` `, `s`, `k`, `m`, `g` which are *always* base-2,
+specifiers `b`, `s`, `k`, `m`, `g` which are *always* base-2,
 regardless of capitalization. E.g. for creating a 10 GiB LV to hold
 the virtual system disk for a VM named `test1` one would use:
 
@@ -296,7 +296,7 @@ Removes the LV named LV_NAME in VG `rl_build`, asking for confirmation first.
 `lvremove(8)` to *attempt to delete ALL LVs in the VG
 specified(!)*. Fortunately, by default LVs that are mounted or
 otherwise in use will be skipped and confirmation will be required for
-deleting the others. ALWAYS THINK TWICE BEFORE HITTING [RETURN] ON AN
+deleting the others. ALWAYS THINK TWICE BEFORE HITTING [RETURN] ON ANY
 lvremove COMMAND AND *NEVER*, *EVER* USE ANY OF THE OPTIONS `-y`,
 `--yes`, `-f`, `--force` !!!
 
@@ -336,7 +336,7 @@ lvcreate --snapshot --name LV_SNAPSHOT_NAME --size SNAPSHOT_SIZE rl_build/LV_NAM
 ```
 
 Creates a snapshot named LV_SNAPSHOT_NAME of size SNAPSHOT_SIZE on the
-LV named LV_NAME in VG rl_build. It is recommended to embed the date
+LV named LV_NAME in VG `rl_build`. It is recommended to embed the date
 and time of snapshot creation in the name; it is also probably best to
 use UTC rather than local time and suffix the time value with the
 literal string "Z". E.g. to create a snapshot of the lv `vmtest1` with
