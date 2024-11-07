@@ -1,7 +1,5 @@
 # KVM Server for Critical Infrastructure
 
-[Note: This document is currently work in progress]
-
 ## 1 Rationale
 
 OpenStack has proven to be too unreliable to host non-redundant
@@ -36,7 +34,7 @@ pre-defined partitioning between OS and KVM storage spaces, rendering
 the system inflexible in the face of possible future changes. (The
 system is not fully dedicated to KVM, after all.) It is recommened to
 name the guests' LVs after the respective guests' VMs, possibly
-prefixed by "vm-", in order to clarify their purpose.
+prefixed by "vm", in order to clarify their purpose.
 
 
 ### 2.2 Networking Setup
@@ -112,7 +110,7 @@ started unmodified on a "vanilla" KVM server:
 These are set up by cloud-config (and in the case of console access,
 provided by the "Dashboard"), a service we don't provide. A quick
 workaround is to mount the image on the KVM server host and tweak the
-image in a chroot shell. (See !FIXME! below for instructions to mount
+image in a chroot shell. (See sec. 4.3 below for instructions to mount
 the image.)
 
 #### 3.3.1 Account Setup
@@ -339,7 +337,7 @@ Creates a snapshot named LV_SNAPSHOT_NAME of size SNAPSHOT_SIZE on the
 LV named LV_NAME in VG `rl_build`. It is recommended to embed the date
 and time of snapshot creation in the name; it is also probably best to
 use UTC rather than local time and suffix the time value with the
-literal string "Z". E.g. to create a snapshot of the lv `vmtest1` with
+literal string "Z". E.g. to create a snapshot of the LV `vmtest1` with
 size 5 GiB capturing the state of, say, Nov 6th 2024 at 16:18 CET one
 could use the command
 
@@ -372,5 +370,65 @@ completely obscure and a prime example of poor design...?
 
 ## 4.3 Mounting VM images
 
-!FIXME TBD!
+The LVs are block devices with device files named `/dev/dm-[0-9]+`
+which in turn have symlinks pointing to them in both
+`/dev/`*VG_NAME*`/` and `/dev/mapper/` the names of which make clear
+to which LV the device file belongs; only these symlinks are normally
+used to refer to LVs' device files.
 
+Since, however, the virtual disk images are normally partinioned, the
+file system(s) contained therein cannot be mounted using the LVs block
+device. A tool named `kpartx(8)` is used to create/remove dedicated
+block devices for the partitions of an LV containing a disk image.
+
+```
+kpartx -l /dev/mapper/LV_DEVICE_SPECIFIER
+```
+
+Print the names of the devices that *would be* created for the LV
+pointed to by LV_DEVICE_SPECIFIER. No device files are created.
+
+
+```
+kpartx -a /dev/mapper/LV_DEVICE_SPECIFIER
+```
+
+Actually create the partition devices for the LV pointed to by
+LV_DEVICE_SPECIFIER. Add `-v` to see the names of the devices
+(actually: device symlinks) created.
+
+
+```
+kpartx -d /dev/mapper/LV_DEVICE_SPECIFIER
+```
+
+Remove the device symplinks that were previously created by `kpartx
+-a`; add `-v` to see what's being done.
+
+
+**NOTE** that while it is often more convenient (and perfectly
+possible) to use the links under `/dev/`*VG_NAME*`/` rather than those
+under `/dev/mapper` as arguments to `kpartx`, *the new partition
+device links will ONLY ever be created in `/dev/mapper`!
+
+Here's a sample transcript that illustrates the process:
+
+```
+# lvs
+  LV                          VG       Attr       LSize    Pool Origin     Data%  Meta%  Move Log Cpy%Sync Convert
+  home                        rl_build -wi-ao----   50.00g                                                        
+  opt                         rl_build -wi-ao----  100.00g                                                        
+  root                        rl_build -wi-ao---- <100.00g                                                        
+  vmvgcn-test2                rl_build owi-aos---   10.00g                                                        
+  vmvgcn-test2-20241017T1033Z rl_build swi-a-s---   10.00g      vmvgcn-test2 6.11                                   
+# kpartx -av /dev/mapper/rl_build-vmvgcn--test2
+add map rl_build-vmvgcn--test2p1 (253:7): 0 20969472 linear 253:3 2048
+# mount -oro /dev/mapper/rl_build-vmvgcn--test2p1 /mnt
+# ls /mnt
+afs/  boot/   data/  etc/   lib@    media/  mnt/  opt/   root/  sbin@     srv/  tmp/  var/
+bin@  cvmfs/  dev/   home/  lib64@  misc/   net/  proc/  run/   scratch/  sys/  usr/
+# umount /mnt
+# kpartx -dv /dev/rl_build/vmvgcn-test2
+del devmap : rl_build-vmvgcn--test2p1
+#
+```
