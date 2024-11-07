@@ -291,12 +291,12 @@ lvremove rl_build/LV_NAME
 Removes the LV named LV_NAME in VG `rl_build`, asking for confirmation first.
 
 **CAVEAT EMPTOR**: omitting the name of the LV will cause
-`lvremove(8)` to *attempt to delete ALL LVs in the VG
-specified(!)*. Fortunately, by default LVs that are mounted or
+`lvremove(8)` to **attempt to delete ALL LVs in the VG
+specified(!)**. Fortunately, by default LVs that are mounted or
 otherwise in use will be skipped and confirmation will be required for
-deleting the others. ALWAYS THINK TWICE BEFORE HITTING [RETURN] ON ANY
-lvremove COMMAND AND *NEVER*, *EVER* USE ANY OF THE OPTIONS `-y`,
-`--yes`, `-f`, `--force` !!!
+deleting the others. **ALWAYS THINK TWICE BEFORE HITTING [RETURN] ON ANY**
+`lvremove` **COMMAND AND *NEVER*, *EVER* USE ANY OF THE OPTIONS** `-y`,
+`--yes`, `-f`, `--force` **!!!**
 
 (Yes, the syntax and semantics of LV management commands *are* obscure
 and an excellent example of how *not* to design a command line
@@ -409,7 +409,7 @@ Remove the device symplinks that were previously created by `kpartx
 **NOTE** that while it is often more convenient (and perfectly
 possible) to use the links under `/dev/`*VG_NAME*`/` rather than those
 under `/dev/mapper` as arguments to `kpartx`, *the new partition
-device links will ONLY ever be created in `/dev/mapper`!
+device links will ONLY ever be created in `/dev/mapper`*!
 
 Here's a sample transcript that illustrates the process:
 
