@@ -52,6 +52,8 @@ As of this writing, the following bridges are defined for KVM use:
 
 - `virbr1.223`: VLAN=223, CIDR=132.230.223.0/24
 
+- `virbr1.2367`: VLAN=2367, CIDR=10.5.67.0/24
+
 - `virbr1.2368`: VLAN=2368, CIDR=10.5.68.0/24
 
 
@@ -146,6 +148,25 @@ NOTE that this setup alone will *not* allow for controlling GRUB or
 seeing boot messages on the serial console. Accomplishing this by
 re-configuring GRUB, if desired, is left as an excercise to the
 reader...
+
+#### 3.3.3 Setting up a Static IP Address
+
+Some of our networks don't have a public DHCP service; also, even if
+DHCP is available it is often desireable to have a stable IP address
+on VMs hosting services. Once console access has been established
+(see. sec. 3.3.2 above) a static IP address can be set while logged
+into the running VM using `nmcli(1)`. Here's an example:
+
+```
+nmcli con modify eth0 connection.interface-name eth0 ipv4.addresses 10.5.68.237/24 ipv4.gateway 10.5.68.254 ipv4.dns 132.230.200.200
+```
+
+(The default router is *always* on `.254` in UFR networks.)
+
+NOTE: When assigning a static IP to a VM running in a network that
+*does* have an active DHCP service, don't forget to add an IP
+reservation to the relevant DHCP table, to avoid possible IP address
+conflicts!
 
 
 ## 4 Managing Guest VMs
