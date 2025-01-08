@@ -16,6 +16,7 @@ Galaxy Admin:
 - [Process Management](./procmgmt.md)
 - [TIaaS Requests](./tiaas.md)
 - [Jobs](./jobs.md)
+- [Monitoring](./monitoring.md)
 - [Mixed Notes](./notes.md)
 
 Cloud Admin:
