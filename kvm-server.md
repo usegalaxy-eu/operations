@@ -56,6 +56,8 @@ As of this writing, the following bridges are defined for KVM use:
 
 - `virbr1.2368`: VLAN=2368, CIDR=10.5.68.0/24
 
+- `virbr1.68`: VLAN=68, CIDR=132.230.68.0/24`
+
 
 These bridges have been created with `nmtui(8)` using default values
 *execpt* as follows:
@@ -158,7 +160,7 @@ on VMs hosting services. Once console access has been established
 into the running VM using `nmcli(1)`. Here's an example:
 
 ```
-nmcli con modify eth0 connection.interface-name eth0 ipv4.addresses 10.5.68.237/24 ipv4.gateway 10.5.68.254 ipv4.dns 132.230.200.200
+nmcli con modify eth0 connection.interface-name eth0 ipv4.method manual ipv4.addresses 10.5.68.237/24 ipv4.gateway 10.5.68.254 ipv4.dns 132.230.200.200 ipv4.may-fail no
 ```
 
 (The default router is *always* on `.254` in UFR networks.)
