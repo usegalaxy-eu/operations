@@ -457,9 +457,10 @@ del devmap : rl_build-vmvgcn--test2p1
 ```
 
 ### Increase root partition
-Make sure you find the right partition (`/dev/mapper/rl_build/yourVM`) or inside the VM `/dev/vda1`
+Make sure you find the right partition (`/dev/mapper/rl_build-yourVM`) or inside the VM `/dev/vda`
 ~~~
-growpart /dev/xxx 1
-xfs_growfs /dev/xxx1
-partprobe /dev/xxx # if size is not updated
+GROWPARTITION=<your partition>
+growpart $GROWPARTITION 1
+xfs_growfs "$GROWPARTITION"1
+partprobe $GROWPARTITION # if size is not updated
 ~~~
