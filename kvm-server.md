@@ -439,11 +439,11 @@ Here's a sample transcript that illustrates the process:
 ```
 # lvs
   LV                          VG       Attr       LSize    Pool Origin     Data%  Meta%  Move Log Cpy%Sync Convert
-  home                        rl_build -wi-ao----   50.00g                                                        
-  opt                         rl_build -wi-ao----  100.00g                                                        
-  root                        rl_build -wi-ao---- <100.00g                                                        
-  vmvgcn-test2                rl_build owi-aos---   10.00g                                                        
-  vmvgcn-test2-20241017T1033Z rl_build swi-a-s---   10.00g      vmvgcn-test2 6.11                                   
+  home                        rl_build -wi-ao----   50.00g
+  opt                         rl_build -wi-ao----  100.00g
+  root                        rl_build -wi-ao---- <100.00g
+  vmvgcn-test2                rl_build owi-aos---   10.00g
+  vmvgcn-test2-20241017T1033Z rl_build swi-a-s---   10.00g      vmvgcn-test2 6.11
 # kpartx -av /dev/mapper/rl_build-vmvgcn--test2
 add map rl_build-vmvgcn--test2p1 (253:7): 0 20969472 linear 253:3 2048
 # mount -oro /dev/mapper/rl_build-vmvgcn--test2p1 /mnt
@@ -455,3 +455,12 @@ bin@  cvmfs/  dev/   home/  lib64@  misc/   net/  proc/  run/   scratch/  sys/  
 del devmap : rl_build-vmvgcn--test2p1
 #
 ```
+
+### Increase root partition
+Make sure you find the right partition (`/dev/mapper/rl_build-yourVM`) or inside the VM `/dev/vda`
+~~~
+GROWPARTITION=<your partition>
+growpart $GROWPARTITION 1
+xfs_growfs "$GROWPARTITION"1
+partprobe $GROWPARTITION # if size is not updated
+~~~
