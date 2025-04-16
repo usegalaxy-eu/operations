@@ -179,6 +179,47 @@ The following table shall give an overview of the different mount points and whe
 
 "old" means in this case, the storage is still used to read old datasets, but not to write new ones.
 
+# S3 polices for our storage
+
+K. will add more documentation.
+
+```json
+{
+  "Statement": [
+    {
+      "Sid": "AllowObjectOperations",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:GetObjectAcl",
+        "s3:GetObjectVersion",
+        "s3:DeleteObject",
+        "s3:AbortMultipartUpload",
+        "s3:ListMultipartUploadParts"
+      ],
+      "Resource": [
+        "arn:aws:s3:::fr-galaxy-scratch-*/*"
+      ]
+    },
+    {
+      "Sid": "AllowBucketOperations",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket",
+        "s3:ListBucketVersions",
+        "s3:GetBucketVersioning",
+        "s3:GetLifecycleConfiguration",
+        "s3:ListBucketMultipartUploads"
+      ],
+      "Resource": [
+        "arn:aws:s3:::fr-galaxy-scratch-*"
+      ]
+    }
+  ]
+}
+```
+
 
 # Migrating storage
 
