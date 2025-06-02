@@ -263,3 +263,8 @@ Helped to solve
 ~~~
 gxadmin query q "select job.id from job inner join job_state_history jh on job.id = jh.job_id where job.handler = 'handler_sn06_0' and job.tool_id != '__DATA_FETCH__' and ( job.update_time between timestamp '2023-12-14 11:00:00' and '2023-12-14 12:00:00' )" | awk '{print$1}' | sort | uniq -c | sort -sn
 ~~~
+
+### Show all jobs from PXE test nodes
+~~~
+watch -d -n 3 "condor_q -run | grep privat | cut -d. -f1 | xargs -i sh -c 'gxadmin query queue-detail | grep {}'"
+~~~
