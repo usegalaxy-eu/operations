@@ -39,6 +39,7 @@ galaxy@sn06:~$ conda update -n base -c conda-forge conda
 ```
 
 - Run playbook (maybe with `make main.eu CHECK=1` to be certain of your changes.)
+- (In case of some problems with the database migration, you can manually trigger it with `/opt/galaxy/venv/bin/python /opt/galaxy/server/scripts/manage_db.py -c /opt/galaxy/config/galaxy.yml upgrade`)
 - Add a blog post about this (an [example](https://github.com/usegalaxy-eu/galaxy-freiburg/pull/82))
 
 # Jenkins
