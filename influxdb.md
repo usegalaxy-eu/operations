@@ -1,5 +1,9 @@
 # InfluxDB
 
+## Networking
+Influxdb is now behind a reverse proxy (traefik). The DNS record `influxdb.galaxyproject.eu` points to this proxy.
+To reach the actual service VM, use `influxdb.bi.privat`.
+
 ## data aquisition
 
 ### telegraf
