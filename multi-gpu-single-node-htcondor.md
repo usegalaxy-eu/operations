@@ -128,6 +128,8 @@ Further, the job output files (a few `print` and `echo` statements in the exampl
 
 ![Image](https://github.com/user-attachments/assets/78d66815-8925-4214-9463-6e385bad76a3)
 
+![image](https://github.com/user-attachments/assets/56699e67-a7d3-465a-b423-6066365468d0)
+
 ### Why this works
 
 * `_CONDOR_AssignedGPUs` contains the exact value of the slot’s `AssignedGPUs` attribute (e.g., `GPU-b156e653`).
