@@ -118,7 +118,7 @@ _HTCondor automatically publishes the $_CONDOR_AssignedGPUs environment variable
 
 Finally, I submitted 5 GPU jobs (the job files and scripts can be found below and on the NFS path `/data/misc06/test_pxe_gpu_jobs`).
 
-![Image](https://github.com/user-attachments/assets/b8f27af4-2b67-4be9-b95a-e9bf322cc49b)
+![image](https://github.com/user-attachments/assets/875866c3-9df1-4bac-9fc9-4ab207d1cd98)
 
 As expected, I can see that four jobs are running and one is idle; each of the four running jobs uses its own assigned GPU.
 
