@@ -209,3 +209,38 @@ print("Workload complete.")
 3. [HTCondor GPU short UUIDs](https://indico.cern.ch/event/1174979/contributions/5056722/attachments/2528544/4349952/Using%20GPUs%20with%20HTCondor.pdf)
 4. https://www.youtube.com/watch?v=qFHSfguP9XI
 5. https://agenda.hep.wisc.edu/event/2014/contributions/28474/attachments/9193/11097/PattonJ%20-%20GPUs%20with%20HTCondor.pdf
+
+---
+### Update 1:
+
+* I ran a latest test where I removed the `ENVIRONMENT_FOR_AssignedGPUs = CUDA_VISIBLE_DEVICES` from the HTCondor worker conf.
+
+* Without this ( `ENVIRONMENT_FOR_AssignedGPUs = CUDA_VISIBLE_DEVICES`) in the HTCondor worker config, the variable `CUDA_VISIBLE_DEVICES` actually gets correctly populated (instead of the truncated `156653`, they get `GPU-b156e653`), unlike what I described above, which warranted a dedicated `export CUDA_VISIBLE_DEVICES=$_CONDOR_AssignedGPUs` on the test script.
+
+* Output from my latest test run (submitted six jobs, 4 of them ran, where each job had access to individual GPUs), I added the following to the bash script (see issue above for details)
+
+```bash
+echo "Raw Assigned GPU(s): $_CONDOR_AssignedGPUs"
+echo "CUDA_VISIBLE_DEVICES: $CUDA_VISIBLE_DEVICES"
+```
+
+```bash
+Raw Assigned GPU(s): GPU-b156e653
+CUDA_VISIBLE_DEVICES: GPU-b156e653
+```
+
+![Image](https://github.com/user-attachments/assets/9c4550fb-7b7f-4508-be5d-be0ad9da0eca)
+
+This indicates that no modifications are needed to the HTCondor worker config or additional handling of environment variables in the scripts.
+
+---
+### Update 2:
+
+* Once the above (Update 1) patch was rolled out, I started 6 [Flux jobs](https://usegalaxy.eu/?tool_id=toolshed.g2.bx.psu.edu%2Frepos%2Fbgruening%2Fblack_forest_labs_flux%2Fblack_forest_labs_flux%2F2024%2Bgalaxy4&version=latest) and while monitoring, I identified that four jobs were started concurrently (that's a good sign), however, all of them were using the GPU index zero instead of their own assigned GPU.
+* The reason behind that is that these Flux jobs are running inside a Docker container to which we pass the Docker run parameter `--gpus all`, and Docker seems to handle this differently. The container sees all 4 GPUs when running `nvidia-smi` from within the container, and all the jobs end up using GPU index 0.
+* To **fix** this, we should explicitly set the Docker ENV **`--env CUDA_VISIBLE_DEVICES=$_CONDOR_AssignedGPUs'`** and this makes the jobs to use only the assigned GPUs.
+* Further, I have also tested the **`-divide <N>`** to split the 4 GPU slots into N slots (`N` = 3, in this example; so we have 12 GPU slots). The HTcondor config is this: `GPU_DISCOVERY_EXTRA = -extra-divide 3`.
+* I then submitted six jobs (manually (the job files are above in the example), and also submitted six Flux jobs) and all 6 of them started concurrently.
+* In this picture, we can see that more than 1 GPU job is run per GPU (see the bottom of the image, which shows the GPU index and the corresponding process)
+
+![Image](https://github.com/user-attachments/assets/75373af0-2efa-46fb-88e1-b2b8159ada3f)
