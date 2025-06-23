@@ -1,3 +1,52 @@
+## TL;DR
+
+To run multiple GPU jobs—each correctly mapped to its assigned GPU—on a single HTCondor node, here’s what to change:
+
+TPV changes:
+
+* TPV destinations (add the below to your respective GPU destination or even TPV tool defaults):
+
+```YAML
+    params:
+      request_gpus: "{gpus or 0}"
+```
+_Example [conf](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/94dc58ad59618a45c3a6645b9b58d07c722f5cd3/files/galaxy/tpv/destinations.yml.j2#L543-L545)_
+
+* If your tools are running in a Docker container, add the below to the tool's conf in the `tools.yml`
+* Let the container see only the assigned GPU.
+
+```YAML
+    params:
+      docker_run_extra_arguments: ' --gpus all  --env CUDA_VISIBLE_DEVICES=$_CONDOR_AssignedGPUs '
+```
+_Example [conf](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/94dc58ad59618a45c3a6645b9b58d07c722f5cd3/files/galaxy/tpv/tools.yml#L464)_
+
+* If your tools are running in a Singularity container, add the below to the tool's conf in the `tools.yml`
+
+```YAML
+    params:
+      singularity_run_extra_arguments: ' --nv --env CUDA_VISIBLE_DEVICES=$_CONDOR_AssignedGPUs '
+```
+_Singularity [doc](https://docs.sylabs.io/guides/3.5/user-guide/gpu.html#multiple-gpus)._
+
+HTCondor config changes:
+* If you would like to divide the GPU slots on your GPU host so that you can run/associate/map more than 1 GPU job per GPU
+
+```ini
+GPU_DISCOVERY_EXTRA = -extra -divide <N>
+```
+
+_Where `N` is an Int. (GPU memory will be equally divided between slots)_
+
+* If you would like to for whatever reason want to make HTCondor use the GPU Index instead of short UUIDs.
+
+```ini
+GPU_DISCOVERY_EXTRA = -extra -by-index
+```
+
+_Use `-by-index`. GPU discovery command [doc](https://htcondor.readthedocs.io/en/latest/man-pages/condor_gpu_discovery.html)._
+
+
 ## Overview
 
 Here, I describe how to configure and utilize multiple GPUs on a single worker node within an HTCondor compute environment. It outlines my attempts at HTCondor configuration changes, the behavior of partitionable slots, troubleshooting steps, and the final solution for ensuring GPU visibility within jobs.
@@ -124,7 +173,7 @@ As expected, I can see that four jobs are running and one is idle; each of the f
 
 ![Image](https://github.com/user-attachments/assets/2d603c29-57df-4f86-8891-1c7c1da85329)
 
-Further, the job output files (a few `print` and `echo` statements in the example script) show that each job is assigned only one GPU and that it uses that 
+Further, the job output files (a few `print` and `echo` statements in the example script) show that each job is assigned only one GPU and that it uses that
 
 ![Image](https://github.com/user-attachments/assets/78d66815-8925-4214-9463-6e385bad76a3)
 
@@ -134,7 +183,7 @@ Further, the job output files (a few `print` and `echo` statements in the exampl
 
 * `_CONDOR_AssignedGPUs` contains the exact value of the slot’s `AssignedGPUs` attribute (e.g., `GPU-b156e653`).
 * Recent versions of TensorFlow support GPU UUIDs (and probably similar libraries and tools), including short UUIDs.
-* No additional index conversion/translation is needed to translate the UUIDs into the GPU index 
+* No additional index conversion/translation is needed to translate the UUIDs into the GPU index
 * _We might have to 100% validate that all tools/libraries other than Tensorflow understand the GPU UUIDs and that all of them rely only on the ENV `CUDA_VISIBLE_DEVICES`_
 
 ## Examples:
@@ -203,7 +252,7 @@ while time.time() - start < 100:
 print("Workload complete.")
 ```
 
-## References: 
+## References:
 1. [HTCondor Configuration Macros](https://htcondor.readthedocs.io/en/latest/admin-manual/configuration-macros.html#ENVIRONMENT_FOR_Assigned%3Cname%3E),
 2. [HTCondor manage GPUS](https://htcondor-wiki.cs.wisc.edu/index.cgi/wiki?p=HowToManageGpus)
 3. [HTCondor GPU short UUIDs](https://indico.cern.ch/event/1174979/contributions/5056722/attachments/2528544/4349952/Using%20GPUs%20with%20HTCondor.pdf)
@@ -238,55 +287,10 @@ This indicates that no modifications are needed to the HTCondor worker config or
 
 * Once the above (Update 1) patch was rolled out, I started 6 [Flux jobs](https://usegalaxy.eu/?tool_id=toolshed.g2.bx.psu.edu%2Frepos%2Fbgruening%2Fblack_forest_labs_flux%2Fblack_forest_labs_flux%2F2024%2Bgalaxy4&version=latest) and while monitoring, I identified that four jobs were started concurrently (that's a good sign), however, all of them were using the GPU index zero instead of their own assigned GPU.
 * The reason behind that is that these Flux jobs are running inside a Docker container to which we pass the Docker run parameter `--gpus all`, and Docker seems to handle this differently. The container sees all 4 GPUs when running `nvidia-smi` from within the container, and all the jobs end up using GPU index 0.
-* To **fix** this, we should explicitly set the Docker ENV **`--env CUDA_VISIBLE_DEVICES=$_CONDOR_AssignedGPUs'`** and this makes the jobs to use only the assigned GPUs.
+* To **fix** this, we should explicitly set the Docker ENV **`--env CUDA_VISIBLE_DEVICES=$_CONDOR_AssignedGPUs'`** and this makes the jobs to use only the assigned GPUs. _Note: In theory, one could also pass the assigned GPU ID directly to Docker’s `--gpus` option, e.g., `--gpus "device=$_CONDOR_AssignedGPUs"`. However, due to complex shell quoting and variable interpolation challenges, this approach seems cumbersome and error-prone. Using the environment variable to control GPU visibility is simpler and more robust._
 * Further, I have also tested the **`-divide <N>`** to split the 4 GPU slots into N slots (`N` = 3, in this example; so we have 12 GPU slots). The HTcondor config is this: `GPU_DISCOVERY_EXTRA = -extra-divide 3`.
 * I then submitted six jobs (manually (the job files are above in the example), and also submitted six Flux jobs) and all 6 of them started concurrently.
 * In this picture, we can see that more than 1 GPU job is run per GPU (see the bottom of the image, which shows the GPU index and the corresponding process)
 
 ![Image](https://github.com/user-attachments/assets/75373af0-2efa-46fb-88e1-b2b8159ada3f)
 
----
-## Final summary (TL;DR):
-
-TPV changes:
-
-* TPV destinations (add the below to your respective GPU destination or even TPV tool defaults):
-
-```YAML
-    params:
-      request_gpus: "{gpus or 0}"
-```
-_Example [conf](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/94dc58ad59618a45c3a6645b9b58d07c722f5cd3/files/galaxy/tpv/destinations.yml.j2#L543-L545)_
-
-* If your tools are running in a Docker container, add the below to the tool's conf in the `tools.yml`
-
-```YAML
-    params:
-      docker_run_extra_arguments: ' --gpus all  --env CUDA_VISIBLE_DEVICES=$_CONDOR_AssignedGPUs '
-```
-_Example [conf](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/94dc58ad59618a45c3a6645b9b58d07c722f5cd3/files/galaxy/tpv/tools.yml#L464)_
-
-* If your tools are running in a Singularity container, add the below to the tool's conf in the `tools.yml`
-
-```YAML
-    params:
-      singularity_run_extra_arguments: ' --nv --env CUDA_VISIBLE_DEVICES=$_CONDOR_AssignedGPUs '
-```
-_Singularity [doc](https://docs.sylabs.io/guides/3.5/user-guide/gpu.html#multiple-gpus)._
-
-HTCondor config changes:
-* If you would like to divide the GPU slots on your GPU host so that you can run/associate/map more than 1 GPU job per GPU
-
-```ini
-GPU_DISCOVERY_EXTRA = -extra -divide <N>
-```
-
-_Where `N` is an Int. (GPU memory will be equally divided between slots)_
-
-* If you would like to for whatever reason want to make HTCondor use the GPU Index instead of short UUIDs.
-
-```ini
-GPU_DISCOVERY_EXTRA = -extra -by-index
-```
-
-_Use `-by-index`. GPU discovery command [doc](https://htcondor.readthedocs.io/en/latest/man-pages/condor_gpu_discovery.html)._
