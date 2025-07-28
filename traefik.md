@@ -42,8 +42,6 @@ If you did everything correctly, the new router appears on Traefik's [dashboard]
 - Navigate to `route53`
 - click on `hosted zones`
 - then on `usegalaxy.eu`
-- change the `A Record` for `usegalaxy.eu` and point it to sn09's IP address (`10.4.68.201`)
-- The record usually has a TTL of 7200s, which means, that after 2h all requests should get sn09's IP instead of Traefik's.
 - In order to bridge that time, you can install nginx on Traefik and `proxy_pass` all requests to one headnode directly.
 ### usegalaxy.eu /subdomain is showing a plain `404 not found`
 Most likely something happened to the router.
