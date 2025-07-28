@@ -38,11 +38,7 @@ If you did everything correctly, the new router appears on Traefik's [dashboard]
 
 ## How to debug
 ### 🚑 Galaxy not reachable
-- Go to [aws](https://signin.aws.amazon.com/) and sign in using the credentials in the vault (`aws.yml`)
-- Navigate to `route53`
-- click on `hosted zones`
-- then on `usegalaxy.eu`
-- In order to bridge that time, you can install nginx on Traefik and `proxy_pass` all requests to one headnode directly.
+In order to bridge the debug time, you can install HAProxy on Traefik and try [this config](https://gist.github.com/meanevo/f962a8fa5763862ab6cd94addbc4dd8d)
 ### usegalaxy.eu /subdomain is showing a plain `404 not found`
 Most likely something happened to the router.
 - Check the [dashboard](https://traefik.springhare-dinosaur.ts.net/dashboard/#/) via tailscale
