@@ -28,6 +28,9 @@ Cloud Admin:
 - [Services in the bwCloud](./cloud/services.md)
 - [Celery](./celery.md)
 
+This and That:
+- [Miscellaneous stuff](./miscellanea/)
+
 ## Read-only Fridays
 
 - **NO EXCEPTIONS**

@@ -1,0 +1,24 @@
+************************************************************************
+* Tivoli Storage Manager                                               *
+*                                                                      *
+* Client System Options file for UNIX (dsm.sys)                        *
+************************************************************************
+
+* $Id: $
+
+************************************************************************
+
+SErvername adsm
+   COMMMethod         TCPip
+   TCPPort            1500
+   TCPServeraddress   adsm.uni-freiburg.de
+   NODEname           sn11.bi.privat
+*   SCHEDMODe          PRompted
+   SCHEDMODe          POlling
+   SCHEDLOGName       /var/log/tivoli/dsmsched.log
+   ERRORLOGName       /var/log/tivoli/dsmerror.log
+   COMPRESSIon        Yes
+* > some files are really large (TB-range!) and retries can cause excessive delays
+* but for our PG dumps we *really* want retries, despite their size!
+*   CHANGINGRETRIES    0
+   DOMAIN             /var/lib/pgsql/pgdump3
