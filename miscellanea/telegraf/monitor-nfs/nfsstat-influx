@@ -1,0 +1,5 @@
+#!/bin/bash
+nfsstat -3 -s -l | awk '(NR>2 && length){print "nfsstat,op="substr($4, 0, length($4)-1)" count="$5}'
+nfsstat -4 -s -l | grep -v '[ 	]total:' | awk '/^nfs v4 /{print "nfsstat4,op="substr($4, 0, length($4)-1)" count="$5}'
+grep '^io ' /proc/net/rpc/nfsd | awk '{ printf "nfsstat,io=brw read=%d,write=%d\n", $2, $3 }'
+grep '^net ' /proc/net/rpc/nfsd | awk '{ printf "nfsstat,io=net pkg=%d,udp=%d,tcp=%d,tcpconn=%d\n", $2, $3, $4, $5 }'

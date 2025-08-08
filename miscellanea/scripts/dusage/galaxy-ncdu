@@ -1,0 +1,10 @@
+#!/bin/sh
+
+NCDU_DB_NEW=/export/jwd02f/diskusage/ncdu.db.new
+NCDU_DB_CUR=/export/jwd02f/diskusage/ncdu.db
+NCDU_DB_OLD=/export/jwd02f/diskusage/ncdu.db.old
+
+ncdu -0 -e -o- /export/jwd02f | gzip > $NCDU_DB_NEW
+mv $NCDU_DB_CUR $NCDU_DB_OLD
+mv $NCDU_DB_NEW $NCDU_DB_CUR
+

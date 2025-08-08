@@ -1,0 +1,17 @@
+#!/bin/sh
+
+PFX='vgcnbwc'
+
+if [ "$1" = "" ]; then
+    PAT='.*'
+else
+    PAT="$1"
+fi
+
+echo "# machine-select-pattern=\"${PAT}\""
+
+condor_status -af machine myaddress \
+| awk "/^${PFX}-${PAT}/ { printf(\"%s\n\", substr(\$2, 2, index(\$2, \":\")-2)) }" \
+| sort -t. -k1.1n,1.3n -k2.1n,2.3n -k3.1n,3.2n -k4.1n,4.3n \
+| uniq
+
