@@ -48,11 +48,11 @@ SELECT sub1.count,
        sub1.mode,
        sub1.relation,
        cls.relname
-FROM ( SELECT COUNT(*) as count, relation, mode
+FROM ( SELECT COUNT(*) AS count, relation, mode
        FROM pg_locks
        WHERE relation IS NOT NULL
-       GROUP BY database,relation,mode ORDER BY COUNT(*) DESC LIMIT 30 ) as sub1,
-       pg_class as cls
+       GROUP BY database,relation,mode ORDER BY COUNT(*) DESC LIMIT 30 ) AS sub1,
+       pg_class AS cls
 WHERE sub1.relation = cls.oid
 ORDER BY sub1.count DESC;
 ```
