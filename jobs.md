@@ -78,6 +78,10 @@ condor_q  -constraint 'JobDescription == "spades"' -af ClusterID JobDescription 
 condor_q -autoformat:t ClusterId JobDescription RequestMemory RequestCpus JobStatus | grep -P "\t1$"
 ```
 
+### Identify a mismatch between a job and a particular machine? (Why is my job not scheduled on this node?)
+~~~
+condor_q --better-analyze <job-id> -machine <machine-fqdn>
+~~~
 
 ### Number of cores available
 
