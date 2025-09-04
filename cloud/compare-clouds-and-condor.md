@@ -1,12 +1,12 @@
 # Compare VMs in 2+ clouds and HTCondor
-Simply replace the Openstack credentials with yours, maybe change the sn06 hostname, voilà.
+Simply replace the Openstack credentials with yours, maybe change the sn09 hostname, voilà.
 ~~~
 #!/bin/bash
 date=$(date '+%Y-%m-%d')
 
-ssh sn06 "condor_status --compact | grep vgcnbwc-worker | cut -d '.' -f1 > /tmp/$(date '+%Y-%m-%d')-condor"
+ssh sn09 "condor_status --compact | grep vgcnbwc-worker | cut -d '.' -f1 > /tmp/$(date '+%Y-%m-%d')-condor"
 
-scp sn06:/tmp/$date-condor /tmp/$date-condor
+scp sn09:/tmp/$date-condor /tmp/$date-condor
 
 # replace with yours
 source ~/app-cred-Mira-openrc.sh
