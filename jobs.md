@@ -67,6 +67,12 @@ pdsh -g cloud 'ps xao pgid,cmd | grep "[o]babel" | awk "{ print \$1 }" | xargs -
 condor_q -autoformat ClusterID JobDescription RemoteHost | grep cn032
 ```
 
+### Get all errored jobs from a specific node (improve to grep more accurate time)
+
+```bash
+condor_history -af Cmd CompletionDate -startd -name c64m384g8-n3801.bi.privat | grep 1754 | cut -f1 -d' ' | xargs -i basename {}| awk 'match ($0,/[[:digit:]]+/) { print substr($0,RSTART,RLENGTH)}' | xargs -i gxadmin query job-info {} | grep error
+```
+
 ### condor_q is very powerful
 
 ```bash
