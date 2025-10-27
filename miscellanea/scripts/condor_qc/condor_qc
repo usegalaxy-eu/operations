@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+
+from subprocess import Popen, DEVNULL, PIPE
+from time import localtime, strftime
+
+
+cq_cmd = ["condor_q", "-af:j", "JobStatus", "JobCurrentStartDate", "CMD"]
+
+cq_fmt = "{0:10} {1:5} {2:20} {3}"
+
+stc2str = {0:"unexp", 1:"idle", 2:"run", 3:"del", 4:"compl", 5:"hold", 6:"error"}
+
+
+def tse2timestr(tse):
+    if tse == b'undefined':
+        return "n/a"
+    else:
+        return strftime("%Y-%m-%d %H:%M:%S", localtime(int(tse)))
+
+
+def process_input_line(line):
+    print(cq_fmt.format(line[0].decode('utf-8'),
+                        stc2str[int(line[1])],
+                        tse2timestr(line[2]),
+                        line[3].decode('utf-8')))
+
+
+def main():
+    print(cq_fmt.format("JobID", "ST", "Start Time", "CMD"))
+    try:
+        with Popen(cq_cmd, stdin=DEVNULL, stdout=PIPE) as subp:
+            for line in subp.stdout:
+                process_input_line(line.split())
+    except BrokenPipeError:
+        # broken pipe happens all the time when piped to less(1), just ignore
+        pass
+
+
+if __name__ == "__main__":
+    main()
