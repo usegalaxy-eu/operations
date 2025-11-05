@@ -57,6 +57,12 @@ Now the actual VGCN image boots and you should see a login screen in IPMI and be
 
 1. Select a host-group (use `[test]` first)
 2. Wait for the deployment to finish and check [Telegraf Script was added to VGCN-Infrastructure-Playbook](https://github.com/usegalaxy-eu/vgcn-infrastructure-playbook/pull/13) and using this [dashboard](https://stats.galaxyproject.eu/goto/ngJ_Mg_Ng?orgId=1) we can monitor if the storage config is correct for each PXE node
+3. If not, do the following procedure (e.g. pssh):
+4. Check that there is a partition blkid | grep OPENSLX_SYS
+5. If not use `parted`, make GPT partition table (`sudo parted -s /dev/sdX mklabel gpt`) and create partition with name OPENSLX_SYS (`sudo parted -s /dev/sda mkpart primary xfs 0% 100% name 1 OPENSLX_SYS`)
+6. Reboot and check that it worked
+7. Check the dashboard again
+8. Once all is green, move the nodes to another host-group
 
 **GPU-Compute mixed nodes**
 
