@@ -3,10 +3,14 @@
 from subprocess import Popen, DEVNULL, PIPE
 from time import localtime, strftime
 
+import argparse
 
-cq_cmd = ["condor_q", "-af:j", "JobStatus", "JobCurrentStartDate", "CMD"]
+
+cq_cmd = ["condor_q", "-af:Vj", "JobStatus", "JobCurrentStartDate", "CMD"]
 
 cq_fmt = "{0:10} {1:5} {2:20} {3}"
+
+st_fmt = "\nJobs total: {total}, compl: {compl}, del: {deleted}, idle: {idle}, run: {run}, hold: {hold}"
 
 stc2str = {0:"unexp", 1:"idle", 2:"run", 3:"del", 4:"compl", 5:"hold", 6:"error"}
 
@@ -18,19 +22,40 @@ def tse2timestr(tse):
         return strftime("%Y-%m-%d %H:%M:%S", localtime(int(tse)))
 
 
-def process_input_line(line):
+def update_statistics(jstatus, stats):
+    if   jstatus == 1: stats['idle'] += 1
+    elif jstatus == 2: stats['run'] += 1
+    elif jstatus == 3: stats['deleted'] += 1
+    elif jstatus == 4: stats['compl'] += 1
+    elif jstatus == 5: stats['hold'] += 1
+    else: pass
+    stats['total'] += 1
+
+
+def process_input_line(line, stats):
+    update_statistics(int(line[1]), stats)
     print(cq_fmt.format(line[0].decode('utf-8'),
                         stc2str[int(line[1])],
                         tse2timestr(line[2]),
-                        line[3].decode('utf-8')))
+                        line[3].decode('utf-8').strip('"')))
+
+
+def parse_cmdline():
+    ap = argparse.ArgumentParser(description="condor_qc: Output re-formatting wrapper for condor_q(1)")
+    ap.add_argument("-s", "--stats", action="store_true", help="Print statistics")
+    return ap.parse_args()
 
 
 def main():
-    print(cq_fmt.format("JobID", "ST", "Start Time", "CMD"))
+    args = parse_cmdline()
+    stats = dict(total=0, compl=0, deleted=0, idle=0, run=0, hold=0)
     try:
+        print(cq_fmt.format("JobID", "ST", "Start Time", "CMD"))
         with Popen(cq_cmd, stdin=DEVNULL, stdout=PIPE) as subp:
             for line in subp.stdout:
-                process_input_line(line.split())
+                process_input_line(line.split(), stats)
+        if args.stats:
+            print(st_fmt.format(**stats))
     except BrokenPipeError:
         # broken pipe happens all the time when piped to less(1), just ignore
         pass
