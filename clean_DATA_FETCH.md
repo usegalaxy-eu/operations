@@ -1,7 +1,7 @@
 Given that script:
 
 ```python3
-galaxy@sn06:/data/dnb02/galaxy_db$ cat /tmp/get_wd.py 
+galaxy@sn09:/data/dnb02/galaxy_db$ cat /tmp/get_wd.py
 #!/usr/bin/python
 
 import os, sys, shutil
@@ -41,7 +41,7 @@ cat /tmp/top_120.txt | xargs -i /tmp/get_wd.py {}
 
 4. reassign handlers - change from celery to the real stuff
 ```bash
-cat /tmp/top_120.txt | xargs -i gxadmin mutate reassign-job-to-handler {} handler_sn06_0 --commit
+cat /tmp/top_120.txt | xargs -i gxadmin mutate reassign-job-to-handler {} handler_sn09_0 --commit
 ```
 
 5. restart the job

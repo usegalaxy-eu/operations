@@ -5,7 +5,7 @@ title: Galaxy Europe Services
 # TIaaS
 
 - [Admin web interface](https://usegalaxy.eu/tiaas/admin/login/?next=/tiaas/admin/)
-- service lives on [sn06](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/4e6121da8af500dfe878c312243be49807ac5f48/sn06.yml#L152)
+- service lives on [sn09](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/be8d196b26f46852bc593a0d8a64e66dedde69c5/sn09.yml#L369)
 - Deployed with the [usegalaxy_eu.tiaas2](https://github.com/galaxyproject/ansible-tiaas2) Ansible role using this [vars](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/tiaas.yml)
 
 # Grafana
