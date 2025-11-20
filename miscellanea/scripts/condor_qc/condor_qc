@@ -34,47 +34,54 @@ def update_statistics(jstatus, stats):
     stats['total'] += 1
 
 
-def process_input_line(line, stats, timeval):
+def process_input_line(line, stats, args):
     update_statistics(int(line[1]), stats)
-    print(cq_fmt.format(line[0].decode('utf-8'),
-                        stc2str[int(line[1])],
-                        tse2timestr(line[3 + timeval]),
-                        line[2].decode('utf-8').strip('"')))
+    if int(line[1]) in args.jst_mask:
+        print(cq_fmt.format(line[0].decode('utf-8'),
+                            stc2str[int(line[1])],
+                            tse2timestr(line[3 + args.timeval]),
+                            line[2].decode('utf-8').strip('"')))
 
 
 def parse_cmdline():
     ap = argparse.ArgumentParser(description="condor_qc: Output re-formatting wrapper for condor_q(1)")
     ap.add_argument("-s", "--stats", action="store_true", help="Print statistics")
+    ap.add_argument("-I", "--idle", action="store_true", help="Filter idle jobs")
+    ap.add_argument("-R", "--run", action="store_true", help="Filter running jobs")
+    ap.add_argument("-H", "--hold", action="store_true", help="Filter held jobs")
     ap.add_argument("--qtime", action="store_true", help="Print job queue time")
-    ap.add_argument("--stime", action="store_true", help="Print job start time")
+    ap.add_argument("--stime", action="store_true", help="Print job start time (default)")
     ap.add_argument("--ltime", action="store_true", help="Print job last start time")
     ap.add_argument("--ctime", action="store_true", help="Print job current start time")
     return ap.parse_args()
 
 
-def time_to_display(args):
-    if args.qtime:
-        return 0
-    elif args.stime:
-        return 1
-    elif args.ltime:
-        return 2
-    elif args.ctime:
-        return 3
+def update_args(args):
+    if args.idle or args.run or args.hold:
+        args.jst_mask = set()
     else:
-        return 1    # start time is default
+        args.jst_mask = {0, 1, 2, 3, 4, 5, 6}
+    if args.idle: args.jst_mask.add(1)
+    if args.run:  args.jst_mask.add(2)
+    if args.hold: args.jst_mask.add(5)
+
+    if   args.qtime: args.timeval = 0
+    elif args.stime: args.timeval = 1
+    elif args.ltime: args.timeval = 2
+    elif args.ctime: args.timeval = 3
+    else:            args.timeval = 1    # start time is default
+    return args
 
 
 def main():
-    args = parse_cmdline()
+    args = update_args(parse_cmdline())
     stats = dict(total=0, compl=0, deleted=0, idle=0, run=0, hold=0)
-    timeval = time_to_display(args)
-    headers = ["JobID", "ST"] + [timeval_hdg[timeval]] + ["CMD"]
+    headers = ["JobID", "ST"] + [timeval_hdg[args.timeval]] + ["CMD"]
     try:
         print(cq_fmt.format(*headers))
         with Popen(cq_cmd, stdin=DEVNULL, stdout=PIPE) as subp:
             for line in subp.stdout:
-                process_input_line(line.split(), stats, timeval)
+                process_input_line(line.split(), stats, args)
         if args.stats:
             print(st_fmt.format(**stats))
     except BrokenPipeError:
