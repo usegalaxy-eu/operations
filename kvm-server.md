@@ -50,13 +50,15 @@ giving a guest VM more than one virtual interface.
 
 As of this writing, the following bridges are defined for KVM use:
 
+- `virbr1.68`: VLAN=68, CIDR=132.230.68.0/24`
+
 - `virbr1.223`: VLAN=223, CIDR=132.230.223.0/24
+
+- `virbr1.2068`: VLAN=2068, CIDR=10.4.68.0/24
 
 - `virbr1.2367`: VLAN=2367, CIDR=10.5.67.0/24
 
 - `virbr1.2368`: VLAN=2368, CIDR=10.5.68.0/24
-
-- `virbr1.68`: VLAN=68, CIDR=132.230.68.0/24`
 
 
 These bridges have been created with `nmtui(8)` using default values
