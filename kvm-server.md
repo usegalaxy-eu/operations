@@ -60,6 +60,11 @@ As of this writing, the following bridges are defined for KVM use:
 
 - `virbr1.2368`: VLAN=2368, CIDR=10.5.68.0/24
 
+The ones that are, at this writing, really relevant are `virbr1.68`
+(132.230.68.0/24) for hosts that need to be reachable from the public
+internet and `virbr1.2068` (10.4.68.0/24) for all others. The remaining
+VLANs are "legacy" and considered deprecated.
+
 
 These bridges have been created with `nmtui(8)` using default values
 *execpt* as follows:
