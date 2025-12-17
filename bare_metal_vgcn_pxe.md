@@ -76,6 +76,8 @@ Once the disk setup is correct (everything green in the dashboard), we can move 
 
 [VGCN-Image-Build](https://build.galaxyproject.eu/job/usegalaxy-eu/job/VGCN-Image-Build) Jenkins project builds the actual `VGCN image` using Packer and Ansible, as well as a kernel and an initramFS. All three artifacts are then copied to the [dnbd3-primary](#dnbd3-primarygalaxyprojecteu).
 
+If you want to build an image with a latest version of a EL major release, then check [here](https://github.com/bwLehrpool/dnbd3/blob/master/.github/workflows/build-kernel-module.yml) if the latest version is already added and if yes, if it builds successfully. If it is not added, please open a PR against this file to add it.
+
 The pipeline is defined in Groovy in the [jenkins-scripts repository](https://github.com/usegalaxy-eu/jenkins-scripts/blob/vgcn-pipeline-pxe/Jenkinsfile).
 
 #### Build
