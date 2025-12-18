@@ -25,7 +25,7 @@ title: Galaxy Upgrading procedures
 
 - sync configuration files, see https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/bin/diff-before-update
   - While syncing the configuration files, look for any new `production` templates available in the `lib/galaxy/files/templates/examples` and in the `lib/galaxy/objectstore/templates/examples` in the newly created release branch above. If there are any new templates that we would like to include, add them to the `templates/galaxy/config/file_source_templates.yml.j2` and `templates/galaxy/config/object_store_templates.yml.j2` in the [infrastructure-playbook](https://github.com/usegalaxy-eu/infrastructure-playbook) repository. Check this [PR](https://github.com/usegalaxy-eu/infrastructure-playbook/pull/1225/commits/bb01c94ca30589914217ea6cfb6941bdce6273fc) for reference on adding new templates and simultaneously updating the [diff-before-update script](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/bin/diff-before-update) to include the new templates. Please ensure that the `diff-before-update` script is updated to include the new templates before running the script.
-- update to the latest commit ID of the new branch, see [this line](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/sn06/sn06.yml#L347).
+- update to the latest commit ID of the new branch, see [this line]([https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/sn06/sn06.yml#L347](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/f179a683799ffc4735bb213168b3ba537e42e014/group_vars/sn09/sn09.yml#L371)).
 
 # Downtime begins
 
