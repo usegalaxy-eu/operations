@@ -6,9 +6,11 @@ from time import localtime, strftime
 import argparse
 
 
-cq_cmd = ["condor_q", "-af:Vj", "JobStatus", "CMD", "Qdate", "JobStartDate", "JobLastStartDate", "JobCurrentStartDate"]
+cq_cmd = ["condor_q", "-af:Vj", "JobStatus", "CMD", "Qdate", "JobStartDate", "JobLastStartDate", "JobCurrentStartDate", "RemoteHost"]
 
-cq_fmt = "{0:10} {1:5} {2:20} {3}"
+cq_fmt1 = "{0:10} {1:5} {2:20} {3}"
+
+cq_fmt2 = "{0:10} {1:5} {2:20} {3:35} {4}"
 
 st_fmt = "\nJobs total: {total}, compl: {compl}, del: {deleted}, idle: {idle}, run: {run}, hold: {hold}"
 
@@ -22,6 +24,12 @@ def tse2timestr(tse):
         return "n/a"
     else:
         return strftime("%Y-%m-%d %H:%M:%S", localtime(int(tse)))
+
+def rewrite_undef(s):
+    if s == 'undefined':
+        return "n/a"
+    else:
+        return s
 
 
 def update_statistics(jstatus, stats):
@@ -37,15 +45,23 @@ def update_statistics(jstatus, stats):
 def process_input_line(line, stats, args):
     update_statistics(int(line[1]), stats)
     if int(line[1]) in args.jst_mask:
-        print(cq_fmt.format(line[0].decode('utf-8'),
-                            stc2str[int(line[1])],
-                            tse2timestr(line[3 + args.timeval]),
-                            line[2].decode('utf-8').strip('"')))
+        if args.exechost:
+            print(cq_fmt2.format(line[0].decode('utf-8'),
+                                 stc2str[int(line[1])],
+                                 tse2timestr(line[3 + args.timeval]),
+                                 rewrite_undef(line[7].decode('utf-8').strip('"')),
+                                 line[2].decode('utf-8').strip('"')))
+        else:
+            print(cq_fmt1.format(line[0].decode('utf-8'),
+                                 stc2str[int(line[1])],
+                                 tse2timestr(line[3 + args.timeval]),
+                                 line[2].decode('utf-8').strip('"')))
 
 
 def parse_cmdline():
     ap = argparse.ArgumentParser(description="condor_qc: Output re-formatting wrapper for condor_q(1)")
     ap.add_argument("-s", "--stats", action="store_true", help="Print statistics")
+    ap.add_argument("-e", "--exechost", action="store_true", help="Show execution host")
     ap.add_argument("-I", "--idle", action="store_true", help="Filter idle jobs")
     ap.add_argument("-R", "--run", action="store_true", help="Filter running jobs")
     ap.add_argument("-H", "--hold", action="store_true", help="Filter held jobs")
@@ -76,9 +92,15 @@ def update_args(args):
 def main():
     args = update_args(parse_cmdline())
     stats = dict(total=0, compl=0, deleted=0, idle=0, run=0, hold=0)
-    headers = ["JobID", "ST"] + [timeval_hdg[args.timeval]] + ["CMD"]
+    if args.exechost:
+        headers = ["JobID", "ST"] + [timeval_hdg[args.timeval]] + ["Exec Host"] + ["CMD"]
+    else:
+        headers = ["JobID", "ST"] + [timeval_hdg[args.timeval]] + ["CMD"]
     try:
-        print(cq_fmt.format(*headers))
+        if args.exechost:
+            print(cq_fmt2.format(*headers))
+        else:
+            print(cq_fmt1.format(*headers))
         with Popen(cq_cmd, stdin=DEVNULL, stdout=PIPE) as subp:
             for line in subp.stdout:
                 process_input_line(line.split(), stats, args)
