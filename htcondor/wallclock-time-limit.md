@@ -24,7 +24,7 @@ times are in seconds.)
 
 ## CI Information
 
-The HTCondor config file is templated from [condor_config.local.j2](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/templates/htcondor/condor-config.local.j2)
+The HTCondor config file is templated from [condor_config.local.j2](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/templates/htcondor/condor_config.local.j2)
 
 The relevant CI variables are
 
@@ -32,5 +32,5 @@ The relevant CI variables are
 
 - `htcondor_system_periodic_remove`
 
-they are defined in [group_vars/htcondor/vars.yml](https:///usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/htcondor/vars.yml)
+they are defined in [group_vars/htcondor/vars.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/group_vars/htcondor/vars.yml)
 
