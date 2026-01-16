@@ -278,3 +278,8 @@ gxadmin query q "select job.id from job inner join job_state_history jh on job.i
 ~~~
 watch -d -n 3 "condor_q -run | grep privat | cut -d. -f1 | xargs -i sh -c 'gxadmin query queue-detail | grep {}'"
 ~~~
+
+### Find Host from ClusterID
+~~~
+condor_q -af RemoteHost -constraint 'ClusterId == <job_id>'
+~~~
