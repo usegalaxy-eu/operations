@@ -69,6 +69,7 @@ def parse_cmdline():
     ap.add_argument("--stime", action="store_true", help="Print job start time (default)")
     ap.add_argument("--ltime", action="store_true", help="Print job last start time")
     ap.add_argument("--ctime", action="store_true", help="Print job current start time")
+    ap.add_argument("-c", "--constraint", action="store", nargs=1, help="Filter jobs by classad constraint")
     return ap.parse_args()
 
 
@@ -90,12 +91,16 @@ def update_args(args):
 
 
 def main():
+    global cq_cmd
+
     args = update_args(parse_cmdline())
     stats = dict(total=0, compl=0, deleted=0, idle=0, run=0, hold=0)
     if args.exechost:
         headers = ["JobID", "ST"] + [timeval_hdg[args.timeval]] + ["Exec Host"] + ["CMD"]
     else:
         headers = ["JobID", "ST"] + [timeval_hdg[args.timeval]] + ["CMD"]
+    if args.constraint:
+        cq_cmd += ["-constraint", args.constraint[0]]
     try:
         if args.exechost:
             print(cq_fmt2.format(*headers))
