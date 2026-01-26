@@ -257,6 +257,12 @@ comm -23 <(condor_q --json | jq '.[]? | .ClusterId' | sort) <(gxadmin query queu
 
 Those ID can be piped to `condor_rm` if needed.
 
+### Find finished jobs that galaxy does not update anymore
+Introduced for https://github.com/usegalaxy-eu/issues/issues/865
+~~~
+comm -12 <(condor_history -af ClusterId | sort) <(gxadmin query queue-detail | awk 'NR > 2 { print $5 }' | sort)
+~~~
+
 ### Concurrent Job Count Highscore
 ```bash
 gxadmin query queue-detail --all | awk -F\| '{print$5}' | sort | uniq -c | sort -sn
