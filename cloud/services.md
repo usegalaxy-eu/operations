@@ -54,6 +54,9 @@ title: Galaxy Europe Services
 - managed by [Nate Corar](https://github.com/natefoo)
 - lives on cvmfs-stratum0.galaxyproject.eu
 - [VM definition](https://github.com/usegalaxy-eu/infrastructure/blob/main/instance_core_cvmfs0_eu.tf)
+- It hosts Singularity images and rsync's them every hour to the CVMFS from [depot](https://depot.galaxyproject.org/singularity/)
+- Ansible Playbook: https://github.com/galaxyproject/infrastructure-playbook/tree/main/host_vars/cvmfs-stratum0.galaxyproject.eu
+- Status dashboard: https://stats.galaxyproject.org/d/VdSc7u54z/cvmfs
 
 # Jenkins workers
 
