@@ -57,7 +57,7 @@ This cmd will find all jobs matching a string (here "obabel"), returns the group
 to remove jobs from the condor nodes when condor_rm was not able to kill the jobs.
 
 ```bash
-pdsh -g cloud 'ps xao pgid,cmd | grep "[o]babel" | awk "{ print \$1 }" | xargs -I {} sudo kill -9 {}'
+pssh -h /etc/pssh/cloud 'ps xao pgid,cmd | grep "[o]babel" | awk "{ print \$1 }" | xargs -I {} sudo kill -9 {}'
 ```
 
 -----
