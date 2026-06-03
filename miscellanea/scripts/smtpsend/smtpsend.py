@@ -3,7 +3,7 @@
 # Name:	smtpsend.py
 # Athr:	janky
 # Desc:	Extremely simple, mostly mail[x]-compatible SMTP null-client
-# Vrsn: 3.4 2026-06-03
+# Vrsn: 3.4.1 2026-06-03
 
 import os
 import sys
@@ -113,7 +113,6 @@ def send_822(options, to_list, msg, verbosity=0):
        This function is actually mis-named as the SMTP protocol
        was first defined in RFC-821 (RFC-822 defined the address
        format)."""
-    print(options) #DBG
     return_code = 0
     refused_count = 0
     error_message = ''
