@@ -3,7 +3,7 @@
 # Name:	smtpsend.py
 # Athr:	janky
 # Desc:	Extremely simple, mostly mail[x]-compatible SMTP null-client
-# Vrsn: 3.4.1 2026-06-03
+# Vrsn: 3.4.2 2026-06-03
 
 import os
 import sys
@@ -87,7 +87,7 @@ def minimal_headers(hdrfrom, rcpt_list, stime=datetime_string()):
 
 
 def send_smtp(options, to_list, body, subject='', verbosity=0):
-    """Send the message in BODY to all recipients in OPTIONS.SENDER.
+    """Send the message in BODY to all recipients in TO_LIST.
        SUBJECT, defaults to '' and can be overriden if needed.
        This procedure calls send_822() q.v."""
     
@@ -99,7 +99,7 @@ def send_smtp(options, to_list, body, subject='', verbosity=0):
 
 def send_822(options, to_list, msg, verbosity=0):
     """Take an almost complete RFC-822 message contained in MSG and
-       send it to the recipients in OPTIONS.SENDER (thereby completing
+       send it to the recipients in TO_LIST (thereby completing
        the message by prepending 'From:'. 'To:'- and 'Date:'-headers.
 
        Return value: (return_code, refused_count, error_message)
