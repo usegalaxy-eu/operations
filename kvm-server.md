@@ -471,3 +471,153 @@ growpart $GROWPARTITION 1
 xfs_growfs "$GROWPARTITION"1
 partprobe $GROWPARTITION # if size is not updated
 ~~~
+
+## 5 Power Outage Recovery
+
+This section covers the recovery procedure for KVM guests and their data volumes after an unplanned
+power outage.  See also [power-outage-recovery.md §E](./power-outage-recovery.md#e--kvmnfs-data-volume-recovery)
+for the broader incident context.
+
+### 5.1 Verify NFS Data Volume
+
+KVM guests may rely on NFS-backed data volumes (e.g. `/data`, `/vdb`).  After a power cycle, confirm
+the NFS mount is present on the KVM host *before* starting any guests:
+
+```bash
+# On the KVM host (build.galaxyproject.eu)
+mount | grep -E 'nfs|nfs4'    # list all NFS mounts
+ls /data/                      # adjust path to the actual NFS mount point
+
+# If the mount is missing, remount:
+mount -a
+# or restart the NFS client target:
+systemctl restart nfs-client.target
+# Verify again:
+mount | grep nfs
+```
+
+> **Note:** If the NFS server itself (e.g. a ZFS appliance) is still recovering, wait until it is
+> fully online before attempting to remount.
+
+### 5.2 Refresh libvirt Storage Pool
+
+If a libvirt storage pool is defined (check with `virsh pool-list`), refresh it after the NFS mount
+is restored so that libvirt can see the correct list of volumes:
+
+```bash
+virsh pool-list --all
+virsh pool-refresh <pool-name>     # e.g. "default"
+virsh vol-list <pool-name>         # verify expected volumes are listed
+```
+
+> As noted in §4.2, the current KVM server does **not** use libvirt storage pools.  Skip this step
+> if `virsh pool-list` returns an empty list.
+
+### 5.3 VM Shutdown / Startup Sequence
+
+Always shut down dependent VMs before their backing services, and start services before dependents.
+
+**Graceful shutdown (preferred)**
+
+```bash
+# List running VMs
+virsh list
+
+# Shut down each VM gracefully
+virsh shutdown <vm-name>
+
+# Wait for all to stop (repeat until empty)
+virsh list | grep running
+```
+
+**Force-stop if a VM does not respond to shutdown**
+
+```bash
+virsh destroy <vm-name>    # immediate termination; no data is deleted
+```
+
+**Start VMs after recovery**
+
+```bash
+# Start VMs in dependency order (backing services first)
+virsh start <vm-name>
+
+# Verify the VM is running and responsive
+virsh list
+virsh guestinfo <vm-name>
+```
+
+### 5.4 In-VM Validation of Data Disk (`vdb`)
+
+For VMs that use a second virtual disk (`vdb`) backed by an NFS LV or image file, verify the disk is
+visible inside the VM after startup:
+
+```bash
+# Inside the VM
+lsblk                        # should list /dev/vdb
+df -h | grep vdb             # should show the mounted filesystem
+
+# If vdb is missing, check on the KVM host that the LV/image exists:
+lvs | grep <vm-name>         # for LV-backed disks
+ls -lh /data/<image-file>    # for file-backed disks
+```
+
+If the disk is missing, shut down the VM, verify the backing storage, and start it again.
+
+### 5.5 RabbitMQ / Docker Startup
+
+Some KVM guests run RabbitMQ or Docker services that do not auto-start reliably after an unclean
+shutdown.  After confirming the guest is up:
+
+```bash
+# RabbitMQ
+sudo systemctl status rabbitmq-server
+sudo systemctl start rabbitmq-server
+
+# Docker
+sudo systemctl status docker
+sudo systemctl start docker
+```
+
+> **Recommendation:** Ensure `rabbitmq-server` and `docker` are enabled for auto-start (`systemctl enable`)
+> and that their unit files include `Restart=on-failure` to improve resilience against future crashes.
+
+### 5.6 Post-Recovery CI Verification
+
+After all VMs are up, trigger a test job via Jenkins to confirm end-to-end functionality:
+
+1. Open [build.galaxyproject.eu](https://build.galaxyproject.eu) and verify workers are online.
+2. Trigger a lightweight test playbook (e.g. `infrastructure-playbook` with `--check`).
+3. Confirm Galaxy at <https://usegalaxy.eu> accepts job submissions.
+4. Check Grafana dashboards for queue depth and error rates.
+
+For the Terraform plan expectations of individual VMs, see the
+[kvm-infrastructure](https://github.com/usegalaxy-eu/kvm-infrastructure) repository.
+
+## SSH Access Fallback via Jenkins
+
+When direct SSH to a KVM guest is unavailable (e.g. network misconfiguration after a reboot), use
+one of these fallback paths:
+
+```bash
+# Option 1: virsh serial console (requires console access to be set up — see §3.3.2)
+virsh console <vm-name>    # on the KVM host; press CTRL-] to detach
+
+# Option 2: Jump via the Jenkins internal worker / gold worker
+ssh gold.galaxyproject.eu
+ssh <vm-internal-ip-or-hostname>
+
+# Option 3: Jump via dnbd3-primary (if on the same network)
+ssh dnbd3-primary.galaxyproject.eu
+ssh <vm-internal-ip>
+```
+
+> **Tip:** You can configure a `ProxyJump` in `~/.ssh/config` to make this transparent:
+>
+> ```
+> Host *.bi.privat 10.4.68.* 10.5.68.*
+>     ProxyJump gold.galaxyproject.eu
+> ```
+
+See also [jenkins.md](./jenkins.md) and
+[power-outage-recovery.md §F](./power-outage-recovery.md#f--vm-ssh-access-fallback).

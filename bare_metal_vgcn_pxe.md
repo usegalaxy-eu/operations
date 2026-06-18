@@ -122,6 +122,68 @@ Use `ipmitool` on [jumphost][jumphost] to automate the reboot with bash.
 
 For individual nodes use the same, or use the IPMI web interface and trigger a 'powercycle'. The hostnames *should* be `sp<node-number>.bi.privat` but you can look them up in [infoblox][infoblox].
 
+#### IPMI power cycle — secure procedure
+
+Always read the BMC password from stdin to avoid exposing it in shell history or process listings:
+
+```bash
+BMC_HOST="sp<node-number>.bi.privat"   # look up in Infoblox: https://ipam.noc.uni-freiburg.de/
+BMC_USER="admin"                        # see exceptions table below
+
+read -rs BMC_PASS
+ipmitool -I lanplus -H "$BMC_HOST" -U "$BMC_USER" -P "$BMC_PASS" power cycle
+
+# Verify power state afterwards
+ipmitool -I lanplus -H "$BMC_HOST" -U "$BMC_USER" -P "$BMC_PASS" power status
+```
+
+> **Never** hard-code BMC passwords in scripts or pass them via environment variables that may appear
+> in CI logs.  The `read -rs` pattern above keeps the password out of shell history and process listings.
+
+#### Known BMC hostname / user exceptions
+
+Some nodes deviate from the standard `sp<n>.bi.privat` / `admin` convention.  The authoritative source
+for BMC credentials is the Ansible vault (`secret_group_vars/`) in the
+[infrastructure-playbook](https://github.com/usegalaxy-eu/infrastructure-playbook).
+
+| Compute node | BMC hostname | BMC user | Notes |
+|---|---|---|---|
+| `spgput4.*` | *(check Infoblox)* | `admin` | GPU node; hostname prefix differs |
+| `c128m512g4-n37104.*` | *(check Infoblox)* | `root` | Non-standard BMC user |
+
+Update this table whenever new exceptions are discovered.
+
+### Cluster Health Validation
+
+After a mass power cycle or outage recovery, verify that compute nodes are reachable **before**
+re-enabling the HTCondor scheduler or running playbooks.
+
+#### Using `pssh`
+
+```bash
+# Fetch a current hosts file
+wget https://raw.githubusercontent.com/usegalaxy-eu/vgcn-infrastructure-playbook/refs/heads/main/hosts \
+  -O /tmp/vgcn-hosts
+sed -i '/^\[.*\]$/{ :a; n; /^\[/!ba; x; d; }' /tmp/vgcn-hosts   # strip section headers
+
+# Ping all nodes
+pssh -h /tmp/vgcn-hosts -l root -t 30 -i "hostname && uptime"
+
+# Count successes
+pssh -h /tmp/vgcn-hosts -l root -t 30 -i "echo OK" 2>&1 | grep -c '\[SUCCESS\]'
+```
+
+Nodes returning `[FAILURE]` or `[TIMEOUT]` need investigation (check IPMI power status, console).
+
+#### Using HTCondor
+
+```bash
+condor_status -totals          # overall slot summary
+condor_status | grep Offline   # nodes that have not checked in
+```
+
+See also [power-outage-recovery.md §D](./power-outage-recovery.md#d--host-availability-validation).
+
 ### Set a root password
 
 Using the `SLX_ROOT_PASS` variable in the [boot.menu][boot_menu] allows you to set a root password, so you can log in from IPMI console viewer for debugging purposes. Please keep in mind that this is not secure and the password should be randomly created for this purpose, because the [boot.menu][boot_menu] file is only protected by network access restriction of the HTTP server.
@@ -275,6 +337,40 @@ sequenceDiagram
 - Runs on dnbd3-primary.galaxyproject.eu
 - Service is named `tftp.service`
 - Provides: [ipxe.efi](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/files/dnbd3/ipxe.efi)
+
+#### TFTP / autofs startup ordering
+
+The TFTP boot files live on an NFS path managed by autofs (e.g. `/netboot/boot`).  If `tftp.service`
+starts before that mount is available, PXE clients will fail to download the bootloader.
+
+To ensure correct ordering, the `tftp.service` unit must declare an `After=` and `Wants=` dependency
+on autofs and the network:
+
+```ini
+# /etc/systemd/system/tftp.service.d/autofs-after.conf
+[Unit]
+After=network-online.target remote-fs.target autofs.service
+Wants=network-online.target remote-fs.target autofs.service
+# Optionally, also fail if the specific mount disappears:
+# RequiresMountsFor=/netboot/boot
+```
+
+Apply with:
+
+```bash
+systemctl daemon-reload
+systemctl restart tftp.service
+systemctl status tftp.service
+ls /netboot/boot          # verify boot files are visible before declaring the service healthy
+```
+
+> **Caveat:** `RequiresMountsFor=` causes the service to stop if the NFS mount unmounts later.
+> Use it only if you want `tftp.service` to restart on NFS hiccups.  Without it, tftp will keep
+> running but serve stale or missing files if the mount disappears.
+
+This drop-in is managed via Ansible in the `dnbd3primary` host group of the
+[infrastructure-playbook](https://github.com/usegalaxy-eu/infrastructure-playbook).
+See also [power-outage-recovery.md §A](./power-outage-recovery.md#a--tftp--autofs-startup-ordering).
 
 ## Debugging
 

@@ -9,6 +9,7 @@
 - [Bare metal nodes](./bare_metal.md)
 - [Traefik](./traefik.md)
 - [Configuring multi-GPU HTCondor nodes](./multi-gpu-single-node-htcondor.md)
+- [Jenkins CI/CD](./jenkins.md)
 
 Galaxy Admin:
 
@@ -19,6 +20,7 @@ Galaxy Admin:
 - [Jobs](./jobs.md)
 - [Monitoring](./monitoring.md)
 - [Mixed Notes](./notes.md)
+- [ClickHouse and Plausible Analytics](./clickhouse.md)
 
 Cloud Admin:
 
@@ -27,6 +29,15 @@ Cloud Admin:
 - [Launching a student VM](./cloud/student-vm.md)
 - [Services in the bwCloud](./cloud/services.md)
 - [Celery](./celery.md)
+- [KVM Server for Critical Infrastructure](./kvm-server.md)
+
+Bare Metal / PXE:
+
+- [Bare Metal VGCN with Network Boot (PXE)](./bare_metal_vgcn_pxe.md)
+
+Incident Recovery:
+
+- [**Power Outage Recovery Runbook**](./power-outage-recovery.md) ← start here after a datacenter outage
 
 This and That:
 - [Miscellaneous stuff](./miscellanea/)
