@@ -20,7 +20,7 @@ procedures.
 
 **Symptom**
 
-ClickHouse logs (via `journalctl -u clickhouse-server`) contain:
+ClickHouse logs contain:
 
 ```
 DB::Exception: Too many (N) broken parts in table plausible_events_db.events.
@@ -31,103 +31,9 @@ This can occur after a power loss or unclean shutdown where on-disk data structu
 
 **Mitigation**
 
-```bash
-# Step 1: Connect to the ClickHouse server
-sudo -u clickhouse clickhouse-client
-
-# Step 2: Raise the broken-parts threshold to allow the table to load
-# (Replace 'plausible_events_db' and 'events' with the actual DB/table if different)
-ALTER TABLE plausible_events_db.events
-  MODIFY SETTING max_suspicious_broken_parts = 200;
-
-# Exit the client
-exit
-
-# Step 3: Restart ClickHouse
-sudo systemctl restart clickhouse-server
-sudo systemctl status clickhouse-server
+if ClickHouse is not alive with Suspiciously many (14 parts) broken parts to remove while maximum allowed broken parts count is 10 then you can change the ```/data/plausible/clickhouse/clickhouse-config.xml``` and add:
 ```
-
-**Validation**
-
-```bash
-# Check for remaining errors
-sudo journalctl -u clickhouse-server -n 100 --no-pager | grep -iE 'exception|error|warning'
-
-# Verify the table is queryable
-sudo -u clickhouse clickhouse-client --query \
-  "SELECT count() FROM plausible_events_db.events"
-
-# Check for detached/broken parts
-sudo -u clickhouse clickhouse-client --query \
-  "SELECT table, name, reason FROM system.detached_parts WHERE database = 'plausible_events_db'"
+    <merge_tree>
+        <max_suspicious_broken_parts>50</max_suspicious_broken_parts>
+    </merge_tree>
 ```
-
-**Post-recovery cleanup**
-
-Once ClickHouse has started successfully and the broken parts have been handled:
-
-1. Drop detached parts that ClickHouse has quarantined (verify they are truly broken before dropping):
-
-   ```bash
-   sudo -u clickhouse clickhouse-client --query \
-     "ALTER TABLE plausible_events_db.events DROP DETACHED PART '<part_name>'"
-   ```
-
-2. Reset `max_suspicious_broken_parts` to the default to avoid masking future corruption:
-
-   ```bash
-   sudo -u clickhouse clickhouse-client --query \
-     "ALTER TABLE plausible_events_db.events
-      RESET SETTING max_suspicious_broken_parts"
-   ```
-
-3. Restart ClickHouse to confirm the default limit is enforced cleanly:
-
-   ```bash
-   sudo systemctl restart clickhouse-server
-   ```
-
-### ClickHouse Fails to Start (General)
-
-```bash
-# Check the service status and recent log output
-sudo systemctl status clickhouse-server
-sudo journalctl -u clickhouse-server -n 200 --no-pager
-
-# Check ClickHouse error log directly
-sudo tail -n 200 /var/log/clickhouse-server/clickhouse-server.err.log
-```
-
-## Plausible Application Recovery
-
-If ClickHouse is healthy but the Plausible web application is not responding:
-
-```bash
-# Check Plausible container / service status
-# (Adjust to docker/docker-compose or systemd depending on deployment)
-docker ps | grep plausible          # if deployed via Docker
-systemctl status plausible          # if deployed as a systemd service
-
-# Restart Plausible
-docker restart plausible            # or:
-systemctl restart plausible
-
-# Check Plausible logs
-docker logs plausible --tail 100    # or:
-journalctl -u plausible -n 100 --no-pager
-```
-
-## Post-Outage Verification Checklist
-
-- [ ] `clickhouse-server` is running: `systemctl status clickhouse-server`
-- [ ] No `Too many broken parts` errors in the ClickHouse log
-- [ ] `system.detached_parts` is empty (or only expected entries)
-- [ ] `SELECT count() FROM plausible_events_db.events` returns a plausible number
-- [ ] Plausible web UI is accessible and shows recent pageview data
-- [ ] `max_suspicious_broken_parts` has been reset to the default after recovery
-
-## Related Documentation
-
-- [power-outage-recovery.md – ClickHouse/Plausible Recovery](./power-outage-recovery.md#g--clickhouseplausible-recovery)
-- [monitoring.md](./monitoring.md) – general monitoring overview
