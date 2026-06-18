@@ -153,37 +153,6 @@ for BMC credentials is the Ansible vault (`secret_group_vars/`) in the
 
 Update this table whenever new exceptions are discovered.
 
-### Cluster Health Validation
-
-After a mass power cycle or outage recovery, verify that compute nodes are reachable **before**
-re-enabling the HTCondor scheduler or running playbooks.
-
-#### Using `pssh`
-
-```bash
-# Fetch a current hosts file
-wget https://raw.githubusercontent.com/usegalaxy-eu/vgcn-infrastructure-playbook/refs/heads/main/hosts \
-  -O /tmp/vgcn-hosts
-sed -i '/^\[.*\]$/{ :a; n; /^\[/!ba; x; d; }' /tmp/vgcn-hosts   # strip section headers
-
-# Ping all nodes
-pssh -h /tmp/vgcn-hosts -l root -t 30 -i "hostname && uptime"
-
-# Count successes
-pssh -h /tmp/vgcn-hosts -l root -t 30 -i "echo OK" 2>&1 | grep -c '\[SUCCESS\]'
-```
-
-Nodes returning `[FAILURE]` or `[TIMEOUT]` need investigation (check IPMI power status, console).
-
-#### Using HTCondor
-
-```bash
-condor_status -totals          # overall slot summary
-condor_status | grep Offline   # nodes that have not checked in
-```
-
-See also [power-outage-recovery.md §D](./power-outage-recovery.md#d--host-availability-validation).
-
 ### Set a root password
 
 Using the `SLX_ROOT_PASS` variable in the [boot.menu][boot_menu] allows you to set a root password, so you can log in from IPMI console viewer for debugging purposes. Please keep in mind that this is not secure and the password should be randomly created for this purpose, because the [boot.menu][boot_menu] file is only protected by network access restriction of the HTTP server.
