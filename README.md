@@ -9,7 +9,6 @@
 - [Bare metal nodes](./bare_metal.md)
 - [Traefik](./traefik.md)
 - [Configuring multi-GPU HTCondor nodes](./multi-gpu-single-node-htcondor.md)
-- [Jenkins CI/CD](./jenkins.md)
 
 Galaxy Admin:
 
@@ -34,10 +33,6 @@ Cloud Admin:
 Bare Metal / PXE:
 
 - [Bare Metal VGCN with Network Boot (PXE)](./bare_metal_vgcn_pxe.md)
-
-Incident Recovery:
-
-- [**Power Outage Recovery Runbook**](./power-outage-recovery.md) ← start here after a datacenter outage
 
 This and That:
 - [Miscellaneous stuff](./miscellanea/)
