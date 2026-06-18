@@ -19,7 +19,7 @@ Galaxy Admin:
 - [Jobs](./jobs.md)
 - [Monitoring](./monitoring.md)
 - [Mixed Notes](./notes.md)
-- [ClickHouse and Plausible Analytics](./clickhouse.md)
+- [ClickHouse and Plausible Analytics](./plausible.md)
 
 Cloud Admin:
 
@@ -30,9 +30,6 @@ Cloud Admin:
 - [Celery](./celery.md)
 - [KVM Server for Critical Infrastructure](./kvm-server.md)
 
-Bare Metal / PXE:
-
-- [Bare Metal VGCN with Network Boot (PXE)](./bare_metal_vgcn_pxe.md)
 
 This and That:
 - [Miscellaneous stuff](./miscellanea/)
