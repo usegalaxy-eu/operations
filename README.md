@@ -19,6 +19,7 @@ Galaxy Admin:
 - [Jobs](./jobs.md)
 - [Monitoring](./monitoring.md)
 - [Mixed Notes](./notes.md)
+- [ClickHouse and Plausible Analytics](./plausible.md)
 
 Cloud Admin:
 
@@ -27,6 +28,8 @@ Cloud Admin:
 - [Launching a student VM](./cloud/student-vm.md)
 - [Services in the bwCloud](./cloud/services.md)
 - [Celery](./celery.md)
+- [KVM Server for Critical Infrastructure](./kvm-server.md)
+
 
 This and That:
 - [Miscellaneous stuff](./miscellanea/)
