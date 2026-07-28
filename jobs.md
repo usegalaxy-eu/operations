@@ -269,6 +269,16 @@ gxadmin query queue-detail --all | awk -F\| '{print$5}' | sort | uniq -c | sort 
 ```
 Gives a list of all users that currently have jobs in the queue and how many (new, queued and running), in decending order.
 
+### Watch Galaxy queue with user, tool name, start time, galaxy and condor ID in columns
+~~~bash
+watch "gxadmin query queue-detail | grep queued | awk 'BEGIN{FS=\"|\"} match(\$4,/([^\/]+\/)([^\/]+\/)([^\/]+\/)([^\/]+)/,a) {print \$5 a[4] \$6 \$2 \$3}'| column"
+~~~
+
+### Watch condor queue with queue time, tool, cores, memeory and condor ID in columns
+~~~bash
+ watch 'condor_q -format "%Y\n" QDate -af JobDescription RequestCpus "(RequestMemory / 1024)" ClusterId -constraint "JobStatus == 1" | uniq | sort | column'
+~~~
+
 ### Show the job starting time human readable
 ```
 condor_q -autoformat ClusterId Cmd JobDescription RemoteHost JobStartDate | awk '{ printf "%s %s %s %s %s\n", $1, $2, $3, $4, strftime("%Y-%m-%d %H:%M:%S", $5) }'
