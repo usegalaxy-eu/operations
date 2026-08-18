@@ -37,12 +37,16 @@ ORDER BY COUNT(*) DESC;
 ```
 
 
-### Show transactions that have been running > 24h
+### Show transactions that have been lingering > 24h
 ```
-SELECT pid, datname, usename, application_name, client_addr, state, NOW() - state_change AS age, query
-FROM pg_stat_activity
-WHERE NOW() - state_change > '24:00:00'
-ORDER BY age \gx (xheader_width=72)
+WITH xact AS (
+  SELECT pid, datname, usename, application_name, client_addr, state, NOW() - state_change AS age, query
+  FROM pg_stat_activity
+)
+SELECT *
+FROM xact
+WHERE xact.age > '24:00:00'
+ORDER BY xact.age \gx (xheader_width=72)
 ```
 
 
