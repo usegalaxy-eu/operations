@@ -50,6 +50,20 @@ ORDER BY xact.age \gx (xheader_width=72)
 ```
 
 
+### Break down transaction lingering times, rounded to full hours
+```
+WITH xact AS (
+  SELECT DATE_TRUNC('hour', (NOW() - state_change)) AS age
+  FROM pg_stat_activity
+)
+SELECT age, COUNT(*)
+FROM xact
+WHERE xact.age > '00:00:00'
+GROUP BY xact.age
+ORDER BY xact.age;
+```
+
+
 ## Locks
 
 ### Show information on currently held locks
