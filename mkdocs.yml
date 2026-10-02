@@ -1,0 +1,120 @@
+site_name: UseGalaxy.EU Operations
+site_description: Operations Manual for usegalaxy.eu
+site_url: https://usegalaxy-eu.github.io/operations/
+repo_url: https://github.com/usegalaxy-eu/operations
+repo_name: usegalaxy-eu/operations
+edit_uri: edit/main/
+
+site_dir: site
+
+theme:
+  name: material
+  features:
+    - content.code.copy
+    - navigation.expand
+    - navigation.indexes
+    - navigation.sections
+    - navigation.tabs
+    - search.highlight
+    - search.share
+    - search.suggest
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - sane_lists
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+
+exclude_docs: |
+  infrastructure/network.md
+  .ropeproject/
+
+nav:
+  - Home: README.md
+  - Infrastructure:
+      - Bare metal nodes: infrastructure/bare_metal.md
+      - Bare metal VGCN with network boot: infrastructure/bare_metal_vgcn_pxe.md
+      - Head & maintenance nodes: infrastructure/head_maintenance_nodes.md
+      - Networking: infrastructure/networking.md
+      - Storage: infrastructure/storage.md
+      - Debug:
+          - CPU performance issues: infrastructure/debug/cpu_performance_issues.md
+  - KVM Infrastructure:
+      - kvm/README.md
+      - Galaxy Europe Services: kvm/services.md
+  - Galaxy Admin:
+      - Day-to-day admin guide: galaxy-admin/admin_day_to_day.md
+      - Container resolvers: galaxy-admin/container_resolvers.md
+      - Adding a new datatype: galaxy-admin/datatype.md
+      - Interactive Tools: galaxy-admin/interactive_tools.md
+      - Custom subdomains: galaxy-admin/subdomains.md
+      - SSL certificate expansion: galaxy-admin/ssl_certificate_expansion.md
+      - Traefik: galaxy-admin/traefik.md
+      - Tailscale: galaxy-admin/tailscale.md
+      - Email: galaxy-admin/email.md
+      - Celery: galaxy-admin/celery.md
+      - Upgrade procedures: galaxy-admin/upgrade.md
+      - Rebasing upstream backports: galaxy-admin/rebasing.md
+      - Onboarding admins: galaxy-admin/onboarding.md
+      - Quotas and access: galaxy-admin/quotas_and_access.md
+      - TIaaS requests: galaxy-admin/tiaas.md
+      - Testing strategies for playbooks: galaxy-admin/testing_strategies_playbooks.md
+      - Roles without repos: galaxy-admin/roles-without-repos.md
+      - Infrastructure playbook repo: galaxy-admin/infrastructure_playbook_repo.md
+      - Numbers: galaxy-admin/numbers.md
+      - Workflows: galaxy-admin/worklows.md
+      - Debug:
+          - Jobs: galaxy-admin/debug/jobs.md
+          - Notes: galaxy-admin/debug/notes.md
+          - Cleaning DATA_FETCH: galaxy-admin/debug/clean_DATA_FETCH.md
+          - Preserving hardlinks: galaxy-admin/debug/preserving-hardlinks.md
+  - HTCondor:
+      - Wall clock time limit: htcondor/wallclock-time-limit.md
+      - Multi-GPU single node: htcondor/multi-gpu-single-node-htcondor.md
+  - Databases:
+      - InfluxDB: databases/influxdb.md
+      - InfluxDB ZFS instrumentation: databases/influxdb-zfs.md
+      - ESG InfluxDB measurements: databases/esg_influxdb.md
+      - PostgreSQL useful queries: databases/pg-useful-queries.md
+  - Knowledgebase:
+      - Conda & BioContainers: knowledgebase/conda_biocontainers_galaxy_how_they_are_connected.md
+  - Miscellanea:
+      - Overview: miscellanea/README.md
+      - Scripts:
+          - condor_qc: miscellanea/scripts/condor_qc/README.md
+          - cs2hosts: miscellanea/scripts/cs2hosts/README.md
+          - dusage: miscellanea/scripts/dusage/README.md
+          - smtpsend: miscellanea/scripts/smtpsend/README.md
+      - Telegraf:
+          - Overview: miscellanea/telegraf/README.md
+          - monitor-nfs: miscellanea/telegraf/monitor-nfs/README.md
+          - monitor-zfs: miscellanea/telegraf/monitor-zfs/README.md
+      - TSM: miscellanea/tsm/README.md
+  - Archive:
+      - KVM server: archived/kvm-server.md
+      - Monitoring: archived/monitoring.md
+      - Process management: archived/procmgmt.md
+      - bwCloud:
+          - Overview: archived/cloud/readme.md
+          - Accessing bwCloud with Terraform: archived/cloud/access-bwCloud.md
+          - Launching a student VM: archived/cloud/student-vm.md
+          - Machines: archived/cloud/machines.md
+          - VGCN: archived/cloud/vgcn.md
+          - Compare clouds and HTCondor: archived/cloud/compare-clouds-and-condor.md

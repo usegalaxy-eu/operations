@@ -1,0 +1,67 @@
+## Ansible roles in the [infrastructure-playbook](https://github.com/usegalaxy-eu/infrastructure-playbook) repository
+
+* The following are the roles that are currently being installed on the head and maintenance nodes via the [sn09 playbook](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/sn09.yml), and [maintenance node playbook](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/maintenance.yml)
+* The roles are classified as either head node only, maintenance node only, or both
+* Head nodes: are the nodes that are running the Galaxy web server, the Galaxy job handlers, and the Galaxy workflow schedulers. As of 18/09/2026 `sn09.galaxyproject.eu` is the only head node and `sn10` will be added later. Only `sn09` is in production. (`sn06` and `sn07` have been decommissioned.)
+* Maintenance node: runs cron jobs, contains Galaxy codebase, config, etc, pushes data to influxdb, performs cleanup tasks, etc.
+* The `sn10` (UCSC Genome Browser VM host) and `sn11` (PostgreSQL database server) nodes have their own separate, much simpler playbooks ([sn10.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/sn10.yml) and [sn11.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/sn11.yml)) and are not covered in this table.
+
+
+| Roles  | Head node(s) only | Maintenance node only | Both | Adds cronjob? | Comments | Separate repo |
+| :------------- | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
+| [usegalaxy_eu.handy.os_setup](https://galaxy.ansible.com/usegalaxy_eu/handy) |   |   | :heavy_check_mark: |   |   | :heavy_check_mark: |
+| [geerlingguy.repo-epel](https://galaxy.ansible.com/geerlingguy/repo-epel) |   |   | :heavy_check_mark: |   |   | :heavy_check_mark: |
+| [influxdata.chrony](https://github.com/usegalaxy-eu/ansible-chrony) |   |   | :heavy_check_mark: |   |   | :heavy_check_mark: |
+| [usegalaxy-eu.autofs](https://github.com/usegalaxy-eu/ansible-autofs) |   |   | :heavy_check_mark: |   |   | :heavy_check_mark: |
+| [usegalaxy-eu.bashrc](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.bashrc) |   |   | :heavy_check_mark: |   |   |  |
+| [usegalaxy-eu.dynmotd](https://github.com/usegalaxy-eu/ansible-dynmotd) |   |   | :heavy_check_mark: |   |   | :heavy_check_mark: |
+| [ssh-host-sign](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/ssh-host-sign) |   |   | :heavy_check_mark: |   |   |   |
+| [hxr.postgres-connection](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.postgres-connection) |   |   | :heavy_check_mark: |   |   |  |
+| [galaxyproject.gxadmin](https://galaxy.ansible.com/galaxyproject/gxadmin) |   |   | :heavy_check_mark: |   |   | :heavy_check_mark: |
+| [usegalaxy_eu.fs_maintenance](https://galaxy.ansible.com/usegalaxy_eu/fs_maintenance) |   |   | :heavy_check_mark: | :heavy_check_mark:  | All tasks (htcondor cron tasks, adding htcondor scripts, etc) except the `fsm_cron_tasks` can run on the maintenance node because the `gxadmin` tasks in `fsm_cron_tasks` uses the galaxy's log directory `/var/log/galaxy` for cleanup  | :heavy_check_mark: |
+| [dj-wasabi.telegraf](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/dj-wasabi.telegraf) |   |   | :heavy_check_mark: |   | `listen_galaxy_routes` (statsd), and `galaxy_active_users` (uses `/var/log/nginx/`) should be enabled only on the head nodes via the variable `telegraf_plugins_extra` |  |
+| [usegalaxy-eu.logrotate](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.logrotate) |   |   | :heavy_check_mark: |   |   |  |
+| [galaxyproject.cvmfs](https://galaxy.ansible.com/galaxyproject/cvmfs) | :heavy_check_mark:  |   |  |   |   | :heavy_check_mark: |
+| [hxr.monitor-email](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.monitor-email) | :heavy_check_mark:  |   |  |   |   |  |
+| [hxr.monitor-galaxy-journalctl](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.monitor-galaxy-journalctl/) | :heavy_check_mark:  |   |  |   |   |  |
+| [galaxyproject.galaxy](https://galaxy.ansible.com/galaxyproject/galaxy) | :heavy_check_mark: |  |  |   |   | :heavy_check_mark: |
+| [geerlingguy.docker](https://galaxy.ansible.com/geerlingguy/docker) | :heavy_check_mark:  |   |  |   |   | :heavy_check_mark: |
+| [hxr.galaxy-nonreproducible-tools](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.galaxy-nonreproducible-tools) | :heavy_check_mark: |  |  |   |   |  |
+| [usegalaxy-eu.rsync-to-nfs](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.rsync-to-nfs) | :heavy_check_mark: |  |  |   |   |  |
+| [usegalaxy-eu.webhooks](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.webhooks) | :heavy_check_mark: |  |  |   |   |  |
+| [usegalaxy-eu.tours](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.tours) | :heavy_check_mark: |  |  |   |   |  |
+| [hxr.aws-cli](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.aws-cli) | :heavy_check_mark:  |   |  |   |   |  |
+| [usegalaxy_eu.ansible_nginx_upload_module](https://galaxy.ansible.com/usegalaxy_eu/ansible_nginx_upload_module) | :heavy_check_mark:  |   |  |   |   | :heavy_check_mark: |
+| [usegalaxy-eu.nginx](https://github.com/usegalaxy-eu/ansible-nginx) | :heavy_check_mark:  |   |  |   |   | :heavy_check_mark: |
+| [usegalaxy-eu.gapars-galaxy](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.gapars-galaxy) | :heavy_check_mark:  |   |  |   |   |  |
+| [usegalaxy_eu.tpv_auto_lint](https://galaxy.ansible.com/usegalaxy_eu/tpv_auto_lint) | :heavy_check_mark: |  |  |   |   | :heavy_check_mark: |
+| [galaxyproject.tiaas2](https://galaxy.ansible.com/galaxyproject/tiaas2) | :heavy_check_mark:  |   |  |   |   | :heavy_check_mark: |
+| [usegalaxy-eu.fix-galaxy-server-dir](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-galaxy-server-dir) | :heavy_check_mark: |  |  |   |   |  |
+| [hxr.install-to-venv](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.install-to-venv) | :heavy_check_mark: |  |  |   |   |  |
+| [usegalaxy_eu.galaxy_systemd](https://galaxy.ansible.com/usegalaxy_eu/galaxy_systemd) | :heavy_check_mark:  |   |  |   |   | :heavy_check_mark: |
+| [usegalaxy-eu.update-hosts](https://github.com/usegalaxy-eu/ansible-update-hosts) | :heavy_check_mark:  |   |  | :heavy_check_mark:  | 1. Uses condor, 2. Updates the computing nodes list on the head nodes to a file /etc/genders, so this needs to be run only on the head nodes  | :heavy_check_mark: |
+| [usegalaxy_eu.gie_proxy](https://galaxy.ansible.com/usegalaxy_eu/gie_proxy) | :heavy_check_mark: |  |  |   |   | :heavy_check_mark: |
+| [usegalaxy-eu.error-pages](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.error-pages) | :heavy_check_mark:  |   |  |   |   |  |
+| [usegalaxy-eu.fix-stuck-handlers](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-stuck-handlers) | :heavy_check_mark: |  |  |  :heavy_check_mark:  | Cron jobs for handlers, schedulers, and gunicorn. Also, sync to nfs (this should be removed and added to maintenance only node and the rest of them can run on both the head nodes)  |  |
+| [usegalaxy-eu.log-cleaner](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.log-cleaner) | :heavy_check_mark:  |   |  |   |   |  |
+| [usegalaxy-eu.galaxy-procstat](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.galaxy-procstat) | :heavy_check_mark:  |   |  |   |   |  |
+| [ssh_hardening](https://galaxy.ansible.com/devsec/hardening) | :heavy_check_mark: |  |  |   | dev-sec.hardening collection; currently commented out in maintenance.yml | :heavy_check_mark: |
+| [usegalaxy-eu.fix-stop-ITs](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-stop-ITs) | :heavy_check_mark: |  |  | :heavy_check_mark:  | currently commented out in maintenance.yml |  |
+| [usegalaxy_eu.firewall](https://github.com/usegalaxy-eu/ansible-fw-glxeu-generic) | :heavy_check_mark: |  |  |   |   | :heavy_check_mark: |
+| [usegalaxy-eu.vgcn-monitoring](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.vgcn-monitoring) |  | :heavy_check_mark: |  |  |  |  |
+| [hxr.monitor-cluster](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.monitor-cluster) |  | :heavy_check_mark: |  |   |   |  |
+| [hxr.monitor-galaxy](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/hxr.monitor-galaxy) |  | :heavy_check_mark: |  |   |   |  |
+| [usegalaxy-eu.monitoring](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.monitoring) |  | :heavy_check_mark: |  |   |   |  |
+| [usegalaxy-eu.galaxy-slurp](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.galaxy-slurp) |  | :heavy_check_mark: |  | :heavy_check_mark:  |   |  |
+| [usegalaxy_eu.galaxy_cleanup](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy_eu.galaxy_cleanup) |  | :heavy_check_mark: |  |   | Cleanup the Galaxy objectstores and old datasets |  |
+| [usegalaxy-eu.fix-ancient-ftp-data](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-ancient-ftp-data) |  | :heavy_check_mark: |  | :heavy_check_mark:  |   |  |
+| [usegalaxy-eu.job-radar-stats-influxdb](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.job-radar-stats-influxdb) |  | :heavy_check_mark: |  |   |   |  |
+| [usegalaxy_eu.walle](https://github.com/usegalaxy-eu/WallE) |  | :heavy_check_mark: |  |   |   | :heavy_check_mark: |
+| [usegalaxy_eu.ntfy-notifications](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy_eu.ntfy-notifications) |  | :heavy_check_mark: |  |   |   |  |
+| [l3d.restic](https://github.com/roles-ansible/ansible_role_restic) |  | :heavy_check_mark: |  |   |   | :heavy_check_mark: |
+| [usegalaxy-eu.kui](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.kui) |  | :heavy_check_mark: |  |   |   |  |
+| [usegalaxy-eu.htcondor_release](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.htcondor_release) |  | :heavy_check_mark: |  | :heavy_check_mark:  | condor release held jobs as cron task; currently commented out in maintenance.yml |  |
+| [usegalaxy-eu.fix-unscheduled-workflows](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-unscheduled-workflows/tasks) |  | :heavy_check_mark: |  | :heavy_check_mark:  | currently commented out in maintenance.yml |  |
+| [usegalaxy-eu.fix-user-quotas](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles/usegalaxy-eu.fix-user-quotas) |  | :heavy_check_mark: |  |:heavy_check_mark:  | currently commented out in maintenance.yml |  |
+
+_Separate repo: Whether the role has its own repo or is it a local role located and available only in the [infrastructure_playbook](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/roles) repo_
