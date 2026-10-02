@@ -118,7 +118,7 @@ wget https://raw.githubusercontent.com/usegalaxy-eu/vgcn-infrastructure-playbook
 
 **non-SSH**
 
-Use `ipmitool` on [jumphost][jumphost] to automate the reboot with bash.
+Use `ipmitool` on `dnbd3.galaxyproject.eu` to automate the reboot with bash.
 
 For individual nodes use the same, or use the IPMI web interface and trigger a 'powercycle'. The hostnames *should* be `sp<node-number>.bi.privat` but you can look them up in [infoblox][infoblox].
 
@@ -185,7 +185,7 @@ c192m1536-n3702.bi.privat
 
 ## Infrastructure Components
 
-<img src="../images/pxe-infrastructure.png" />
+_PXE infrastructure diagram: see the [dnbd3](https://github.com/usegalaxy-eu/infrastructure-playbook/tree/master/files/dnbd3) configuration in the infrastructure-playbook._
 
 ### dnbd3-primary.galaxyproject.eu
 
@@ -243,7 +243,7 @@ thin-snapshot     root    100%
 '
 ```
 
-**Note:** We actually use the above and a persistent partition for Docker. See the [SLX config on GitHub](slx_config):
+**Note:** We actually use the above and a persistent partition for Docker. See the [SLX config on GitHub][slx_config]:
 
 ```
 SLX_WRITABLE_DEVICE_PARTITION_TABLE='
@@ -339,7 +339,7 @@ ls /netboot/boot          # verify boot files are visible before declaring the s
 
 This drop-in is managed via Ansible in the `dnbd3primary` host group of the
 [infrastructure-playbook](https://github.com/usegalaxy-eu/infrastructure-playbook).
-See also [power-outage-recovery.md §A](../power-outage-recovery.md#a--tftp--autofs-startup-ordering).
+See also power-outage-recovery.md §A (TFTP / autofs startup ordering).
 
 ## Debugging
 
@@ -370,7 +370,6 @@ See also [power-outage-recovery.md §A](../power-outage-recovery.md#a--tftp--aut
 [vgcn-image-pipeline-jenkins]: https://build.galaxyproject.eu/job/usegalaxy-eu/job/VGCN-Image-Build
 [vgcn-infra-playbook-jenkins]: https://build.galaxyproject.eu/job/usegalaxy-eu/job/VGCN-Infrastructure-Playbook
 [slx_config]: https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/templates/dnbd3/config.j2
-[jumphost]: dnbd3.galaxyproject.eu
 [infoblox]: https://ipam.noc.uni-freiburg.de/
 [pxe-config-tarball]: https://github.com/usegalaxy-eu/pxe-config-tarball
 [boot_menu]: https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/templates/dnbd3/boot.menu.j2

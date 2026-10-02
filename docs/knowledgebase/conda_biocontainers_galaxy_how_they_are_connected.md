@@ -68,7 +68,7 @@ but lets start from the beginning.
 
    *Single-package* containers like those built by bioconda are nice, but are not enough in cases (like for many Galaxy tool wrappers) where more than one bioconda package is needed.
    
-   This situation is covered by *multi-package* containers and the [biocontainers/multi-package-containers](github.com/BioContainers/multi-package-containers) github repo is the simplest way to have those built.
+   This situation is covered by *multi-package* containers and the [biocontainers/multi-package-containers](https://github.com/BioContainers/multi-package-containers) github repo is the simplest way to have those built.
    
    **Open to anyone**
 

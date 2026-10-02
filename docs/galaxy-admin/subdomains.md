@@ -47,7 +47,7 @@ To run Galaxy Interactive Tools (GxIT) in your subdomain, we need to generate wi
 
 1. Create a PR, adding your domains IT wildcard to the [sn09.yml playbook](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/be8d196b26f46852bc593a0d8a64e66dedde69c5/sn09.yml#L34) like done in [this PR](https://github.com/usegalaxy-eu/infrastructure-playbook/pull/916)
 2. Create a PR with the CNAME records routing to `usegalaxy.eu` in the [dns.tf file](https://github.com/usegalaxy-eu/infrastructure/blob/0bd0f81bd9d5ada2ac382da415adea6a910adec1/dns.tf) by adding your domain to [this list](https://github.com/usegalaxy-eu/infrastructure/blob/0bd0f81bd9d5ada2ac382da415adea6a910adec1/dns.tf#L244-L270) under `it-subdomain`, and increase the [`count` parameter below](https://github.com/usegalaxy-eu/infrastructure/blob/0bd0f81bd9d5ada2ac382da415adea6a910adec1/dns.tf#L276) by one. Refer to [this PR](https://github.com/usegalaxy-eu/infrastructure/pull/178)
-3. Expand the SSL certificate following the [manual here](https://github.com/usegalaxy-eu/operations/blob/main/galaxy-admin/ssl_certificate_expansion.md) (only EU admins can do this step, talk to them)
+3. Expand the SSL certificate following the [manual here](https://github.com/usegalaxy-eu/operations/blob/main/docs/galaxy-admin/ssl_certificate_expansion.md) (only EU admins can do this step, talk to them)
 
 
 ## Customizing Tools

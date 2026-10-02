@@ -475,7 +475,7 @@ partprobe $GROWPARTITION # if size is not updated
 ## 5 Power Outage Recovery
 
 This section covers the recovery procedure for KVM guests and their data volumes after an unplanned
-power outage.  See also [power-outage-recovery.md §E](../power-outage-recovery.md#e--kvmnfs-data-volume-recovery)
+power outage.  See also power-outage-recovery.md §E (KVM/NFS data volume recovery)
 for the broader incident context.
 
 ### 5.1 Verify NFS Data Volume

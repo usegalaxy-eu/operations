@@ -6,7 +6,7 @@ With the help of this tutorial, you will learn how to access the bwCloud via Ter
 
 A more detailed tutorial on how to use Terraform can be found [here](https://docs.google.com/presentation/d/1Pp5o8z4gUGVZ-odzbg2fYT7NHZ30lqGYMqtrqjDAmzI/edit#slide=id.p).
 
-Make sure you can log in to [portal.bwCloud.org](portal.bwCloud.org) using your university login credentials.
+Make sure you can log in to [portal.bwCloud.org](https://portal.bwCloud.org) using your university login credentials.
 You should see your personal dashboard.
 
 Next make sure to install [OpenStack command-line client](https://docs.openstack.org/python-openstackclient/latest/) and [Terraform](https://terraform.io) to your machine.

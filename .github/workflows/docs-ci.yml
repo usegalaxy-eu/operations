@@ -1,0 +1,21 @@
+name: Docs Build Check
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install mkdocs
+        run: pip install 'mkdocs>=1.6,<2' 'mkdocs-material>=9.5,<10'
+      - name: Build site (strict)
+        run: mkdocs build --strict

@@ -90,7 +90,7 @@ sudo /etc/init.d/grafana-server restart
 
 1. find out the credential name from the "Bindings" tab in the project's configuration.
 
-![](../images/image.png)
+![](../../images/image.png)
 
 2. find the encrypted value:
 ```
