@@ -1,0 +1,7 @@
+# How to create new OAuth credentials for Google Drive
+See [Quotas and Access](../reference/quotas-and-access.md) for how these credentials are used.
+1. Go to [https://console.cloud.google.com/apis/dashboard](https://console.cloud.google.com/apis/dashboard) and create a new `project`.
+2. Click on `activated APIs and services` and search for `google drive`. Activate it.
+3. Go to `OAuth-Consent-Screen` and create a new (external) service. Add the required fields, make sure to click on `add or remove areas` and add a `Drive API` ending with `/auth/drive.readonly`. Make sure to also add your Google account to the `test users` section.
+4. Now create the `OAuth client ID` under `Login data`. Select `Create Credentials`/`OAuth Client ID` then select `Desktop client`.
+5. Now we need to finally authorize this `OAuth Client` using the [gdrive tool](https://github.com/glotlabs/gdrive) (on your laptop). Follow the instructions in the [readme](https://github.com/glotlabs/gdrive?tab=readme-ov-file#add-google-account-to-gdrive). When you were successful, it should have created the 3 files under `~/.config/gdrive/`. Create new secrets for them in Jenkins and change the corresponding secrets in the project. Delete the `~/.config/gdrive/` directory on the Jenkins worker to ensure your credentials are copied and used.

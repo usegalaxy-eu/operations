@@ -46,50 +46,93 @@ markdown_extensions:
 nav:
   - Home: README.md
   - Infrastructure:
-      - Bare metal nodes: infrastructure/bare_metal.md
-      - Bare metal VGCN with network boot: infrastructure/bare_metal_vgcn_pxe.md
-      - Head & maintenance nodes: infrastructure/head_maintenance_nodes.md
-      - Networking: infrastructure/networking.md
-      - Storage: infrastructure/storage.md
-      - Debug:
-          - CPU performance issues: infrastructure/debug/cpu_performance_issues.md
+      - Reference:
+          - Bare metal nodes: infrastructure/reference/bare_metal.md
+          - Bare metal VGCN with network boot: infrastructure/reference/bare_metal_vgcn_pxe.md
+          - Head & maintenance nodes: infrastructure/reference/head_maintenance_nodes.md
+          - Storage: infrastructure/reference/storage.md
+      - Runbooks:
+          - Networking: infrastructure/runbooks/networking.md
+          - VGCN node operations: infrastructure/runbooks/vgcn-node-operations.md
+          - Add a new data share: infrastructure/runbooks/storage-add-data-share.md
+          - Migrating storage: infrastructure/runbooks/storage-migration.md
+      - Troubleshooting:
+          - CPU performance issues: infrastructure/troubleshooting/cpu_performance_issues.md
+          - VGCN disk setup: infrastructure/troubleshooting/vgcn-disk-troubleshooting.md
+          - Storage data recovery: infrastructure/troubleshooting/storage-data-recovery.md
   - KVM Infrastructure:
-      - kvm/README.md
-      - Galaxy Europe Services: kvm/services.md
+      - Overview: kvm/README.md
+      - Reference:
+          - Galaxy Europe Services: kvm/reference/services.md
+      - Runbooks:
+          - Adding a new VM: kvm/runbooks/adding-a-new-vm.md
   - Galaxy Admin:
-      - Day-to-day admin guide: galaxy-admin/admin_day_to_day.md
-      - Container resolvers: galaxy-admin/container_resolvers.md
-      - Adding a new datatype: galaxy-admin/datatype.md
-      - Interactive Tools: galaxy-admin/interactive_tools.md
-      - Custom subdomains: galaxy-admin/subdomains.md
-      - SSL certificate expansion: galaxy-admin/ssl_certificate_expansion.md
-      - Traefik: galaxy-admin/traefik.md
-      - Tailscale: galaxy-admin/tailscale.md
-      - Email: galaxy-admin/email.md
-      - Celery: galaxy-admin/celery.md
-      - Upgrade procedures: galaxy-admin/upgrade.md
-      - Rebasing upstream backports: galaxy-admin/rebasing.md
-      - Onboarding admins: galaxy-admin/onboarding.md
-      - Quotas and access: galaxy-admin/quotas_and_access.md
-      - TIaaS requests: galaxy-admin/tiaas.md
-      - Testing strategies for playbooks: galaxy-admin/testing_strategies_playbooks.md
-      - Roles without repos: galaxy-admin/roles-without-repos.md
-      - Infrastructure playbook repo: galaxy-admin/infrastructure_playbook_repo.md
-      - Numbers: galaxy-admin/numbers.md
-      - Workflows: galaxy-admin/worklows.md
-      - Debug:
-          - Jobs: galaxy-admin/debug/jobs.md
-          - Notes: galaxy-admin/debug/notes.md
-          - Cleaning DATA_FETCH: galaxy-admin/debug/clean_DATA_FETCH.md
-          - Preserving hardlinks: galaxy-admin/debug/preserving-hardlinks.md
+      - Reference:
+          - Container resolvers: galaxy-admin/reference/container_resolvers.md
+          - Infrastructure playbook repo: galaxy-admin/reference/infrastructure_playbook_repo.md
+          - Numbers: galaxy-admin/reference/numbers.md
+          - Roles without repos: galaxy-admin/reference/roles-without-repos.md
+          - Testing strategies for playbooks: galaxy-admin/reference/testing_strategies_playbooks.md
+          - Traefik: galaxy-admin/reference/traefik.md
+          - Subdomains (internals): galaxy-admin/reference/subdomains-internals.md
+          - Email routing: galaxy-admin/reference/email-routing.md
+          - Tailscale endpoints: galaxy-admin/reference/tailscale-endpoints.md
+          - Quotas and access: galaxy-admin/reference/quotas-and-access.md
+          - Job inspection commands: galaxy-admin/reference/jobs-queries.md
+          - How Condor honors TIaaS priorities: galaxy-admin/reference/condor-tiaas-priorities.md
+          - PostgreSQL configurations: galaxy-admin/reference/postgresql-configuration.md
+      - Runbooks:
+          - Day-to-day admin guide: galaxy-admin/runbooks/admin_day_to_day.md
+          - Celery: galaxy-admin/runbooks/celery.md
+          - Adding a new datatype: galaxy-admin/runbooks/datatype.md
+          - Interactive Tools: galaxy-admin/runbooks/interactive_tools.md
+          - Onboarding admins: galaxy-admin/runbooks/onboarding.md
+          - Rebasing upstream backports: galaxy-admin/runbooks/rebasing.md
+          - SSL certificate expansion: galaxy-admin/runbooks/ssl_certificate_expansion.md
+          - TIaaS requests: galaxy-admin/runbooks/tiaas.md
+          - Custom subdomains: galaxy-admin/runbooks/subdomains.md
+          - Upgrade Galaxy: galaxy-admin/runbooks/galaxy-upgrade.md
+          - Upgrade or restore Jenkins: galaxy-admin/runbooks/jenkins-upgrade-and-restore.md
+          - Adding a user to Grafana: galaxy-admin/runbooks/adding-a-user-to-grafana.md
+          - (Re-)sending activation links: galaxy-admin/runbooks/resending-activation-links.md
+          - Ansible Vault: galaxy-admin/runbooks/ansible-vault.md
+          - "Traefik: new subdomains": galaxy-admin/runbooks/traefik-new-subdomains.md
+          - Email aliases: galaxy-admin/runbooks/email-aliases.md
+          - Google Drive OAuth credentials: galaxy-admin/runbooks/oauth-google-drive-credentials.md
+          - Tailscale setup: galaxy-admin/runbooks/tailscale-setup.md
+          - Job operations: galaxy-admin/runbooks/jobs.md
+          - Change the frontpage notice: galaxy-admin/runbooks/frontpage-notice.md
+          - Decode Galaxy id: galaxy-admin/runbooks/decode-galaxy-id.md
+          - Cluster-wide commands: galaxy-admin/runbooks/cluster-wide-commands.md
+          - Grafana plugin updates: galaxy-admin/runbooks/grafana-plugin-updates.md
+          - Jenkins credentials: galaxy-admin/runbooks/jenkins-credentials.md
+          - Jenkins rollback: galaxy-admin/runbooks/jenkins-rollback.md
+      - Troubleshooting:
+          - Job failures and diagnosis: galaxy-admin/troubleshooting/jobs.md
+          - Preserving hardlinks: galaxy-admin/troubleshooting/preserving-hardlinks.md
+          - Cleaning DATA_FETCH: galaxy-admin/troubleshooting/clean_DATA_FETCH.md
+          - Workflows (failed state): galaxy-admin/troubleshooting/worklows.md
+          - Traefik: galaxy-admin/troubleshooting/traefik.md
+          - Jenkins upgrade failures: galaxy-admin/troubleshooting/jenkins-upgrade.md
+          - Non responsive yum: galaxy-admin/troubleshooting/yum-recovery.md
+          - GPU verification: galaxy-admin/troubleshooting/gpu-verification.md
+          - Debug 'D' state processes: galaxy-admin/troubleshooting/d-state-processes.md
   - HTCondor:
-      - Wall clock time limit: htcondor/wallclock-time-limit.md
-      - Multi-GPU single node: htcondor/multi-gpu-single-node-htcondor.md
+      - Reference:
+          - Wall clock time limit: htcondor/reference/wallclock-time-limit.md
+          - Partitionable GPU slots: htcondor/reference/multi-gpu-slots.md
+      - Runbooks:
+          - Multi-GPU on a single node: htcondor/runbooks/multi-gpu-single-node-htcondor.md
+      - Troubleshooting:
+          - GPU environment visibility: htcondor/troubleshooting/multi-gpu-gpu-visibility.md
   - Databases:
-      - InfluxDB: databases/influxdb.md
-      - InfluxDB ZFS instrumentation: databases/influxdb-zfs.md
-      - ESG InfluxDB measurements: databases/esg_influxdb.md
-      - PostgreSQL useful queries: databases/pg-useful-queries.md
+      - Reference:
+          - InfluxDB: databases/influxdb.md
+          - ESG InfluxDB measurements: databases/reference/esg_influxdb.md
+          - InfluxDB ZFS instrumentation: databases/reference/influxdb-zfs.md
+      - Troubleshooting:
+          - PostgreSQL useful queries: databases/troubleshooting/pg-useful-queries.md
+          - InfluxDB data recovery: databases/troubleshooting/influxdb-data-recovery.md
   - Knowledgebase:
       - Conda & BioContainers: knowledgebase/conda_biocontainers_galaxy_how_they_are_connected.md
   - Miscellanea:
