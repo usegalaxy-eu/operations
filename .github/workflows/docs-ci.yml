@@ -15,7 +15,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install mkdocs
-        run: pip install 'mkdocs>=1.6,<2' 'mkdocs-material>=9.5,<10'
+      - name: Install Zensical
+        run: pip install zensical
       - name: Build site (strict)
-        run: mkdocs build --strict
+        run: zensical build --strict

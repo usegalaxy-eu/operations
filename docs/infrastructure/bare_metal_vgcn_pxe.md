@@ -99,7 +99,7 @@ The last one is especially important because the [SLX config][slx_config] is con
 In order to bring this new image to production, do the following:
 
 1. Change the revision ID in the [SLX config][slx_config]
-2. [Reboot](#reboot--power-cycle) a worker node that is currently idle or, if you want to be on the safe side, move that worker to the [test host group](#add-nodes-to-the-bare-metal-compute-cluster) before rebooting it, so it does not get integrated into production after reboot and CI run.
+2. [Reboot](#reboot-power-cycle) a worker node that is currently idle or, if you want to be on the safe side, move that worker to the [test host group](#add-nodes-to-the-bare-metal-compute-cluster) before rebooting it, so it does not get integrated into production after reboot and CI run.
 3. SSH to the node and check that the new image was picked (you should see it in the MOTD) and make sure everything looks good. Maybe run a test job from the training-pxe-test. If you added the node to the test host group and everything is good, just reboot other servers (if immediate rollout is required). Otherwise, change the revision ID back to the previous value on the dnbd3-primary.galaxyproject.eu and in the Ansible variable.
 
 ### Mount a new NFS share
