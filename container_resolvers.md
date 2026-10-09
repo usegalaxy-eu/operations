@@ -77,13 +77,33 @@ fly by Apptainer.
 | singularity                | docker singularity        | `ContainerDescription[identifier=quay.io/qiime2/amplicon:2026.1,type=singularity]` |
 
 ## `explicit_singularity`
-### Requirements
-- Only works if `singularity_enabled: true` is set in the respective destination.
-- The tool wrapper must contain either `<container type="singularity">` or `<container type="docker">`.
 
-### Behaviour
-The container image is `pulled` directly from a registry; in other words, Galaxy writes a URI in the job script, *not* a path from a cached image.
-The tool executes using Singularity, regardless of tool wrappers specifying `<container type="docker">`.
+This resolver is meant to receive a container image reference and container
+engine pair as inputs. The resolved container image reference matches the
+input reference, and it is pulled upon job execution.
+
+In other words, Galaxy writes the container image reference in the job script,
+*not* a path to a cached image. The tool executes using Singularity (if
+enabled), regardless of tool wrapper declaring Docker as container engine.
+
+**List of package requirements**
+
+| Enabled container engines | Resolver result |
+|:--------------------------|:----------------|
+| docker                    | `None`          |
+| singularity               | `None`          |
+| docker singularity        | `None`          |
+
+**Image reference and container engine pair**
+
+| Requested container engine | Enabled container engines | Resolver result                                                                             |
+|:---------------------------|:--------------------------|:--------------------------------------------------------------------------------------------|
+| docker                     | docker                    | `None`                                                                                      |
+| singularity                | docker                    | `None`                                                                                      |
+| docker                     | singularity               | `ContainerDescription[identifier=docker://quay.io/qiime2/amplicon:2026.1,type=singularity]` |
+| singularity                | singularity               | `ContainerDescription[identifier=quay.io/qiime2/amplicon:2026.1,type=singularity]`          |
+| docker                     | docker singularity        | `ContainerDescription[identifier=docker://quay.io/qiime2/amplicon:2026.1,type=singularity]` |
+| singularity                | docker singularity        | `ContainerDescription[identifier=quay.io/qiime2/amplicon:2026.1,type=singularity]`          |
 
 ## `cached_explicit_singularity`
 ### Requirements
