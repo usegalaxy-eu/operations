@@ -106,13 +106,39 @@ enabled), regardless of tool wrapper declaring Docker as container engine.
 | singularity                | docker singularity        | `ContainerDescription[identifier=quay.io/qiime2/amplicon:2026.1,type=singularity]`          |
 
 ## `cached_explicit_singularity`
-### Requirements
-- Only works if `singularity_enabled: true` is set in the respective destination.
-- The tool wrapper must contain either `<container type="singularity">` or `<container type="docker">`.
 
-### Behaviour
-The resolver attempts to resolve the container requirement from a cache.
-The tool executes using Singularity, regardless of tool wrappers specifying `<container type="docker">`.
+This resolver is meant to receive a container image reference and container
+engine pair as inputs. It attempts to find the referenced container image in a
+cache. If that fails, then the resolved container image reference matches the
+input reference, and it is pulled upon job execution.
+
+The tool executes using Singularity (if enabled), regardless of the tool
+wrapper declaring Docker as container engine.
+
+The cache path can be configured using the `cache_directory` parameter.
+Additionally, the `install` parameter can be set to `true` so that the resolver
+saves the container image to the cache directory if it is not already present
+(this requires the `singularity` command to be present in the node executing
+the resolver).
+
+**List of package requirements**
+
+| Enabled container engines | Resolver result |
+|:--------------------------|:----------------|
+| docker                    | `None`          |
+| singularity               | `None`          |
+| docker singularity        | `None`          |
+
+**Image reference and container engine pair**
+
+| Requested container engine | Enabled container engines | Resolver result                                                                                                                                                                                          |
+|:---------------------------|:--------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| docker                     | docker                    | `None`                                                                                                                                                                                                   |
+| singularity                | docker                    | `None`                                                                                                                                                                                                   |
+| docker                     | singularity               | `ContainerDescription[identifier=docker://https://depot.galaxyproject.org/singularity/mulled-v2-6a2891161dcf5f35b38c6a49fff923163de7a66d%3a159a5b483a078f27b97a401b0626abac09e5f2d1-0,type=singularity]` |
+| singularity                | singularity               | `ContainerDescription[identifier=https://depot.galaxyproject.org/singularity/mulled-v2-6a2891161dcf5f35b38c6a49fff923163de7a66d%3a159a5b483a078f27b97a401b0626abac09e5f2d1-0,type=singularity]`          |
+| docker                     | docker singularity        | `ContainerDescription[identifier=docker://https://depot.galaxyproject.org/singularity/mulled-v2-6a2891161dcf5f35b38c6a49fff923163de7a66d%3a159a5b483a078f27b97a401b0626abac09e5f2d1-0,type=singularity]` |
+| singularity                | docker singularity        | `ContainerDescription[identifier=https://depot.galaxyproject.org/singularity/mulled-v2-6a2891161dcf5f35b38c6a49fff923163de7a66d%3a159a5b483a078f27b97a401b0626abac09e5f2d1-0,type=singularity]`          |
 
 ## `mulled`
 ### Requirements
