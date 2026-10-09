@@ -44,15 +44,37 @@ images).
 If `cache_directory` is not set, it defaults to `database/container_cache/singularity/explicit`.
 
 ## `explicit`
-### Requirements
-- Only works if `docker_enabled: true` and/or `singularity_enabled: true` is set in the respective destination.
-- The tool wrapper must contain either `<container type="singularity">` or `<container type="docker">`.
 
-### Behaviour
-The container image is `pulled` directly from a registry; in other words, Galaxy writes a URI in the job script, *not* a path from a cached image.
-If the requested container engine is not enabled, the resolver fails.
-Otherwise, the tool executes using the requested container engine.
-If a tool requires `type=singularity` and specifies a Docker container URI, the container is converted to `sif` on the fly.
+This resolver is meant to receive a container image reference and container
+engine pair as inputs. The resolved container image reference matches the
+input reference, and it is pulled upon job execution.
+
+In other words, Galaxy writes the container image reference in the job script,
+*not* a path to a cached image. The tool executes using the requested container
+engine (if enabled).
+
+_Note:_ If a tool declares Singularity as container engine but specifies a
+Docker container registry URI, then the container is converted to `sif` on the
+fly by Apptainer.
+
+**List of package requirements**
+
+| Enabled container engines | Resolver result |
+|:--------------------------|:----------------|
+| docker                    | `None`          |
+| singularity               | `None`          |
+| docker singularity        | `None`          |
+
+**Image reference and container engine pair**
+
+| Requested container engine | Enabled container engines | Resolver result                                                                    |
+|:---------------------------|:--------------------------|:-----------------------------------------------------------------------------------|
+| docker                     | docker                    | `ContainerDescription[identifier=quay.io/qiime2/amplicon:2026.1,type=docker]`      |
+| singularity                | docker                    | `None`                                                                             |
+| docker                     | singularity               | `None`                                                                             |
+| singularity                | singularity               | `ContainerDescription[identifier=quay.io/qiime2/amplicon:2026.1,type=singularity]` |
+| docker                     | docker singularity        | `ContainerDescription[identifier=quay.io/qiime2/amplicon:2026.1,type=docker]`      |
+| singularity                | docker singularity        | `ContainerDescription[identifier=quay.io/qiime2/amplicon:2026.1,type=singularity]` |
 
 ## `explicit_singularity`
 ### Requirements
