@@ -53,12 +53,14 @@ nav:
           - Storage: infrastructure/reference/storage.md
       - Runbooks:
           - Networking: infrastructure/runbooks/networking.md
+          - Deploy storage mounts: infrastructure/runbooks/storage-mounts.md
           - VGCN node operations: infrastructure/runbooks/vgcn-node-operations.md
           - Add a new data share: infrastructure/runbooks/storage-add-data-share.md
           - Migrating storage: infrastructure/runbooks/storage-migration.md
       - Troubleshooting:
           - CPU performance issues: infrastructure/troubleshooting/cpu_performance_issues.md
           - VGCN disk setup: infrastructure/troubleshooting/vgcn-disk-troubleshooting.md
+          - TFTP / autofs startup ordering: infrastructure/troubleshooting/tftp-autofs-startup.md
           - Storage data recovery: infrastructure/troubleshooting/storage-data-recovery.md
   - KVM Infrastructure:
       - Overview: kvm/README.md
@@ -111,6 +113,7 @@ nav:
           - Job failures and diagnosis: galaxy-admin/troubleshooting/jobs.md
           - Preserving hardlinks: galaxy-admin/troubleshooting/preserving-hardlinks.md
           - Cleaning DATA_FETCH: galaxy-admin/troubleshooting/clean_DATA_FETCH.md
+          - RabbitMQ queue disk usage: galaxy-admin/troubleshooting/rabbitmq-queue-files.md
           - Workflows (failed state): galaxy-admin/troubleshooting/worklows.md
           - Traefik: galaxy-admin/troubleshooting/traefik.md
           - Jenkins upgrade failures: galaxy-admin/troubleshooting/jenkins-upgrade.md
@@ -147,6 +150,8 @@ nav:
           - monitor-nfs: miscellanea/telegraf/monitor-nfs/README.md
           - monitor-zfs: miscellanea/telegraf/monitor-zfs/README.md
       - TSM: miscellanea/tsm/README.md
+      - galaxy-storage:
+          - Overview: miscellanea/galaxy-storage/README.md
   - Archive:
       - KVM server: archived/kvm-server.md
       - Monitoring: archived/monitoring.md

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>README — documentation moved</title>
+  <meta http-equiv="refresh" content="0; url=./">
+  <style>
+    body { max-width: 48rem; margin: 3rem auto; padding: 0 1rem; font: 1rem/1.6 system-ui, sans-serif; }
+    li { margin: .5rem 0; }
+    @media (prefers-color-scheme: dark) { body { background: #202126; color: #eee; } a { color: #9ac7ff; } }
+  </style>
+</head>
+<body>
+  <h1>Documentation moved</h1>
+  <p>This address is retained for existing links. The documentation is now available here:</p>
+  <ul>
+    <li><a href="./">Operations Manual for usegalaxy.eu</a></li>
+  </ul>
+  <script>
+    const anchors = {"operations-manual-for-usegalaxyeu": "./#operations-manual-for-usegalaxyeu", "read-only-fridays": "./#read-only-fridays"};
+    const fallback = "./";
+    const fragment = window.location.hash.slice(1);
+    const target = anchors[fragment] || (fallback && fallback + window.location.hash);
+    if (target) window.location.replace(target);
+  </script>
+</body>
+</html>

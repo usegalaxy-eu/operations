@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>storage — documentation moved</title>
+  <style>
+    body { max-width: 48rem; margin: 3rem auto; padding: 0 1rem; font: 1rem/1.6 system-ui, sans-serif; }
+    li { margin: .5rem 0; }
+    @media (prefers-color-scheme: dark) { body { background: #202126; color: #eee; } a { color: #9ac7ff; } }
+  </style>
+</head>
+<body>
+  <h1>Documentation moved</h1>
+  <p>This address is retained for existing links. The documentation is now available here:</p>
+  <ul>
+    <li><a href="infrastructure/reference/storage/">AutoFS</a></li>
+    <li><a href="infrastructure/runbooks/storage-mounts/">Cluster and Mounts</a></li>
+    <li><a href="infrastructure/runbooks/storage-add-data-share/">Steps to add a new data (_dnbXX_) share</a></li>
+    <li><a href="infrastructure/runbooks/storage-migration/">Migrating storage</a></li>
+    <li><a href="infrastructure/troubleshooting/storage-data-recovery/">Recovering data</a></li>
+  </ul>
+  <script>
+    const anchors = {"autofs": "infrastructure/reference/storage/#autofs", "how-it-works": "infrastructure/reference/storage/#how-it-works", "different-kinds-of-storage": "infrastructure/reference/storage/#different-kinds-of-storage", "group-based-storage": "infrastructure/reference/storage/#group-based-storage", "sync": "infrastructure/reference/storage/#sync", "cluster-and-mounts": "infrastructure/reference/storage/#cluster-and-mounts", "which-host-mounts-what": "infrastructure/reference/storage/#which-host-mounts-what", "nfs-export-policies": "infrastructure/reference/storage/#nfs-export-policies", "s3-polices-for-our-storage": "infrastructure/reference/storage/#s3-polices-for-our-storage", "steps-to-add-a-new-data-dnbxx-share": "infrastructure/runbooks/storage-add-data-share/#steps-to-add-a-new-data-dnbxx-share", "steps-to-add-a-new-data-_dnbxx_-share": "infrastructure/runbooks/storage-add-data-share/#steps-to-add-a-new-data-dnbxx-share", "migrating-storage": "infrastructure/runbooks/storage-migration/#migrating-storage", "recovering-data": "infrastructure/troubleshooting/storage-data-recovery/#recovering-data", "nfs": "infrastructure/troubleshooting/storage-data-recovery/#nfs", "s3": "infrastructure/troubleshooting/storage-data-recovery/#s3"};
+    const fallback = null;
+    const fragment = window.location.hash.slice(1);
+    const target = anchors[fragment] || (fallback && fallback + window.location.hash);
+    if (target) window.location.replace(target);
+  </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>celery — documentation moved</title>
+  <style>
+    body { max-width: 48rem; margin: 3rem auto; padding: 0 1rem; font: 1rem/1.6 system-ui, sans-serif; }
+    li { margin: .5rem 0; }
+    @media (prefers-color-scheme: dark) { body { background: #202126; color: #eee; } a { color: #9ac7ff; } }
+  </style>
+</head>
+<body>
+  <h1>Documentation moved</h1>
+  <p>This address is retained for existing links. The documentation is now available here:</p>
+  <ul>
+    <li><a href="galaxy-admin/runbooks/celery/">Celery</a></li>
+    <li><a href="galaxy-admin/troubleshooting/rabbitmq-queue-files/">Investigating large RabbitMQ queue files</a></li>
+  </ul>
+  <script>
+    const anchors = {"celery": "galaxy-admin/runbooks/celery/#celery", "how-it-works": "galaxy-admin/runbooks/celery/#how-it-works", "how-to-use-it": "galaxy-admin/runbooks/celery/#how-to-use-it", "chapter-one-down-the-rabbit-hole": "galaxy-admin/runbooks/celery/#chapter-one-down-the-rabbit-hole", "chapter-two-the-red-queen": "galaxy-admin/runbooks/celery/#chapter-two-the-red-queen", "chapter-three-the-secret-garden": "galaxy-admin/runbooks/celery/#chapter-three-the-secret-garden", "chapter-four-the-talking-flowers": "galaxy-admin/runbooks/celery/#chapter-four-the-talking-flowers", "chapter-five-be-on-good-terms-with-time": "galaxy-admin/runbooks/celery/#chapter-five-be-on-good-terms-with-time", "investigating-large-rabbitmq-queue-files": "galaxy-admin/troubleshooting/rabbitmq-queue-files/#investigating-large-rabbitmq-queue-files"};
+    const fallback = null;
+    const fragment = window.location.hash.slice(1);
+    const target = anchors[fragment] || (fallback && fallback + window.location.hash);
+    if (target) window.location.replace(target);
+  </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>traefik — documentation moved</title>
+  <style>
+    body { max-width: 48rem; margin: 3rem auto; padding: 0 1rem; font: 1rem/1.6 system-ui, sans-serif; }
+    li { margin: .5rem 0; }
+    @media (prefers-color-scheme: dark) { body { background: #202126; color: #eee; } a { color: #9ac7ff; } }
+  </style>
+</head>
+<body>
+  <h1>Documentation moved</h1>
+  <p>This address is retained for existing links. The documentation is now available here:</p>
+  <ul>
+    <li><a href="galaxy-admin/reference/traefik/">Traefik</a></li>
+    <li><a href="galaxy-admin/runbooks/traefik-new-subdomains/">New subdomains</a></li>
+    <li><a href="galaxy-admin/troubleshooting/traefik/">How to debug</a></li>
+  </ul>
+  <script>
+    const anchors = {"traefik": "galaxy-admin/reference/traefik/#traefik", "basics": "galaxy-admin/reference/traefik/#basics", "docker-swarm-basics": "galaxy-admin/reference/traefik/#docker-swarm-basics", "new-subdomains": "galaxy-admin/runbooks/traefik-new-subdomains/#new-subdomains", "how-to-debug": "galaxy-admin/troubleshooting/traefik/#how-to-debug", "galaxy-not-reachable": "galaxy-admin/troubleshooting/traefik/#galaxy-not-reachable", "usegalaxyeu-subdomain-is-showing-a-plain-404-not-found": "galaxy-admin/troubleshooting/traefik/#usegalaxyeu-subdomain-is-showing-a-plain-404-not-found", "bad-gateway-error": "galaxy-admin/troubleshooting/traefik/#bad-gateway-error", "no-available-server": "galaxy-admin/troubleshooting/traefik/#no-available-server", "self-signed-certificate-warning": "galaxy-admin/troubleshooting/traefik/#self-signed-certificate-warning", "letsencrypt-io-error": "galaxy-admin/troubleshooting/traefik/#letsencrypt-io-error"};
+    const fallback = null;
+    const fragment = window.location.hash.slice(1);
+    const target = anchors[fragment] || (fallback && fallback + window.location.hash);
+    if (target) window.location.replace(target);
+  </script>
+</body>
+</html>

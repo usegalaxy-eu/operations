@@ -29,14 +29,14 @@ AssignedGPUs = "GPU-b156e653"
 
 The sections below preserve the original investigation and its later updates.
 
-# Overview
+### Overview
 
 Here, I describe how to configure and utilize multiple GPUs on a single worker node within an HTCondor compute environment. It outlines my attempts at HTCondor configuration changes, the behavior of partitionable slots, troubleshooting steps, and the final solution for ensuring GPU visibility within jobs.
 
 
-# HTCondor GPU configuration
+### HTCondor GPU configuration
 
-## 1. Worker node configuration
+#### 1. Worker node configuration
 
 On a GPU worker node, update the HTCondor configuration to [export necessary GPU-related environment variables](https://htcondor-wiki.cs.wisc.edu/index.cgi/wiki?p=HowToManageGpus):
 
@@ -54,7 +54,7 @@ condor_reconfig
 systemctl restart condor
 ```
 
-## 2. Job submission
+#### 2. Job submission
 
 In the job submit file, request GPU resources as needed:
 
@@ -65,9 +65,9 @@ request_gpus = 1
 This ensures that HTCondor allocates one GPU per job.
 
 
-# Final solution
+### Final solution
 
-## Updated configuration
+#### Updated configuration
 
 Only set:
 
@@ -97,7 +97,7 @@ Further, the job output files (a few `print` and `echo` statements in the exampl
 
 ![image](https://github.com/user-attachments/assets/56699e67-a7d3-465a-b423-6066365468d0)
 
-## Why this works
+#### Why this works
 
 * `_CONDOR_AssignedGPUs` contains the exact value of the slot’s `AssignedGPUs` attribute (e.g., `GPU-b156e653`).
 * Recent versions of TensorFlow support GPU UUIDs (and probably similar libraries and tools), including short UUIDs.
@@ -105,7 +105,7 @@ Further, the job output files (a few `print` and `echo` statements in the exampl
 * _We might have to 100% validate that all tools/libraries other than Tensorflow understand the GPU UUIDs and that all of them rely only on the ENV `CUDA_VISIBLE_DEVICES`_
 
 
-## Update 1:
+#### Update 1:
 
 * I ran a latest test where I removed the `ENVIRONMENT_FOR_AssignedGPUs = CUDA_VISIBLE_DEVICES` from the HTCondor worker conf.
 
@@ -128,7 +128,7 @@ CUDA_VISIBLE_DEVICES: GPU-b156e653
 This indicates that no modifications are needed to the HTCondor worker config or additional handling of environment variables in the scripts.
 
 ---
-## Update 2:
+#### Update 2:
 
 * Once the above (Update 1) patch was rolled out, I started 6 [Flux jobs](https://usegalaxy.eu/?tool_id=toolshed.g2.bx.psu.edu%2Frepos%2Fbgruening%2Fblack_forest_labs_flux%2Fblack_forest_labs_flux%2F2024%2Bgalaxy4&version=latest) and while monitoring, I identified that four jobs were started concurrently (that's a good sign), however, all of them were using the GPU index zero instead of their own assigned GPU.
 * The reason behind that is that these Flux jobs are running inside a Docker container to which we pass the Docker run parameter `--gpus all`, and Docker seems to handle this differently. The container sees all 4 GPUs when running `nvidia-smi` from within the container, and all the jobs end up using GPU index 0.
@@ -138,4 +138,3 @@ This indicates that no modifications are needed to the HTCondor worker config or
 * In this picture, we can see that more than 1 GPU job is run per GPU (see the bottom of the image, which shows the GPU index and the corresponding process)
 
 ![Image](https://github.com/user-attachments/assets/75373af0-2efa-46fb-88e1-b2b8159ada3f)
-

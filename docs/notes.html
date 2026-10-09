@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>notes — documentation moved</title>
+  <style>
+    body { max-width: 48rem; margin: 3rem auto; padding: 0 1rem; font: 1rem/1.6 system-ui, sans-serif; }
+    li { margin: .5rem 0; }
+    @media (prefers-color-scheme: dark) { body { background: #202126; color: #eee; } a { color: #9ac7ff; } }
+  </style>
+</head>
+<body>
+  <h1>Documentation moved</h1>
+  <p>This address is retained for existing links. The documentation is now available here:</p>
+  <ul>
+    <li><a href="galaxy-admin/runbooks/frontpage-notice/">Change the frontpage notice on usegalaxy.eu</a></li>
+    <li><a href="galaxy-admin/runbooks/decode-galaxy-id/">decode Galaxy id</a></li>
+    <li><a href="galaxy-admin/runbooks/cluster-wide-commands/">visit all compute nodes and execute one command</a></li>
+    <li><a href="galaxy-admin/runbooks/grafana-plugin-updates/">Grafana</a></li>
+    <li><a href="galaxy-admin/runbooks/jenkins-credentials/">How to find out any password from Jenkins</a></li>
+    <li><a href="galaxy-admin/runbooks/jenkins-rollback/">How to roll-back Jenkins</a></li>
+    <li><a href="galaxy-admin/reference/condor-tiaas-priorities/">How Condor honors TIaaS priorities</a></li>
+    <li><a href="galaxy-admin/reference/postgresql-configuration/">PostgreSQL configuarions</a></li>
+    <li><a href="galaxy-admin/troubleshooting/yum-recovery/">non responsive yum</a></li>
+    <li><a href="galaxy-admin/troubleshooting/gpu-verification/">GPUs</a></li>
+    <li><a href="galaxy-admin/troubleshooting/d-state-processes/">debug &#x27;D&#x27; state in processe</a></li>
+  </ul>
+  <script>
+    const anchors = {"change-the-frontpage-notice-on-usegalaxyeu": "galaxy-admin/runbooks/frontpage-notice/#change-the-frontpage-notice-on-usegalaxyeu", "decode-galaxy-id": "galaxy-admin/runbooks/decode-galaxy-id/#decode-galaxy-id", "visit-all-compute-nodes-and-execute-one-command": "galaxy-admin/runbooks/cluster-wide-commands/#visit-all-compute-nodes-and-execute-one-command", "grafana": "galaxy-admin/runbooks/grafana-plugin-updates/#grafana", "how-to-find-out-any-password-from-jenkins": "galaxy-admin/runbooks/jenkins-credentials/#how-to-find-out-any-password-from-jenkins", "how-to-roll-back-jenkins": "galaxy-admin/runbooks/jenkins-rollback/#how-to-roll-back-jenkins", "how-condor-honors-tiaas-priorities": "galaxy-admin/reference/condor-tiaas-priorities/#how-condor-honors-tiaas-priorities", "postgresql-configuarions": "galaxy-admin/reference/postgresql-configuration/#postgresql-configuarions", "non-responsive-yum": "galaxy-admin/troubleshooting/yum-recovery/#non-responsive-yum", "gpus": "galaxy-admin/troubleshooting/gpu-verification/#gpus", "debug-d-state-in-processe": "galaxy-admin/troubleshooting/d-state-processes/#debug-d-state-in-processe"};
+    const fallback = null;
+    const fragment = window.location.hash.slice(1);
+    const target = anchors[fragment] || (fallback && fallback + window.location.hash);
+    if (target) window.location.replace(target);
+  </script>
+</body>
+</html>
