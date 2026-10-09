@@ -160,16 +160,52 @@ The resolver attempts to resolve package requirements by computing a "mulled has
 If successful, the tool runs in a mulled container using Docker by specifying the Docker container URI, so the image will be pulled if not present in the Docker daemon of the respective worker node.
 
 ## `mulled_singularity`
-### Requirements
-- Only works if `singularity_enabled: true`.
-- The tool must specify a `package` requirement.
 
-### Behaviour
-The resolver attempts to resolve package requirements by computing a "mulled hash" and then searching for it in a container registry.
-If successful, the tool runs in a mulled container using Singularity.
-If `auto_install: true`, the resolver will *always* return a URI and the job will pull the image. Additionally, if the container is not in the cache, it attempts to cache the container.
-If `auto_install: false` and the container is not cached, the resolver returns a URI and attempts to cache the container.
-If `auto_install: false` and the container is cached, the resolver returns a path to the container sif file and will *not* pull an image.
+This resolver is meant to receive a list of package requirements as input. The
+resolver computes a
+["mulled hash"](https://docs.galaxyproject.org/en/latest/admin/special_topics/mulled_containers.html#calculate-a-mulled-hash)
+from the package requirements and searches for the corresponding container in
+the [quay.io](https://quay.io/) container registry (the registry namespace is
+configurable, and it defaults to `biocontainers`).
+
+- If `auto_install` is `false` and the container is in the cache directory,
+  the resolver returns the path to the cached `.sif` file. If it is not in the
+  cache directory, then it returns a `docker://` URI, e.g.
+  `docker://quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0`.
+- Otherwise, if `auto_install` is `true`, the resolver returns the `docker://`
+  URI, even if the container is present in the cache directory.
+
+In situations in which `install=True` (e.g. during job preparation or when
+using the admin panel), the resolver will attempt to download the container to
+the cache, **regardless of the value of `auto_install`**!
+
+_Note_: this requires the `singularity` command to be present in the node
+executing the resolver.
+
+The cache path can be configured using the `cache_directory` parameter.
+Additionally, the `install` parameter can be set to `true` so that the resolver
+saves the container image to the cache directory if it is not already present
+(this requires the `singularity` command to be present in the node executing
+the resolver).
+
+**List of package requirements**
+
+| Enabled container engines | Resolver result                                                                             |
+|:--------------------------|:--------------------------------------------------------------------------------------------|
+| docker                    | `None`                                                                                      |
+| singularity               | `ContainerDescription[identifier=docker://quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0,type=singularity]` |
+| docker singularity        | `ContainerDescription[identifier=docker://quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0,type=singularity]` |
+
+**Image reference and container engine pair**
+
+| Requested container engine | Enabled container engines | Resolver result |
+|:---------------------------|:--------------------------|:----------------|
+| docker                     | docker                    | `None`          |
+| singularity                | docker                    | `None`          |
+| docker                     | singularity               | `None`          |
+| singularity                | singularity               | `None`          |
+| docker                     | docker singularity        | `None`          |
+| singularity                | docker singularity        | `None`          |
 
 ## `cached_mulled_singularity`
 ### Requirements
