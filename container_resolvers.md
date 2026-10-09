@@ -208,10 +208,32 @@ the resolver).
 | singularity                | docker singularity        | `None`          |
 
 ## `cached_mulled_singularity`
-### Requirements
-- Only works if `singularity_enabled: true`.
-- The tool must specify a `package` requirement.
 
-### Behaviour
-The resolver attempts to resolve package requirements by computing a "mulled hash" and then searching for it in a local cache.
-If successful, the tool runs in a mulled container using Singularity.
+Like `mulled_singularity`, this resolver is meant to receive a list of package
+requirements as input, and resolves them by computing a
+["mulled hash"](https://docs.galaxyproject.org/en/latest/admin/special_topics/mulled_containers.html#calculate-a-mulled-hash)
+from the package requirements. Unlike `mulled_singularity`, it only searches
+for the corresponding container in the local cache directory, which can be
+configured with the `cache_directory` parameter and managed by a
+`cache_directory_cacher_type` such as `dir_mtime`. It never pulls or caches
+anything itself: it returns the path to the cached container if it is in the
+cache directory, and `None` if the container is not in the cache directory.
+
+**List of package requirements**
+
+| Enabled container engines | Resolver result                                                                             |
+|:--------------------------|:--------------------------------------------------------------------------------------------|
+| docker                    | `None`                                                                                      |
+| singularity               | `ContainerDescription[identifier=/cvmfs/singularity.galaxyproject.org/all/fastqc:0.12.1--hdfd78af_0,type=singularity]` |
+| docker singularity        | `ContainerDescription[identifier=/cvmfs/singularity.galaxyproject.org/all/fastqc:0.12.1--hdfd78af_0,type=singularity]` |
+
+**Image reference and container engine pair**
+
+| Requested container engine | Enabled container engines | Resolver result |
+|:---------------------------|:--------------------------|:----------------|
+| docker                     | docker                    | `None`          |
+| singularity                | docker                    | `None`          |
+| docker                     | singularity               | `None`          |
+| singularity                | singularity               | `None`          |
+| docker                     | docker singularity        | `None`          |
+| singularity                | docker singularity        | `None`          |
