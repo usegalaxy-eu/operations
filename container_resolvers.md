@@ -1,5 +1,44 @@
 # Container Resolvers
-This is a brief summary of what @kysrpex found in https://github.com/usegalaxy-eu/infrastructure-playbook/pull/1904
+
+> [!NOTE]
+> This is a summary of what @domgz found in 
+> https://github.com/usegalaxy-eu/infrastructure-playbook/pull/1904. 
+>
+
+Galaxy can run tools in [Docker](https://www.docker.com/) and
+[Apptainer](https://docs.sylabs.io/guides/3.5/user-guide/introduction.html)
+(former Singularity) containers.
+
+If containers are enabled for a destination, Galaxy will try to resolve the
+container
+[image reference](https://docs.docker.com/engine/containers/run/#image-references)
+using so-called
+["container resolvers"](https://docs.galaxyproject.org/en/latest/admin/container_resolvers.html#container-resolvers-in-galaxy).
+Galaxy container resolvers choose a container engine (either `docker` or
+`singularity`) and attempt to find a reference for the container image. 
+
+For example, the `explicit` container resolver simply returns the container
+image reference specified in the tool wrapper, while the `explicit_singularity`
+container resolver in addition forces the use of Singularity as the container
+engine. Other resolvers, for example,  attempt to find a container image
+reference based on the package requirements specified in the tool wrapper. Each
+resolver has different behavior, tailored to a specific use-case.
+
+Container resolvers are defined either on a per-job-destination file or
+globally in a container resolver configuration file. Galaxy tries to choose a
+container engine and an image reference using each resolver in the order they
+are defined. If the resolver returns no reference, Galaxy proceeds to the next
+resolver.
+
+Container resolvers take as input either an existing container image reference
+and container engine pair (e.g. `"identifier=quay.io/qiime2/amplicon:2026.1
+type=singularity`) or a list of package requirements (e.g.
+`scikit-image==0.25.2,numpy==2.3.5`). They return a container description,
+which is a pair of a container image reference and a container engine (e.g.
+`docker://quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0 type=singularity"`).
+Additionally, they can accept configuration parameters that allow to fine-tune
+their behavior (e.g. some allow defining a cache directory for Apptainer
+images).
 
 ## General
 If `cache_directory` is not set, it defaults to `database/container_cache/singularity/explicit`.
