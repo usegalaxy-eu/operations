@@ -40,9 +40,6 @@ Additionally, they can accept configuration parameters that allow to fine-tune
 their behavior (e.g. some allow defining a cache directory for Apptainer
 images).
 
-## General
-If `cache_directory` is not set, it defaults to `database/container_cache/singularity/explicit`.
-
 ## `explicit`
 
 This resolver is meant to receive a container image reference and container
@@ -115,7 +112,15 @@ input reference, and it is pulled upon job execution.
 The tool executes using Singularity (if enabled), regardless of the tool
 wrapper declaring Docker as container engine.
 
-The cache path can be configured using the `cache_directory` parameter.
+The cache path can be configured using the `cache_directory` parameter,
+managed by a `cache_directory_cacher_type` setting such as `dir_mtime`.
+
+> [!TIP]
+> See the
+> ["Containers in Galaxy"](https://docs.galaxyproject.org/en/latest/admin/container_resolvers.html#parameters)
+> page for more details on how the `cache_directory` and
+> `cache_directory_cacher_type` configuration parameters work.
+
 Additionally, the `install` parameter can be set to `true` so that the resolver
 saves the container image to the cache directory if it is not already present
 (this requires the `singularity` command to be present in the node executing
@@ -182,7 +187,15 @@ the cache, **regardless of the value of `auto_install`**!
 _Note_: this requires the `singularity` command to be present in the node
 executing the resolver.
 
-The cache path can be configured using the `cache_directory` parameter.
+The cache path can be configured using the `cache_directory` parameter,
+managed by a `cache_directory_cacher_type` setting such as `dir_mtime`.
+
+> [!TIP]
+> See the
+> ["Containers in Galaxy"](https://docs.galaxyproject.org/en/latest/admin/container_resolvers.html#parameters)
+> page for more details on how the `cache_directory` and
+> `cache_directory_cacher_type` configuration parameters work.
+
 Additionally, the `install` parameter can be set to `true` so that the resolver
 saves the container image to the cache directory if it is not already present
 (this requires the `singularity` command to be present in the node executing
@@ -218,6 +231,12 @@ configured with the `cache_directory` parameter and managed by a
 `cache_directory_cacher_type` such as `dir_mtime`. It never pulls or caches
 anything itself: it returns the path to the cached container if it is in the
 cache directory, and `None` if the container is not in the cache directory.
+
+> [!TIP]
+> See the
+> ["Containers in Galaxy"](https://docs.galaxyproject.org/en/latest/admin/container_resolvers.html#parameters)
+> page for more details on how the `cache_directory` and
+> `cache_directory_cacher_type` configuration parameters work.
 
 **List of package requirements**
 
