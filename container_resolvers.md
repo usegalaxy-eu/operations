@@ -270,3 +270,8 @@ cache directory, and `None` if the container is not in the cache directory.
 > This resolver is not documented yet. Please contribute a description and its
 > tables if you have experience with it.
 
+## `build_mulled_singularity`
+
+> [!WARNING]
+> This resolver is not documented yet. Please contribute a description and its
+> tables if you have experience with it.
