@@ -40,6 +40,9 @@ Additionally, they can accept configuration parameters that allow to fine-tune
 their behavior (e.g. some allow defining a cache directory for Apptainer
 images).
 
+This page documents the subset of container resolvers built into Galaxy that
+are most interesting for production usage.
+
 ## `explicit`
 
 This resolver is meant to receive a container image reference and container
