@@ -263,3 +263,10 @@ cache directory, and `None` if the container is not in the cache directory.
 | singularity                | singularity               | `None`          |
 | docker                     | docker singularity        | `None`          |
 | singularity                | docker singularity        | `None`          |
+
+## `build_mulled`
+
+> [!WARNING]
+> This resolver is not documented yet. Please contribute a description and its
+> tables if you have experience with it.
+
