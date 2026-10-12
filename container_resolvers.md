@@ -146,18 +146,22 @@ the resolver).
 | singularity                | docker singularity        | `ContainerDescription[identifier=https://depot.galaxyproject.org/singularity/mulled-v2-6a2891161dcf5f35b38c6a49fff923163de7a66d%3a159a5b483a078f27b97a401b0626abac09e5f2d1-0,type=singularity]`          |
 
 ## `mulled`
-### Requirements
 
-This resolver is meant to receive a list of package requirements as input.
+This resolver is meant to receive a list of package requirements as input. It
+computes a
+["mulled hash"](https://docs.galaxyproject.org/en/latest/admin/special_topics/mulled_containers.html#calculate-a-mulled-hash)
+from the package requirements and searches for the corresponding container in
+the [quay.io](https://quay.io/) container registry (the registry namespace is
+configurable, and it defaults to `biocontainers`).
+
+If successful, the tool runs in a mulled container using Docker (therefore, it
+only works if `docker_enabled: true` is set in the respective destination).
+`auto_install: true` is not possible because the images are Docker image blobs,
+not sif files, so they cannot be stored in a standard filesystem.
 
 > [!WARNING]
 > This resolver is not documented yet in detail. Please contribute a
 > description and its tables if you have experience with it.
-
-### Behaviour
-The resolver attempts to resolve package requirements by computing a "mulled hash" and then searching for it in a container registry.
-If successful, the tool runs in a mulled container using Docker.
-`auto_install: true` is not possible because the images are Docker image blobs, not sif files, so they cannot be stored in a standard filesystem.
 
 ## `cached_mulled`
 
