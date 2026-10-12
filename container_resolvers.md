@@ -160,9 +160,12 @@ If successful, the tool runs in a mulled container using Docker.
 `auto_install: true` is not possible because the images are Docker image blobs, not sif files, so they cannot be stored in a standard filesystem.
 
 ## `cached_mulled`
-### Requirements
-- Only works if `docker_enabled: true` is set in the respective destination.
-- The tool must specify a `package` requirement.
+
+This resolver is meant to receive a list of package requirements as input.
+
+> [!WARNING]
+> This resolver is not documented yet in detail. Please contribute a
+> description and its tables if you have experience with it.
 
 ### Behaviour
 The resolver attempts to resolve package requirements by computing a "mulled hash" and then searching for it in `docker images`.
