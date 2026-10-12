@@ -162,56 +162,9 @@ only works if `docker_enabled: true` is set in the respective destination).
 `auto_install: true` is not possible because the images are Docker image blobs,
 not sif files, so they cannot be stored in a standard filesystem.
 
-The resolver only considers package requirements (`type="package"`) declared by
-the tool wrapper; other requirement types are ignored. The package names and
-versions are used to compute the mulled hash (v2 by default, configurable with
-the `hash_func` parameter). For a single package requirement, the image name is
-simply the package name and the tag is the package version (e.g.
-`fastqc:0.12.1`); for multiple package requirements, the image name is
-`mulled-v2-<name hash>` and the tag is `"<version hash>-<build number>"`, where
-the name hash is the SHA-1 of the newline-separated sorted package names and
-the version hash is the SHA-1 of the newline-separated sorted package versions.
-
-The registry is queried via the quay.io API: the resolver lists the available
-tags of the repository corresponding to the computed image name and returns the
-image only if a tag exactly matches the requested package version (single
-package) or version hash (multiple packages). If no such tag exists, the
-resolver returns `None`. Tag listings are cached for 5 minutes.
-
-If the `docker` command is available in the node executing the resolver, the
-image is looked up in the local Docker cache (i.e. `docker images`) before
-responding: the `install` parameter (e.g. during job preparation or when using
-the admin panel) triggers a `docker pull` of the image if it is not cached
-locally, and if `auto_install` is `false` the resolver only returns a result
-when the image is present in the local Docker cache. The default is
-`auto_install: true`, so the image reference is returned regardless of whether
-it has been pulled on the execution node; the image is pulled upon job
-execution.
-
-> [!TIP]
-> See the
-> ["Containers in Galaxy"](https://docs.galaxyproject.org/en/latest/admin/container_resolvers.html#parameters)
-> page for more details on how the `namespace`, `hash_func` and
-> `auto_install` configuration parameters work.
-
-**List of package requirements**
-
-| Enabled container engines | Resolver result                                                                                                |
-|:--------------------------|:---------------------------------------------------------------------------------------------------------------|
-| docker                    | `ContainerDescription[identifier=quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0,type=docker]`                  |
-| singularity               | `None`                                                                                                         |
-| docker singularity        | `ContainerDescription[identifier=quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0,type=docker]`                  |
-
-**Image reference and container engine pair**
-
-| Requested container engine | Enabled container engines | Resolver result |
-|:---------------------------|:--------------------------|:----------------|
-| docker                     | docker                    | `None`          |
-| singularity                | docker                    | `None`          |
-| docker                     | singularity               | `None`          |
-| singularity                | singularity               | `None`          |
-| docker                     | docker singularity        | `None`          |
-| singularity                | docker singularity        | `None`          |
+> [!WARNING]
+> This resolver is not documented yet in detail. Please contribute a
+> description and its tables if you have experience with it.
 
 ## `cached_mulled`
 
