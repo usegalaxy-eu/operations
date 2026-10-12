@@ -165,15 +165,20 @@ not sif files, so they cannot be stored in a standard filesystem.
 
 ## `cached_mulled`
 
-This resolver is meant to receive a list of package requirements as input.
+This resolver is meant to receive a list of package requirements as input. It
+computes a
+["mulled hash"](https://docs.galaxyproject.org/en/latest/admin/special_topics/mulled_containers.html#calculate-a-mulled-hash)
+from the package requirements and then searches for the corresponding container
+in the local Docker cache, i.e. `docker images`.
+
+If successful, the tool runs in a mulled container using Docker by specifying
+the Docker container URI (therefore, it only works if `docker_enabled: true` is
+set in the respective destination). The image will be pulled if not present in
+the Docker daemon of the respective worker node.
 
 > [!WARNING]
 > This resolver is not documented yet in detail. Please contribute a
 > description and its tables if you have experience with it.
-
-### Behaviour
-The resolver attempts to resolve package requirements by computing a "mulled hash" and then searching for it in `docker images`.
-If successful, the tool runs in a mulled container using Docker by specifying the Docker container URI, so the image will be pulled if not present in the Docker daemon of the respective worker node.
 
 ## `mulled_singularity`
 
