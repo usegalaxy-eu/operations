@@ -9,24 +9,7 @@ metadata:
 # Documenting container resolvers
 
 This document explains to update the documentation of a container resolver (or
-create it if it does not exist yet). 
-
-> [!TIP]
-> If you are an agent, you may think of this skill as having the following
-> inputs.
-
-```yaml
-inputs:
-  identifier:
-    type: "string"
-    description: "Container resolver identifier (e.g. `explicit_singularity`)."
-    required: true
-  documentation:
-    type: "string"
-    description: "Existing documentation for this container resolver, leave
-      empty if no documentation exists yet."
-    required: false
-```
+create it if it does not exist yet).
 
 The documentation page for container resolvers is located at the moment in the
 container_resolvers.md file.
