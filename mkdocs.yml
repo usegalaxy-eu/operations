@@ -63,11 +63,11 @@ nav:
           - TFTP / autofs startup ordering: infrastructure/troubleshooting/tftp-autofs-startup.md
           - Storage data recovery: infrastructure/troubleshooting/storage-data-recovery.md
   - KVM Infrastructure:
-      - Overview: kvm/README.md
+      - Overview: miscellanea/kvm/README.md
       - Reference:
-          - Galaxy Europe Services: kvm/reference/services.md
+          - Galaxy Europe Services: miscellanea/kvm/reference/services.md
       - Runbooks:
-          - Adding a new VM: kvm/runbooks/adding-a-new-vm.md
+          - Adding a new VM: miscellanea/kvm/runbooks/adding-a-new-vm.md
   - Galaxy Admin:
       - Reference:
           - Container resolvers: galaxy-admin/reference/container_resolvers.md

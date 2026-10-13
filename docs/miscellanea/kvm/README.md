@@ -12,7 +12,7 @@ provisioned with [Terraform](https://www.terraform.io/) using the
 
 - Repository: [usegalaxy-eu/kvm-infrastructure](https://github.com/usegalaxy-eu/kvm-infrastructure)
 - Hypervisor: `sn12.galaxyproject.eu` (`qemu+sshcmd://root@sn12.galaxyproject.eu/system`)
-- Documentation of the former cloud setup: [archived/cloud/](../archived/cloud/)
+- Documentation of the former cloud setup: [archived/cloud/](../../archived/cloud/)
 
 # Overview
 
