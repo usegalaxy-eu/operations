@@ -149,8 +149,6 @@ container image reference and container engine pair.
 > [Galaxy project code](https://github.com/galaxyproject/galaxy) to run.
 
 > [!IMPORTANT]
-> This repository documents Galaxy EU, therefore the Galaxy configuration file
-> should be retrieved from the
-> [usegalaxy-eu/infrastructure-playbook](https://github.com/usegalaxy-eu/infrastructure-playbook)
-> repository, and the Galaxy code from the default branch of
+> This repository documents Galaxy EU, therefore the Galaxy code should be
+> retrieved from the default branch of
 > [usegalaxy-eu/galaxy](https://github.com/usegalaxy-eu/galaxy).
