@@ -57,7 +57,7 @@ This cmd will find all jobs matching a string (here "obabel"), returns the group
 to remove jobs from the condor nodes when condor_rm was not able to kill the jobs.
 
 ```bash
-pdsh -g cloud 'ps xao pgid,cmd | grep "[o]babel" | awk "{ print \$1 }" | xargs -I {} sudo kill -9 {}'
+pssh -h /etc/pssh/cloud 'ps xao pgid,cmd | grep "[o]babel" | awk "{ print \$1 }" | xargs -I {} sudo kill -9 {}'
 ```
 
 -----
@@ -65,6 +65,12 @@ pdsh -g cloud 'ps xao pgid,cmd | grep "[o]babel" | awk "{ print \$1 }" | xargs -
 
 ```bash
 condor_q -autoformat ClusterID JobDescription RemoteHost | grep cn032
+```
+
+### Get all errored jobs from a specific node (improve to grep more accurate time)
+
+```bash
+condor_history -af Cmd CompletionDate -startd -name c64m384g8-n3801.bi.privat | grep 1754 | cut -f1 -d' ' | xargs -i basename {}| awk 'match ($0,/[[:digit:]]+/) { print substr($0,RSTART,RLENGTH)}' | xargs -i gxadmin query job-info {} | grep error
 ```
 
 ### condor_q is very powerful
@@ -78,6 +84,10 @@ condor_q  -constraint 'JobDescription == "spades"' -af ClusterID JobDescription 
 condor_q -autoformat:t ClusterId JobDescription RequestMemory RequestCpus JobStatus | grep -P "\t1$"
 ```
 
+### Identify a mismatch between a job and a particular machine? (Why is my job not scheduled on this node?)
+~~~
+condor_q --better-analyze <job-id> -machine <machine-fqdn>
+~~~
 
 ### Number of cores available
 
@@ -144,7 +154,7 @@ for j in `gxadmin query queue-detail --all| grep param_value_from_file |grep -v 
 
 This “peaceful” shutdown of a startd will cause that daemon to wait indefinitely for all existing jobs to exit before shutting down. During this time, no new jobs will start.
 ```bash
-condor_off -peaceful -startd vgcnbwc-worker-c125m425-8231.novalocal
+condor_off -peaceful -name vgcnbwc-worker-c125m425-8231.novalocal
 ```
 
 To begin running or restarting all daemons (other than condor_master) given in the configuration variable DAEMON_LIST on the host:
@@ -247,6 +257,12 @@ comm -23 <(condor_q --json | jq '.[]? | .ClusterId' | sort) <(gxadmin query queu
 
 Those ID can be piped to `condor_rm` if needed.
 
+### Find finished jobs that galaxy does not update anymore
+Introduced for https://github.com/usegalaxy-eu/issues/issues/865
+~~~
+comm -12 <(condor_history -af ClusterId | sort) <(gxadmin query queue-detail | awk 'NR > 2 { print $5 }' | sort)
+~~~
+
 ### Concurrent Job Count Highscore
 ```bash
 gxadmin query queue-detail --all | awk -F\| '{print$5}' | sort | uniq -c | sort -sn
@@ -267,4 +283,9 @@ gxadmin query q "select job.id from job inner join job_state_history jh on job.i
 ### Show all jobs from PXE test nodes
 ~~~
 watch -d -n 3 "condor_q -run | grep privat | cut -d. -f1 | xargs -i sh -c 'gxadmin query queue-detail | grep {}'"
+~~~
+
+### Find Host from ClusterID
+~~~
+condor_q -af RemoteHost -constraint 'ClusterId == <job_id>'
 ~~~

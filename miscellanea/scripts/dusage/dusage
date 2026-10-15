@@ -1,0 +1,45 @@
+#!/bin/sh
+
+AMMAP=/etc/auto.data
+NCDU=/usr/bin/ncdu
+DULOC="diskusage/ncdu.db"
+DUMAXAGE=86400
+
+jwddirs()
+{
+    grep '^jwd[a-zA-Z0-9_-]*[ 	]' $AMMAP | awk '{ print $1 }'
+}
+
+usage()
+{
+    myname=`basename $0`
+    echo "usage: ${myname} JWDDIR"
+    echo ""
+    echo "JWDDIR is one of:"
+    jwddirs
+    echo ""
+    exit 1
+}
+
+fail()
+{
+    echo "${1}, exiting" >&2
+    exit 2
+}
+
+
+JWD="$1"
+DUFILE="/data/${JWD}/${DULOC}"
+
+
+[ -z "$JWD" ] && usage
+
+[ -z "`jwddirs | grep ^${JWD}\$`" ] && fail "Invalid value for JWDDIR"
+
+[ -r "$DUFILE" ] || fail "No cached disk usage data for ${JWD}"
+
+TS_DUFILE=`ls -l --time-style=+%s "$DUFILE" | awk '{ print $6 }'`
+TS_NOW=`date +%s`
+[ `expr $TS_NOW - $TS_DUFILE` -gt $DUMAXAGE ] && fail "Cached disk usage info out of date"
+
+zcat -fc "$DUFILE" | ${NCDU} -r -f - "/export/$JWD"

@@ -27,7 +27,7 @@ yum clean all
 # visit all compute nodes and execute one command
 
 ```console
-pdsh -g cloud 'singularity --version | colordiff'
+pssh -h /etc/pssh/cloud 'singularity --version | colordiff'
 ```
 
 # GPUs

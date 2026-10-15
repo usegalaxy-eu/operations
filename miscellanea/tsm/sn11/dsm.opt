@@ -1,0 +1,15 @@
+************************************************************************
+* Tivoli Storage Manager                                               *
+*                                                                      *
+* Client User Options file for UNIX (dsm.opt)                          *
+************************************************************************
+
+* $Id: $
+
+************************************************************************
+
+SErvername adsm
+   PASsword             << see the vault for the actual password >>
+   COMPRESSAlways       No
+   DATEformat           3
+

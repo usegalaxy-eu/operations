@@ -50,13 +50,20 @@ giving a guest VM more than one virtual interface.
 
 As of this writing, the following bridges are defined for KVM use:
 
+- `virbr1.68`: VLAN=68, CIDR=132.230.68.0/24`
+
 - `virbr1.223`: VLAN=223, CIDR=132.230.223.0/24
+
+- `virbr1.2068`: VLAN=2068, CIDR=10.4.68.0/24
 
 - `virbr1.2367`: VLAN=2367, CIDR=10.5.67.0/24
 
 - `virbr1.2368`: VLAN=2368, CIDR=10.5.68.0/24
 
-- `virbr1.68`: VLAN=68, CIDR=132.230.68.0/24`
+The ones that are, at this writing, really relevant are `virbr1.68`
+(132.230.68.0/24) for hosts that need to be reachable from the public
+internet and `virbr1.2068` (10.4.68.0/24) for all others. The remaining
+VLANs are "legacy" and considered deprecated.
 
 
 These bridges have been created with `nmtui(8)` using default values
@@ -464,3 +471,86 @@ growpart $GROWPARTITION 1
 xfs_growfs "$GROWPARTITION"1
 partprobe $GROWPARTITION # if size is not updated
 ~~~
+
+## 5 Power Outage Recovery
+
+This section covers the recovery procedure for KVM guests and their data volumes after an unplanned
+power outage.  See also [power-outage-recovery.md §E](./power-outage-recovery.md#e--kvmnfs-data-volume-recovery)
+for the broader incident context.
+
+### 5.1 Verify NFS Data Volume
+
+KVM guests may rely on NFS-backed data volumes (e.g. `/data`, `/vdb`).  After a power cycle, confirm
+the NFS mount is present on the KVM host *before* starting any guests:
+
+```bash
+# On the KVM host (build.galaxyproject.eu)
+mount | grep '/data'    # list all NFS mounts
+ls /data/
+
+# Check autofs status
+systemctl status autofs.service
+
+# If the mount is missing, there is a comment in fstab how to mount it.
+
+```
+
+> **Note:** If the NFS server itself (e.g. a ZFS appliance) is still recovering, wait until it is
+> fully online before attempting to remount.
+
+### 5.2 Refresh libvirt Storage Pool
+
+If a libvirt storage pool is defined (check with `virsh pool-list`), refresh it after the NFS mount
+is restored so that libvirt can see the correct list of volumes:
+
+```bash
+virsh pool-list --all
+virsh pool-refresh nfs-pool       
+virsh vol-list nfs-pool         # verify expected volumes are listed
+```
+
+### 5.3 VM Shutdown / Startup Sequence
+
+Always shut down dependent VMs before their backing services, and start services before dependents.
+
+
+**Start VMs after recovery**
+
+```bash
+# Start VMs in dependency order (backing services first)
+virsh start <vm-name>
+
+# Verify the VM is running and responsive
+virsh list
+virsh guestinfo <vm-name>
+```
+
+### 5.4 In-VM Validation of Data Disk (`vdb`)
+
+For VMs that use a second virtual disk (`vdb`) backed by an NFS LV or image file, verify the disk is
+visible inside the VM after startup:
+
+```bash
+# Inside the VM
+lsblk                        # should list /dev/vdb
+df -h | grep vdb             # should show the mounted filesystem
+
+# If vdb is missing, check on the KVM host that the LV/image exists:
+lvs | grep <vm-name>         # for LV-backed disks
+ls -lh /data/<image-file>    # for file-backed disks
+```
+
+If the disk is missing, shut down the VM, verify the backing storage, and start it again.
+
+## SSH Access Fallback via Jenkins
+
+When direct SSH to a KVM guest is unavailable (e.g. network misconfiguration after a reboot), use
+one of these fallback paths:
+
+```bash
+# Option 1: virsh serial console (requires console access to be set up — see §3.3.2)
+virsh console <vm-name>    # on the KVM host; press CTRL-] to detach
+
+# Option 2: Jump via the Jenkins internal worker / gold worker
+ssh <worker-hostname>
+```

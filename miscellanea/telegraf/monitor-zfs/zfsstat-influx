@@ -1,0 +1,36 @@
+#!/bin/sh
+
+format_objset()
+{
+    cat $1 | awk '
+        BEGIN            { fmt="zfs,scope=dataset,fset=io,vers=1,ds=%s reads=%d,writes=%d,nread=%d,nwritten=%d,nunlinks=%d,nunlinked=%d\n" }
+        /^dataset_name / { ds=$3 }
+        /^writes /       { writes=$3 }
+        /^nwritten /     { nwritten=$3 }
+        /^reads /        { reads=$3 }
+        /^nread /        { nread=$3 }
+        /^nunlinks /     { nunlinks=$3 }
+        /^nunlinked /    { nunlinked=$3 }
+        END              { printf fmt, ds, reads, writes, nread, nwritten, nunlinks, nunlinked }
+    '
+}
+
+# report current IOPS and I/O bandwidth
+zpool iostat -Hypl 5 1 \
+| sed -e 's/[ 	][-]/	0/g' \
+| awk '{ printf "zfs,scope=zpool,fset=io,vers=1,ds=%s rops=%d,wops=%d,rbw=%d,wbw=%d,rtw=%d,wtw=%d,rdw=%d,wdw=%d,rsw=%d,wsw=%d,raw=%d,waw=%d\n", $1, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15 }'
+
+# report block usage at the pool level
+zpool list -Hp \
+| awk '{ printf "zfs,scope=zpool,fset=space,vers=1,ds=%s alloc=%s,free=%s,frag=%s,cap=%s\n", $1, $3, $4, $7, $8 }'
+
+# report block usage and compressratio on all datasets
+zfs list -Hp -oname,used,available,compressratio \
+| awk '{ printf "zfs,scope=dataset,fset=space,vers=1,ds=%s used=%d,avail=%d,compr=%.2f\n", $1, $2, $3, $4 }'
+
+ZPOOLS=`zpool list -H -oname`
+for ZP in $ZPOOLS ; do
+    for PFILE in /proc/spl/kstat/zfs/${ZP}/objset-* ; do
+        format_objset $PFILE
+    done
+done

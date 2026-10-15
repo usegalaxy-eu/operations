@@ -1,0 +1,129 @@
+#!/usr/bin/env python3
+
+from subprocess import Popen, DEVNULL, PIPE
+from time import localtime, strftime
+
+import argparse
+
+
+cq_cmd = ["condor_q", "-af:Vj", "JobStatus", "CMD", "Qdate", "JobStartDate", "JobLastStartDate", "JobCurrentStartDate", "RemoteHost", "JobDescription"]
+
+cq_fmt1 = "{0:10} {1:5} {2:20} {3}"
+
+cq_fmt2 = "{0:10} {1:5} {2:20} {3:35} {4}"
+
+st_fmt = "\nJobs total: {total}, compl: {compl}, del: {deleted}, idle: {idle}, run: {run}, hold: {hold}"
+
+stc2str = {0:"unexp", 1:"idle", 2:"run", 3:"del", 4:"compl", 5:"hold", 6:"error"}
+
+timeval_hdg = {0:"Queue Time", 1:"Start Time", 2:"Last Start Time", 3:"Current Start Time"}
+
+
+def tse2timestr(tse):
+    if tse == b'undefined':
+        return "n/a"
+    else:
+        return strftime("%Y-%m-%d %H:%M:%S", localtime(int(tse)))
+
+def rewrite_undef(s):
+    if s == 'undefined':
+        return "n/a"
+    else:
+        return s
+
+
+def update_statistics(jstatus, stats):
+    if   jstatus == 1: stats['idle'] += 1
+    elif jstatus == 2: stats['run'] += 1
+    elif jstatus == 3: stats['deleted'] += 1
+    elif jstatus == 4: stats['compl'] += 1
+    elif jstatus == 5: stats['hold'] += 1
+    else: pass
+    stats['total'] += 1
+
+
+def process_input_line(line, stats, args):
+    update_statistics(int(line[1]), stats)
+    if int(line[1]) in args.jst_mask:
+        if args.exechost:
+            print(cq_fmt2.format(line[0].decode('utf-8'),
+                                 stc2str[int(line[1])],
+                                 tse2timestr(line[3 + args.timeval]),
+                                 rewrite_undef(line[7].decode('utf-8').strip('"')),
+                                 line[2].decode('utf-8').strip('"')))
+        elif args.jdesc:
+            print(cq_fmt2.format(line[0].decode('utf-8'),
+                                 stc2str[int(line[1])],
+                                 tse2timestr(line[3 + args.timeval]),
+                                 rewrite_undef(line[8].decode('utf-8').strip('"')),
+                                 line[2].decode('utf-8').strip('"')))
+        else:
+            print(cq_fmt1.format(line[0].decode('utf-8'),
+                                 stc2str[int(line[1])],
+                                 tse2timestr(line[3 + args.timeval]),
+                                 line[2].decode('utf-8').strip('"')))
+
+
+def parse_cmdline():
+    ap = argparse.ArgumentParser(description="condor_qc: Output re-formatting wrapper for condor_q(1)")
+    ap.add_argument("-s", "--stats", action="store_true", help="Print statistics")
+    ap.add_argument("-e", "--exechost", action="store_true", help="Show execution host")
+    ap.add_argument("-d", "--jdesc", action="store_true", help="Show job description")
+    ap.add_argument("-I", "--idle", action="store_true", help="Filter idle jobs")
+    ap.add_argument("-R", "--run", action="store_true", help="Filter running jobs")
+    ap.add_argument("-H", "--hold", action="store_true", help="Filter held jobs")
+    ap.add_argument("--qtime", action="store_true", help="Print job queue time")
+    ap.add_argument("--stime", action="store_true", help="Print job start time (default)")
+    ap.add_argument("--ltime", action="store_true", help="Print job last start time")
+    ap.add_argument("--ctime", action="store_true", help="Print job current start time")
+    ap.add_argument("-c", "--constraint", action="store", nargs=1, help="Filter jobs by classad constraint")
+    return ap.parse_args()
+
+
+def update_args(args):
+    if args.idle or args.run or args.hold:
+        args.jst_mask = set()
+    else:
+        args.jst_mask = {0, 1, 2, 3, 4, 5, 6}
+    if args.idle: args.jst_mask.add(1)
+    if args.run:  args.jst_mask.add(2)
+    if args.hold: args.jst_mask.add(5)
+
+    if   args.qtime: args.timeval = 0
+    elif args.stime: args.timeval = 1
+    elif args.ltime: args.timeval = 2
+    elif args.ctime: args.timeval = 3
+    else:            args.timeval = 1    # start time is default
+    return args
+
+
+def main():
+    global cq_cmd
+
+    args = update_args(parse_cmdline())
+    stats = dict(total=0, compl=0, deleted=0, idle=0, run=0, hold=0)
+    if args.exechost:
+        headers = ["JobID", "ST"] + [timeval_hdg[args.timeval]] + ["Exec Host"] + ["CMD"]
+    elif args.jdesc:
+        headers = ["JobID", "ST"] + [timeval_hdg[args.timeval]] + ["Job Description"] + ["CMD"]
+    else:
+        headers = ["JobID", "ST"] + [timeval_hdg[args.timeval]] + ["CMD"]
+    if args.constraint:
+        cq_cmd += ["-constraint", args.constraint[0]]
+    try:
+        if args.exechost or args.jdesc:
+            print(cq_fmt2.format(*headers))
+        else:
+            print(cq_fmt1.format(*headers))
+        with Popen(cq_cmd, stdin=DEVNULL, stdout=PIPE) as subp:
+            for line in subp.stdout:
+                process_input_line(line.split(), stats, args)
+        if args.stats:
+            print(st_fmt.format(**stats))
+    except BrokenPipeError:
+        # broken pipe happens all the time when piped to less(1), just ignore
+        pass
+
+
+if __name__ == "__main__":
+    main()
