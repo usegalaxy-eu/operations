@@ -7,7 +7,7 @@ Our storage mounts are controlled everywhere with autofs.
 
 In VGCN machines it's defined in the [userdata.yml](https://github.com/usegalaxy-eu/vgcn-infrastructure/blob/master/userdata.yaml)
 file while in other machines it is controlled by [usegalaxy-eu.autofs](https://github.com/usegalaxy-eu/ansible-autofs) ansible role and
-some variables like in [group_vars/sno6.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/4e6121da8af500dfe878c312243be49807ac5f48/group_vars/sn06.yml#L18)
+some variables like in [group_vars/sn09.yml](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/be8d196b26f46852bc593a0d8a64e66dedde69c5/group_vars/sn09/sn09.yml#L16)
 
 ## How it works
 
@@ -69,7 +69,7 @@ We have `/usr/bin/galaxy-sync-to-nfs`, created by this [Ansible role](https://gi
 
 Currently, the script is invoked:
 
-* by the [handler](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/4e6121da8af500dfe878c312243be49807ac5f48/sn06.yml#L57) in the Galaxy playbook.
+* by the [handler](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/be8d196b26f46852bc593a0d8a64e66dedde69c5/sn09.yml#L75) in the Galaxy playbook.
 * by Jenkins, as a downstream project at the end of tools installation. See [install_tools](https://build.galaxyproject.eu/job/usegalaxy-eu/job/install-tools/)
 
 # Cluster and Mounts (WIP)
@@ -99,40 +99,40 @@ it is sufficient for most machines to add the mount point to [infrastucture-play
       pssh -h /etc/pssh/cloud -l centos -i 'ls -l /data/dnb09/'
       ```
    4. Then, update the `object_store_conf.xml`, for example like [see here](https://github.com/usegalaxy-eu/infrastructure-playbook/pull/800)
-   5. Once everything is merged, run the Jenkins job (`sn06` playbook project) to deploy the new data share
+   5. Once everything is merged, run the Jenkins job (`sn09` playbook project) to deploy the new data share
    6. Monitor the changes and the handler logs to make sure that there are no errors.
 
 # NFS export policies
 * Export rules are
 
 ```bash
-fr1-cl2::> export-policy rule show -vserver denbi -fields protocol,clientmatch,rorule,rwrule,superuser -policyname denbi     
-vserver policyname ruleindex protocol clientmatch     rorule rwrule superuser 
-------- ---------- --------- -------- --------------- ------ ------ --------- 
+fr1-cl2::> export-policy rule show -vserver denbi -fields protocol,clientmatch,rorule,rwrule,superuser -policyname denbi
+vserver policyname ruleindex protocol clientmatch     rorule rwrule superuser
+------- ---------- --------- -------- --------------- ------ ------ ---------
 denbi   denbi      1         nfs3     132.230.223.238 sys    sys    any
-denbi   denbi      1         nfs3     132.230.223.239 sys    sys    any       
-denbi   denbi      3         nfs3     10.5.68.0/24    sys    sys    any       
+denbi   denbi      1         nfs3     132.230.223.239 sys    sys    any
+denbi   denbi      3         nfs3     10.5.68.0/24    sys    sys    any
 2 entries were displayed.
 
-fr1-cl2::> export-policy rule show -vserver denbi -fields protocol,clientmatch,rorule,rwrule,superuser -policyname denbi-svc 
-vserver policyname ruleindex protocol clientmatch     rorule rwrule superuser 
-------- ---------- --------- -------- --------------- ------ ------ --------- 
-denbi   denbi-svc  1         nfs3     132.230.180.148 sys    sys    sys       
+fr1-cl2::> export-policy rule show -vserver denbi -fields protocol,clientmatch,rorule,rwrule,superuser -policyname denbi-svc
+vserver policyname ruleindex protocol clientmatch     rorule rwrule superuser
+------- ---------- --------- -------- --------------- ------ ------ ---------
+denbi   denbi-svc  1         nfs3     132.230.180.148 sys    sys    sys
 
-fr1-cl2::> export-policy rule show -vserver denbi -fields protocol,clientmatch,rorule,rwrule,superuser -policyname denbi-ws  
-vserver policyname ruleindex protocol clientmatch     rorule rwrule superuser 
-------- ---------- --------- -------- --------------- ------ ------ --------- 
+fr1-cl2::> export-policy rule show -vserver denbi -fields protocol,clientmatch,rorule,rwrule,superuser -policyname denbi-ws
+vserver policyname ruleindex protocol clientmatch     rorule rwrule superuser
+------- ---------- --------- -------- --------------- ------ ------ ---------
 denbi   denbi-ws   1         nfs3     132.230.223.238 sys    sys    any
-denbi   denbi-ws   1         nfs3     132.230.223.239 sys    sys    any       
-denbi   denbi-ws   3         nfs3     10.5.68.0/24    sys    sys    any       
-denbi   denbi-ws   4         nfs3     132.230.223.213 sys    sys    none      
+denbi   denbi-ws   1         nfs3     132.230.223.239 sys    sys    any
+denbi   denbi-ws   3         nfs3     10.5.68.0/24    sys    sys    any
+denbi   denbi-ws   4         nfs3     132.230.223.213 sys    sys    none
 3 entries were displayed.
 
-fr1-cl2::> export-policy rule show -vserver denbi -fields protocol,clientmatch,rorule,rwrule,superuser -policyname birna     
-vserver policyname ruleindex protocol clientmatch      rorule rwrule superuser 
-------- ---------- --------- -------- ---------------- ------ ------ --------- 
-denbi   birna      1         nfs3     132.230.153.0/28 sys    sys    any       
-denbi   birna      2         nfs3     10.5.68.0/24     sys    sys    none      
+fr1-cl2::> export-policy rule show -vserver denbi -fields protocol,clientmatch,rorule,rwrule,superuser -policyname birna
+vserver policyname ruleindex protocol clientmatch      rorule rwrule superuser
+------- ---------- --------- -------- ---------------- ------ ------ ---------
+denbi   birna      1         nfs3     132.230.153.0/28 sys    sys    any
+denbi   birna      2         nfs3     10.5.68.0/24     sys    sys    none
 2 entries were displayed.
 ```
 
@@ -144,7 +144,7 @@ denbi   birna      2         nfs3     10.5.68.0/24     sys    sys    none
 The following table shall give an overview of the different mount points and where they are used:
 
 
-| Mountpoint       | Physicalmachine                                               | Export                                                                   | Purpose                             | sn05               | sn06               | sn07               | incoming           | celery             | VGCN               |
+| Mountpoint       | Physicalmachine                                               | Export                                                                   | Purpose                             | sn05               | sn09               | sn07               | incoming           | celery             | VGCN               |
 | :----------------- | --------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------- | -------------------- | :------------------- | -------------------- | -------------------- | -------------------- | -------------------- |
 | /data/jwd        | NetApp 400                                                    | denbi.svm.bwsfs.uni-freiburg.de:/ws01/&                                  | job working dir                     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | /data/jwd01      | Spinning Disks with SSD cache (self-build)                    | zfs1.galaxyproject.eu:/export/&                                          | job working dir                     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |

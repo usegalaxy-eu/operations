@@ -2,7 +2,7 @@
 ## that we carry around to fix or monitor things and that do not have an own repo/readme.md
 ### usegalaxy_eu.fs_maintenance
 #### cron job cleanup-scrips submit to HTCondor (this one has a repo but no description)
-This is scheduled as condor job, so I commented it for now, because we can also schedule this from sn06
+This is scheduled as condor job, so I commented it for now, because we can also schedule this from sn09
 and as soon as we have HTCondor on sn07 running we could uncomment it, because it will check the condor queue for running jobs before it reschedules them.
 The other two cron jobs are a `docker purge` and `gxadmin cleanup` we most likely dont need docker anymore (also commented out) and can run `gxadmin cleanup` only on one node, because it will lead to conflicts otherwise.
 ### usegalaxy-eu.monitoring
@@ -23,10 +23,10 @@ This should only run on one node to avoid strange behaviour. It could be migrate
 ### usegalaxy-eu.unscheduled jobs/workflows
 This was a fix for a galaxy bug that should be upstream now. However if we would need this, it needs to run on **both headnodes**, because it uses the handler logs to grep for 'failure running job'
 ### usegalaxy-eu.fix-ancient-ftp-data
-This creates email-named folders to store ftp data and cleans up afterwards. I don't really now if we need this in the future.  
+This creates email-named folders to store ftp data and cleans up afterwards. I don't really now if we need this in the future.
 **Clear is that this should not run on more than one node.**
 ### usegalaxy-eu.galaxy-procstat
-Gathers information about the `galaxy-xxxx@*.services` so it can run on **both headnodes**.  
+Gathers information about the `galaxy-xxxx@*.services` so it can run on **both headnodes**.
 Gunicorn will replace zergling in a later commit.
 ### usegalaxy-eu.fix-missing-api-keys
 Creates API keys for all users automatically. This was once needed for the deprecated InteractiveEnvironments (now InteractiveTools). We can **remove this from both headnodes**

@@ -1,8 +1,8 @@
 ## Ansible roles in the [infrastructure-playbook](https://github.com/usegalaxy-eu/infrastructure-playbook) repository
 
-* The following are the roles that are currently being installed on the head and maintenance nodes via the [sn06 playbook](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/sn06.yml), [sn07 playbook](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/sn07.yml), and [maintenance node playbook](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/maintenance.yml)
+* The following are the roles that are currently being installed on the head and maintenance nodes via the [sn09 playbook](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/sn09.yml), [sn07 playbook](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/sn07.yml), and [maintenance node playbook](https://github.com/usegalaxy-eu/infrastructure-playbook/blob/master/maintenance.yml)
 * The roles are classified as either head node only, maintenance node only, or both
-* Head nodes: are the nodes that are running the Galaxy web server, the Galaxy job handlers, and the Galaxy workflow schedulers. As of 15/02/2023 `sn06.galaxyproject.eu`, and `sn07.galaxyproject.eu` are the two head nodes. Only `sn06` is in production.
+* Head nodes: are the nodes that are running the Galaxy web server, the Galaxy job handlers, and the Galaxy workflow schedulers. As of 27/07/2025 `sn09.galaxyproject.eu` is the only head node and `sn10` will be added later. Only `sn09` is in production.
 * Maintenance node: runs cron jobs, contains Galaxy codebase, config, etc, pushes data to influxdb, performs cleanup tasks, syncs Galaxy codebase to NFS, etc.
 
 

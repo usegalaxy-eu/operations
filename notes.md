@@ -4,15 +4,15 @@ https://github.com/galaxyproject/galaxy-hub/blob/master/content/bare/eu/usegalax
 
 # decode Galaxy id
 ```
-user@sn06:~$ . /opt/galaxy/venv/bin/activate
-(venv) user@sn06:~$ cd /opt/galaxy
-(venv) user@sn06:/opt/galaxy$ python server/scripts/secret_decoder_ring.py decode ec81bbe85ee13506
+user@sn09:~$ . /opt/galaxy/venv/bin/activate
+(venv) user@sn09:~$ cd /opt/galaxy
+(venv) user@sn09:/opt/galaxy$ python server/scripts/secret_decoder_ring.py decode ec81bbe85ee13506
 746380
 ```
 or using gxadmin
 ```
-user@sn06:~$ . /opt/galaxy/venv/bin/activate
-(venv) user@sn06:~$ GALAXY_ROOT=/opt/galaxy/server GALAXY_CONFIG_FILE=/opt/galaxy/config/galaxy.yml gxadmin galaxy decode ec81bbe85ee13506
+user@sn09:~$ . /opt/galaxy/venv/bin/activate
+(venv) user@sn09:~$ GALAXY_ROOT=/opt/galaxy/server GALAXY_CONFIG_FILE=/opt/galaxy/config/galaxy.yml gxadmin galaxy decode ec81bbe85ee13506
 746380
 ```
 
@@ -43,9 +43,9 @@ print(tf.test.is_built_with_cuda()); print( tf.test.is_gpu_available())
 Check the utilization of the GPU on the host system:
 
 ```console
-> nvidia-smi 
+> nvidia-smi
 
-Sun Aug 25 22:41:01 2019       
+Sun Aug 25 22:41:01 2019
 +-----------------------------------------------------------------------------+
 | NVIDIA-SMI 418.67       Driver Version: 418.67       CUDA Version: 10.1     |
 |-------------------------------+----------------------+----------------------+
@@ -64,7 +64,7 @@ Sun Aug 25 22:41:01 2019
 |   3  Tesla T4            Off  | 00000000:00:08.0 Off |                    0 |
 | N/A   43C    P0    26W /  70W |      0MiB / 15079MiB |      0%      Default |
 +-------------------------------+----------------------+----------------------+
-                                                                               
+
 +-----------------------------------------------------------------------------+
 | Processes:                                                       GPU Memory |
 |  GPU       PID   Type   Process name                             Usage      |
@@ -103,7 +103,7 @@ root@build:~$ grep -A1 vault-pass-usegalaxy-star /opt/jenkins/jenkins/jobs/usega
 go to jenkins → manage jenkins → script console
 https://build.galaxyproject.eu/script
 
-google "jenkins decrypt secret" because you can never remember  
+google "jenkins decrypt secret" because you can never remember
 println(hudson.util.Secret.fromString("{supersecretstringhere}").getPlainText())
 
 4. done!
@@ -113,7 +113,7 @@ println(hudson.util.Secret.fromString("{supersecretstringhere}").getPlainText())
 Find jenkins.war, in our case its at `/usr/share/java`. Rename the `jenkins.war` file:
 
 ```bash
-/usr/share/java$ mv jenkins.war jenkins.war_2.375 
+/usr/share/java$ mv jenkins.war jenkins.war_2.375
 ```
 
 Get older Jenkins version and restart.
@@ -141,14 +141,14 @@ https://gist.github.com/gmauro/cc97ff1287282469ce98c2b8035100f2
 
 # debug 'D' state in processe
 
-Get all processes in D state: 
+Get all processes in D state:
 
 > ps axl | awk '$10 ~ /D/'
 
 Looking at file handlers of a thread yields to:
 
 ```
-root@sn06:~$ ll /proc/215503/task/296960/fd/** 
+root@sn09:~$ ll /proc/215503/task/296960/fd/**
 lr-x------ 1 galaxy galaxy 64 Aug  2 17:09 /proc/215503/task/296960/fd/0 -> /dev/null
 lrwx------ 1 galaxy galaxy 64 Aug  2 17:09 /proc/215503/task/296960/fd/1 -> 'socket:[3487300049]'
 lr-x------ 1 galaxy galaxy 64 Aug  2 17:09 /proc/215503/task/296960/fd/10 -> /data/jwd01/main/048/946/48946081
