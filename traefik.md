@@ -1,6 +1,6 @@
 # Traefik
 
-[Traefik](https://doc.traefik.io/traefik/v3.0/) is used as a reverse proxy, certificate manager and loadbalancer for `sn09` and `sn07`.
+[Traefik](https://doc.traefik.io/traefik/v3.0/) is used as a reverse proxy, certificate manager and load balancer.
 It is deployed using an [ansible-playbook](https://github.com/usegalaxy-eu/infrastructure-playbook/pull/1257) which uses [usegalaxy-eu's Traefik role](https://github.com/usegalaxy-eu/ansible-Traefik). This role internally initializes a swarm cluster on the target host, creates secrets, the specified network and docker swarm services.
 Docker swarm was used for mainly two reasons:
 1. Secret handling: Secrets are not saved inside env files, but are encrypted on disk and only available to the container they are attached to.
